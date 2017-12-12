@@ -1,0 +1,27 @@
+<Page loaded="loaded">
+  <Page.actionBar>
+    <ActionBar class="action-bar">
+      <ActionBar.titleView>
+        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="back"/>
+        <StackLayout orientation="horizontal"
+    ios:horizontalAlignment="center"
+    android:horizontalAlignment="left">
+          <Image src="~/images/logoBar.png" class="action-image"></Image>
+          <Label text="Voluntario   " style="font-size:22;" class="action-label-1" />
+        </StackLayout>
+      </ActionBar.titleView>
+      <ActionItem tap="onSaveUser"  ios.systemIcon="2" android.systemIcon="ic_menu_save"/>
+    </ActionBar>
+  </Page.actionBar>
+
+  <StackLayout orientation="vertical" class="margin-page">
+    <Label text="Agregar Usuario" horizontalAlignment="center" class="title-activity" />
+    <Label text="Nombre" class="label-text-static"/>
+    <TextField text="{{ name }}" class="field-text-static" hint="Nombre" returnKeyType="next" />
+    <Label text="Correo Electronico" class="label-text-static"/>
+    <TextField text="{{ email }}" class="field-text-static" keyboardType="email"  hint="Correo electronico" returnKeyType="next" />
+    <Label text="Telefono" class="label-text-static"/>
+    <TextField text="{{ phone }}" class="field-text-static" keyboardType="phone"  hint="Telefono" returnKeyType="done"/>
+  </StackLayout>
+
+</Page>

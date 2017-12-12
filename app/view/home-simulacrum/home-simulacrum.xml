@@ -1,0 +1,39 @@
+<Page loaded="loaded">
+  <Page.actionBar>
+    <ActionBar>
+      <ActionBar.titleView>
+        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="back"/>
+        <!--<StackLayout orientation="vertical" verticalAlignment="center" horizontalAlignment="left">
+          <Label text="Latido Vivo" style="font-size:22;" textWrap="true" />
+        </StackLayout>-->
+        <StackLayout orientation="horizontal"
+    ios:horizontalAlignment="center"
+    android:horizontalAlignment="left">
+          <Image src="~/images/logoBar.png" class="action-image"></Image>
+          <Label text="Latido Vivo   " style="font-size:22;" class="action-label-1" />
+        </StackLayout>
+      </ActionBar.titleView>
+
+      <!--<ActionItem tap="onCleanList" icon="~/images/recycle.png" />-->
+    </ActionBar>
+  </Page.actionBar>
+  <StackLayout orientation="vertical">
+    <!--<TextField id="minutes" text="{{ minutes }}" hint="Minutos" keyboardType="datetime" returnKeyType="done" />-->
+    <Label text="{{ cronometro1 }}" horizontalAlignment="center" verticalAlignment="center" class="text-crono"/>
+    <Button text="Preparar simulacro" tap="start" isEnabled="{{ initial }}" class="button-primary" />
+    <Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="button-success" />
+    <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="button-info" />
+    
+    <GridLayout>
+      <ListView items="{{ alarmList }}" id="alarmList">
+        <ListView.itemTemplate>
+          <GridLayout rows="auto,auto,auto">
+          <Label text="{{ date }}" row="0" class="text-list" horizontalAlignment="center" />
+          <Label text="{{ time }}" row="1" class="text-list" horizontalAlignment="center" />
+            <Label text="{{ duration }}" row="2" class="text-list" horizontalAlignment="center" />
+          </GridLayout>
+        </ListView.itemTemplate>
+      </ListView>
+    </GridLayout>
+  </StackLayout>
+</Page>

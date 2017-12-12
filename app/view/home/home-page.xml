@@ -1,0 +1,22 @@
+<Page class="page"
+    navigatingTo="onNavigatingTo"  
+    xmlns="http://www.nativescript.org/tns.xsd">
+
+    <!--Add your page content here-->
+    <ActionBar class="action-bar">
+      <StackLayout orientation="horizontal">
+        <Image src="~/images/VoluntarioLogotipo.png" class="img-action-bar" />
+      
+
+      <!--<Label class="action-bar-title" text="  Inicio"></Label>-->
+      </StackLayout>
+    </ActionBar>
+  <ScrollView>
+    <GridLayout columns="1,*,1" rows="100, auto, auto, auto">
+      <Label colSpan="3" row="0" text="Simulacro" horizontalAlignment="center" verticalAlignment="center" class="label-title" />
+      <Button col="1" row="1" text="Individual" tap="individual" class="button-primary" />
+      <Button col="1" row="2" text="Grupo" tap="group" class="button-primary" />
+      <Button col="1" row="3" text="Macro" tap="macro" class="button-primary" />
+    </GridLayout>
+  </ScrollView>
+</Page>

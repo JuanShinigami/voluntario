@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\fonts",
+    "\\app\\shared",
+    "\\app\\shared\\my-drawer",
+    "\\app\\shared\\view-models",
+    "\\app\\view",
+    "\\app\\view\\add-user",
+    "\\app\\view\\home-client",
+    "\\app\\view\\settings",
+    "\\app\\view\\simulacrum-list"
+  ],
+  "SelectedNode": "\\app\\shared\\view-models\\user-view-model.js",
+  "PreviewInSolutionExplorer": false
+}

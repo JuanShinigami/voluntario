@@ -1,0 +1,41 @@
+
+
+.text-crono{
+    font-family: Arial;
+    font-size:72;
+    color:#034a7e;
+    margin-bottom:20;
+    margin-top:20;
+}
+
+.text-list {
+    margin-bottom: 2;
+    margin-top: 2;
+    margin-left: 5;
+    margin-right: 0;
+    font-family: 'Arial Rounded MT';
+    font-size: 20;
+    color: #034a7e;
+}
+
+ActionBar{
+    background-color:#e84c3d;
+    color:#ffffff;
+}
+
+.action-image {
+    width: 53;
+    height: 53;
+    margin-right:5;
+}
+
+.action-label {
+    color: #fff;
+    font-size: 24;
+    font-weight: bold;
+    vertical-align: center;
+}
+
+.action-label-1 {
+    vertical-align: center;
+}
