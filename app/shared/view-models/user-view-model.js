@@ -1,6 +1,7 @@
 var config = require("../../shared/config");
 var fetchModule = require("fetch");
 var ObservableArray = require("data/observable-array").ObservableArray;
+var appSettings = require("application-settings");
 
 function UserViewModel(items) {
 
@@ -35,7 +36,7 @@ function UserViewModel(items) {
     };
 
     viewModel.searchFolio = function (folio) {
-        return fetch(config.apiUrl + "usuario/buscarFolio", {
+        return fetch(config.apiUrl + "usuario/existeUsuarios", {
             method: "POST",
             body: JSON.stringify({
                 folio: folio
@@ -50,6 +51,8 @@ function UserViewModel(items) {
         })
         .then(function (data) {
             //Agregar al appsettings lo que recibimos...
+            //appSettings
+            console.log("HOLA");
         });
     };
     return viewModel;

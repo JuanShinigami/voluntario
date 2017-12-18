@@ -15,12 +15,12 @@ var config = require("../../shared/config");
 var observableModule = require("data/observable");
 var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
-//var frameModule = require("ui/frame");
+var UserViewModel = require("../../shared/view-models/user-view-model");
 var Toast = require("nativescript-toast");
 
 var page;
 var toast;
-
+var userView = new UserViewModel([]);
 
 var pageData = new observableModule.fromObject({
 });
@@ -92,6 +92,7 @@ exports.group = function () {
                         toast = Toast.makeText("No ingresaste el folio.").show();
                     } else {
                         console.log("Folio ingresado ----> " + r.text);
+                        userView.searchFolio(r.text);
                         if (r.text === 'JM100') {
                             console.log("BUENO BUENO----->");
                             var topmostM = frameModule.topmost();

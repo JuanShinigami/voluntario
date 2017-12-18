@@ -55,55 +55,15 @@
         <nsDrawer:RadSideDrawer.mainContent>
             <GridLayout class="page-content">
 
-              <lv:RadListView items="{{ cars }}" itemTap="onCarItemTap" class="list-group">
-                <lv:RadListView.listViewLayout>
-                  <lv:ListViewLinearLayout scrollDirection="Vertical" />
-                </lv:RadListView.listViewLayout>
-
-                <lv:RadListView.itemTemplate>
-                  <StackLayout class="list-group-item">
-
-                    <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
-                      <Label text="{{ name }}" class="text-primary font-weight-bold" />
-                      <Label col="1" horizontalAlignment="right" class="list-group-item-text m-r-5">
-                        <FormattedString>
-                          <Span text="€" />
-                          <Span text="{{ price }}" />
-                          <Span text="/day" />
-                        </FormattedString>
-                      </Label>
-
-                      <StackLayout row="1" class="hr-light m-t-5 m-b-5" colSpan="2" />
-
-                      <Image row="2" src="{{ imageUrl }}" stretch="aspectFill" height="120" class="m-r-20" decodeHeight="120" />
-
-                      <StackLayout row="2" col="1" verticalAlignment="center" class="list-group-item-text">
-                        <Label class="p-b-10">
-                          <FormattedString ios:fontFamily="system">
-                            <Span text="&#xf1b9;   " class="fa text-primary" />
-                            <Span text="{{ class }}" />
-                          </FormattedString>
-                        </Label>
-                        <Label class="p-b-10">
-                          <FormattedString ios:fontFamily="system">
-                            <Span text="&#xf085;   " class="fa text-primary" />
-                            <Span text="{{ transmission }}" />
-                            <Span text=" Transmission" />
-                          </FormattedString>
-                        </Label>
-                        <Label class="p-b-10">
-                          <FormattedString ios:fontFamily="system">
-                            <Span text="&#xf2dc;   " class="fa text-primary" />
-                            <Span text="{{ hasAC ? 'Yes' : 'No' }}" />
-                          </FormattedString>
-                        </Label>
-                      </StackLayout>
-                    </GridLayout>
-
-                  </StackLayout>
-                </lv:RadListView.itemTemplate>
-              </lv:RadListView>
+              <ListView items="{{ sismoGroupList }}" id="sismoGroupList">
+                <ListView.itemTemplate>
+                  <GridLayout columns="auto">
+                    <Label text="{{ubicacion}}" col="0"/>
+                  </GridLayout>
+                </ListView.itemTemplate>
+              </ListView>
               
+              <ActivityIndicator busy="{{ isLoading }}"/>
             </GridLayout>
         </nsDrawer:RadSideDrawer.mainContent>
     </nsDrawer:RadSideDrawer>
