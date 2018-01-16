@@ -18,10 +18,10 @@
     <Label text="Agregar Usuario" horizontalAlignment="center" class="title-activity" />
     <Label text="Nombre" class="label-text-static"/>
     <TextField text="{{ name }}" class="field-text-static" hint="Nombre" returnKeyType="next" />
-    <Label text="Correo Electronico" class="label-text-static"/>
-    <TextField text="{{ email }}" class="field-text-static" keyboardType="email"  hint="Correo electronico" returnKeyType="next" />
-    <Label text="Telefono" class="label-text-static"/>
-    <TextField text="{{ phone }}" class="field-text-static" keyboardType="phone"  hint="Telefono" returnKeyType="done"/>
+    <Label text="Correo Electrónico" class="label-text-static"/>
+    <TextField text="{{ email }}" class="field-text-static" keyboardType="email"  hint="Correo electrónico" returnKeyType="next" />
+    <Label text="Teléfono" class="label-text-static"/>
+    <TextField text="{{ phone }}" class="field-text-static" keyboardType="phone"  hint="Teléfono" returnKeyType="done"/>
   </StackLayout>
 
 </Page>

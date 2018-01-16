@@ -9,8 +9,8 @@
         <StackLayout orientation="horizontal"
     ios:horizontalAlignment="center"
     android:horizontalAlignment="left">
-          <Image src="~/images/logoBar.png" class="action-image"></Image>
-          <Label text="Latido Vivo   " style="font-size:22;" class="action-label-1" />
+          
+          <Label text="Simulacro" style="font-size:22;" class="action-label-1" />
         </StackLayout>
       </ActionBar.titleView>
 
@@ -27,10 +27,11 @@
     <GridLayout>
       <ListView items="{{ alarmList }}" id="alarmList">
         <ListView.itemTemplate>
-          <GridLayout rows="auto,auto,auto">
-          <Label text="{{ date }}" row="0" class="text-list" horizontalAlignment="center" />
-          <Label text="{{ time }}" row="1" class="text-list" horizontalAlignment="center" />
-            <Label text="{{ duration }}" row="2" class="text-list" horizontalAlignment="center" />
+          <GridLayout rows="auto,auto" columns="250,auto">
+            <Label text="{{ 'Simulacro ' + identify }}" row="0" col="0" class="text-list" horizontalAlignment="left" />
+          <Label text="{{ date }}" row="0" col="1" class="text-list" horizontalAlignment="left" />
+          <Label text="{{ time }}" row="1" col="0" class="text-list" horizontalAlignment="left" />
+          <Label text="{{ duration }}" row="1" col="1" class="text-list" horizontalAlignment="left" />
           </GridLayout>
         </ListView.itemTemplate>
       </ListView>

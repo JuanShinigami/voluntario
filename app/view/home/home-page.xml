@@ -4,8 +4,9 @@
 
     <!--Add your page content here-->
     <ActionBar class="action-bar">
-      <StackLayout orientation="horizontal">
-        <Image src="~/images/VoluntarioLogotipo.png" class="img-action-bar" />
+      <StackLayout id="ttr" orientation="horizontal">
+        <Label text="Voluntario" style="font-size:22;"  />
+        <!--<Image src="~/images/VoluntarioLogotipo.png" class="img-action-bar" />-->
       
 
       <!--<Label class="action-bar-title" text="  Inicio"></Label>-->

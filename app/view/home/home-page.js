@@ -29,6 +29,16 @@ var pageData = new observableModule.fromObject({
 //var homeViewModel = new HomeViewModel();
 
 function onNavigatingTo(args) {
+
+    if (appSettings.getBoolean("message") === undefined) {
+        dialogs.alert({
+            title: "Información",
+            message: "Latido Vivo es una herramienta para poder simular un simulacro. © 2017 IOFractal.",
+            okButtonText: "Aceptar"
+        }).then(function () {
+            appSettings.setBoolean("message", true);
+        });
+    }
     /*
     This gets a reference this page’s <Page> UI component. You can
     view the API reference of the Page to see what’s available at

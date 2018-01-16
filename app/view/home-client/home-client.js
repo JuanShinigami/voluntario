@@ -20,7 +20,7 @@ exports.loaded = function(args) {
     //pageData.set("isLoading", true);
     //sismoGroupList.empty();
 
-    sismoGroupList.load(17);
+    sismoGroupList.load(1);
     //pageData.set("isLoading", true);
 }
 

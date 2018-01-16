@@ -11,7 +11,7 @@ function UserViewModel(items) {
     viewModel.add = function (userData) {
         console.log("JSON -------> " + JSON.stringify(userData));
         console.log("NOMBRE QUE LE MANDO DEL JS --------------->" + userData.name);
-        return fetch(config.apiUrl + "usuario/agregar", {
+        return fetch(config.apiUrl + "voluntarioCreador/addVoluntCreador", {
             method: "POST",
             body: JSON.stringify({
                 nombre: userData.name,
@@ -36,7 +36,7 @@ function UserViewModel(items) {
     };
 
     viewModel.searchFolio = function (folio) {
-        return fetch(config.apiUrl + "usuario/existeUsuarios", {
+        return fetch(config.apiUrl + "voluntaryCreator/existsVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 folio: folio

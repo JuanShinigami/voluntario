@@ -7,6 +7,7 @@ var appSettings = require("application-settings");
 //var Sqlite = require("nativescript-sqlite");
 var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
+var Toast = require("nativescript-toast");
 var alarmList = new ObservableArray();
 
 var page;
@@ -21,10 +22,13 @@ var textCro1 = "";
 
 var dateIni;
 var hourIni;
-var audio = [];
-var cont = 0;
 
-var alarm = sound.create("~/sounds/alarm.mp3");;
+var cont = 0;
+var alarm;
+var toast;
+
+var refreshIntervalId;
+
 
 var pageData = new observableModule.fromObject({
     cronometro1: "00:00:00",
@@ -35,16 +39,7 @@ var pageData = new observableModule.fromObject({
 });
 
 exports.loaded = function (args) {
-    
-    if (appSettings.getBoolean("message") === undefined) {
-        dialogs.alert({
-            title: "Información",
-            message: "Latido Vivo es una herramienta para poder simular un simulacro. © 2017 IOFractal.",
-            okButtonText: "Aceptar"
-        }).then(function () {
-            appSettings.setBoolean("message", true);
-        });
-    }
+    alarm = sound.create("~/sounds/alarm2.mp3");
     
     
     page = args.object;
@@ -54,16 +49,20 @@ exports.loaded = function (args) {
 
 exports.start = function () {
     
-    audio.push(alarm);
-    console.dir(audio);
+    
+    viewToast("En unos momentos se iniciará el simulacro. ¡Debe estar atento!.");
     pageData.initial = false;
     
     var x = Math.floor((Math.random() * 40) + 1);
     setTimeout(myFunction, (1000 * x));
 }
 
+function playMusic() {
+    alarm.play();
+}
+
 function myFunction() {
-    
+    refreshIntervalId = setInterval(playMusic, 500);
     pageData.evacuate = true;
     var dateInit = new Date();
     dateIni = "Fecha : " + dateInit.getDay() + "/" + dateInit.getMonth() + "/" + dateInit.getFullYear();
@@ -74,8 +73,7 @@ function myFunction() {
 
 //cronometro en marcha. Empezar en 0:
 function empezar() {
-    console.dir(alarm);
-    audio[cont].play();
+
     if (marcha == 0) { //solo si el cronómetro esta parado
         emp = new Date(); //fecha actual
         elcrono = setInterval(tiempo, 10); //función del temporizador.
@@ -93,19 +91,7 @@ function tiempo() { //función del temporizador
     sg = cr.getSeconds(); //segundos del cronómetro
     mn = cr.getMinutes(); //minutos del cronómetro
     ho = cr.getHours() - 1; //horas del cronómetro
-    //console.log(mn);
-    if (cs === 1 && sg === 10 && mn === 0) {
-        audio[cont].play();
-    }
-    if (cs === 1 && sg === 20 && mn === 0) {
-        audio[cont].play();
-    }
-    if (cs === 1 && sg === 30 && mn === 0) {
-        audio[cont].play();
-    }
-    if (cs === 1 && sg === 40 && mn === 0) {
-        audio[cont].play();
-    }
+    
     
     if (cs < 10) { cs = "0" + cs; }  //poner siempre 2 cifras en los números
     if (sg < 10) { sg = "0" + sg; }
@@ -162,17 +148,19 @@ function parar() {
         marcha = 0; //indicar que está parado.
         marcha1 = 0;
         var dateEnd = new Date();
-        alarmList.push({ time: dateIni , date: hourIni, duration: "Tiempo : " + textCro1 });
-        pageData.set("alarmList", alarmList);
-        //appSettings.setString("JsonList", JSON.stringify(alarmList));
-        //appSettings.getBoolean("Validate", true);
-        //pageData.cronometro = "00:00:00";
-        pageData.cronometro1 = "00:00:00";
         cont++;
+        alarmList.push({identify : cont, time: dateIni , date: hourIni, duration: "Tiempo : " + textCro1 });
+        pageData.set("alarmList", alarmList);
+        
+        pageData.cronometro1 = "00:00:00";
+        
+        alarm.stop();
+        clearInterval(refreshIntervalId);
+        
     } else {
         clearInterval(elcrono);
         marcha = 0;
-        //pageData.cronometro = "00:00:00";
+        
     }
     
 }
@@ -195,4 +183,9 @@ exports.back = function () {
 
     // Navegamos a la vista indicada
     topmost.navigate(navigationOptions);
+}
+
+function viewToast(message) {
+    toast = Toast.makeText(message, "long");
+    toast.show();
 }
