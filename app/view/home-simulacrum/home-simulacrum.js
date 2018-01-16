@@ -9,7 +9,9 @@ var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
 var Toast = require("nativescript-toast");
 var alarmList = new ObservableArray();
-
+var pruebaShini = [];
+var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+var diasSemana = new Array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
 var page;
 //variables de inicio:
 var marcha = 0; //control del temporizador
@@ -23,7 +25,7 @@ var textCro1 = "";
 var dateIni;
 var hourIni;
 
-var cont = 0;
+var cont;
 var alarm;
 var toast;
 
@@ -31,6 +33,7 @@ var refreshIntervalId;
 
 
 var pageData = new observableModule.fromObject({
+    alarmList: alarmList,
     cronometro1: "00:00:00",
     cronometro: "00:00:00",
     initial: true,
@@ -40,8 +43,10 @@ var pageData = new observableModule.fromObject({
 
 exports.loaded = function (args) {
     alarm = sound.create("~/sounds/alarm2.mp3");
-    
-    
+    var listaGlobal = appSettings.getString("simulacrumArray");
+    var arrayTest = JSON.parse(listaGlobal);
+    //arrayTest.push({ identify: cont, date: dateIni, time: hourIni, duration: "Tiempo : " + textCro1 });
+    pageData.set("alarmList", arrayTest);
     page = args.object;
     page.bindingContext = pageData;
     
@@ -53,7 +58,7 @@ exports.start = function () {
     viewToast("En unos momentos se iniciará el simulacro. ¡Debe estar atento!.");
     pageData.initial = false;
     
-    var x = Math.floor((Math.random() * 40) + 1);
+    var x = Math.floor((Math.random() * 5) + 1);
     setTimeout(myFunction, (1000 * x));
 }
 
@@ -62,11 +67,14 @@ function playMusic() {
 }
 
 function myFunction() {
+    cont = appSettings.getNumber("count");
     refreshIntervalId = setInterval(playMusic, 500);
     pageData.evacuate = true;
     var dateInit = new Date();
-    dateIni = "Fecha : " + dateInit.getDay() + "/" + dateInit.getMonth() + "/" + dateInit.getFullYear();
-    hourIni = "Hora : " + dateInit.getHours() + ":" + dateInit.getMinutes() + ":" + dateInit.getSeconds();
+    console.log(diasSemana[dateInit.getDay()] + ", " + dateInit.getDate() + " de " + meses[dateInit.getMonth()] + " de " + dateInit.getFullYear());
+    
+    dateIni = "" + diasSemana[dateInit.getDay()] + " " + dateInit.getDate() + " de " + meses[dateInit.getMonth()] + " de " + dateInit.getFullYear() + " ";
+    hourIni = "Hora : " + dateInit.getHours() + ":" + dateInit.getMinutes() + ":" + dateInit.getSeconds() + " Hrs. ";
     empezar();
     
 }
@@ -148,9 +156,29 @@ function parar() {
         marcha = 0; //indicar que está parado.
         marcha1 = 0;
         var dateEnd = new Date();
+        //cont++;
+
+        
+        var listaGlobal = appSettings.getString("simulacrumArray");
+        var arrayTest = JSON.parse(listaGlobal);
+        arrayTest.push({ identify: cont, date: dateIni, time: hourIni, duration: "Tiempo : " + textCro1 });
+        pageData.set("alarmList", arrayTest);
+        appSettings.setString("simulacrumArray", JSON.stringify(arrayTest));
+
         cont++;
-        alarmList.push({identify : cont, time: dateIni , date: hourIni, duration: "Tiempo : " + textCro1 });
-        pageData.set("alarmList", alarmList);
+        appSettings.setNumber("count", cont);
+
+        /*alarmList.push({ identify: config.count, date: dateIni, time: hourIni, duration: "Tiempo : " + textCro1 });
+
+        config.simulacrumArray.push({ identify: config.count, date: dateIni, time: hourIni, duration: "Tiempo : " + textCro1 });
+        
+        pruebaShini.push({ identify: config.count, date: dateIni, time: hourIni, duration: "Tiempo : " + textCro1 });
+        console.log(JSON.stringify(pruebaShini));
+        var stringTest = JSON.stringify(pruebaShini);
+        pageData.set("alarmList", pruebaShini);
+        //var arrayTest = JSON.parse(stringTest);
+        console.log("Despues de convertirlo a JSON");
+        console.dir(arrayTest);*/
         
         pageData.cronometro1 = "00:00:00";
         
@@ -188,4 +216,45 @@ exports.back = function () {
 function viewToast(message) {
     toast = Toast.makeText(message, "long");
     toast.show();
+}
+
+exports.listViewItemTap = function (args) {
+
+
+    console.log("DI CLIC");
+    var item = args.view.bindingContext;
+    // index: el valor seleccionado
+    var index = pageData.alarmList.indexOf(item);
+    //alert("Seleccione 1 --->" + item.name);
+    console.log("ITEM --->" + item.identify);
+    console.log("INDEX --->" + index);
+
+    dialogsModule.confirm({
+        title: "Mensaje",
+        message: "¿Está seguro de eliminar el simulacro " + item.identify + "?",
+        okButtonText: "Si",
+        cancelButtonText: "No"
+    }).then(function (result) {
+        // result argument is boolean
+        console.log("Dialog result: " + result);
+        if (result) {
+            var listaGlobal = appSettings.getString("simulacrumArray");
+            var arrayTest = JSON.parse(listaGlobal);
+            arrayTest.splice(index, 1);
+
+            appSettings.setString("simulacrumArray", JSON.stringify(arrayTest));
+            pageData.set("alarmList", arrayTest);
+        }
+    });
+
+    /*console.log("TAMAÑO --------> " + pageData.alarmList.length);
+    var listaGlobal = appSettings.getString("simulacrumArray");
+    var arrayTest = JSON.parse(listaGlobal);
+    arrayTest.splice(index, 1);
+    
+    appSettings.setString("simulacrumArray", JSON.stringify(arrayTest));
+    pageData.set("alarmList", arrayTest);*/
+    //viewInfoClient(item);
+
+
 }

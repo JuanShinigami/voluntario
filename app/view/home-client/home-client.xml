@@ -15,6 +15,7 @@
             ios.position="left">
         </ActionItem>
         <Label class="action-bar-title" text="Simulacros"></Label>
+  <ActionItem tap="onAddSimulacrum"  ios.systemIcon="4" android.systemIcon="ic_menu_add"/>
     </ActionBar>
   
 <!--

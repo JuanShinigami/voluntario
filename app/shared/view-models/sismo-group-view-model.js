@@ -5,6 +5,42 @@ var appSettings = require("application-settings");
 
 function SismoGroupViewModel(items) {
     var viewModel = new ObservableArray(items);
+    
+    viewModel.addSimulacrumGroup = function (JSONsimulacrumGroup) {
+        console.log("Entre aqui-------->");
+        return fetch(config.apiMateo + "simulacrumGroup/addSimulacrumGroup", {
+            method: "POST",
+            body: JSONsimulacrumGroup,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(handleErrors)
+        .then(function (response) {
+            return response.json();
+            }).then(function (data) {
+                return data;
+        });
+    };
+
+    /*viewModel.searchDirections = function (latitude, longitude) {
+
+        fetch(config.apiMapsDirection + latitude + "," + longitude + config.apiKeyGoogle, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(handleErrors)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.dir(data);
+                return data;
+                
+            });
+
+    };*/
 
     viewModel.load = function (idClient) {
         //console.log("ID del Cliente ------> " + idClient);

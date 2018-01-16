@@ -2,6 +2,8 @@ var config = require("../../shared/config");
 var fetchModule = require("fetch");
 var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
+var Toast = require("nativescript-toast");
+var toast;
 
 function UserViewModel(items) {
 
@@ -11,7 +13,7 @@ function UserViewModel(items) {
     viewModel.add = function (userData) {
         console.log("JSON -------> " + JSON.stringify(userData));
         console.log("NOMBRE QUE LE MANDO DEL JS --------------->" + userData.name);
-        return fetch(config.apiUrl + "voluntarioCreador/addVoluntCreador", {
+        return fetch(config.apiUrl + "voluntaryCreator/addVoluntaryCreador", {
             method: "POST",
             body: JSON.stringify({
                 nombre: userData.name,
@@ -49,7 +51,8 @@ function UserViewModel(items) {
         .then(function (response) {
             return response.json();
         })
-        .then(function (data) {
+            .then(function (data) {
+                return data;
             //Agregar al appsettings lo que recibimos...
             //appSettings
             console.log("HOLA");
@@ -62,10 +65,16 @@ function UserViewModel(items) {
 
 function handleErrors(response) {
     if (!response.ok) {
-        console.log(JSON.stringify(response));
+        viewToast(response.statusText);
         throw Error(response.statusText);
+
     }
     return response;
+}
+
+function viewToast(message) {
+    toast = Toast.makeText(message, "long");
+    toast.show();
 }
 
 module.exports = UserViewModel;

@@ -31,7 +31,7 @@ var pageData = new observableModule.fromObject({
 function onNavigatingTo(args) {
 
     if (appSettings.getBoolean("message") === undefined) {
-        dialogs.alert({
+        dialogsModule.alert({
             title: "Información",
             message: "Latido Vivo es una herramienta para poder simular un simulacro. © 2017 IOFractal.",
             okButtonText: "Aceptar"
@@ -102,7 +102,7 @@ exports.group = function () {
                         toast = Toast.makeText("No ingresaste el folio.").show();
                     } else {
                         console.log("Folio ingresado ----> " + r.text);
-                        userView.searchFolio(r.text);
+                        config.voluntary = userView.searchFolio(r.text);
                         if (r.text === 'JM100') {
                             console.log("BUENO BUENO----->");
                             var topmostM = frameModule.topmost();

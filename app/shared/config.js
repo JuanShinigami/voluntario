@@ -1,4 +1,6 @@
 module.exports = {
     apiUrl: "http://192.168.1.80/voluntario/Voluntario/api-rest/service/voluntario/",
-    apiMateo: "http://192.168.1.183:8081/api-rest/public/api-rest/"
+    apiMateo: "http://localhost:8081/api-rest/service/voluntario/",
+    apiMapsDirection: "https://maps.googleapis.com/maps/api/geocode/json?latlng=",
+    apiKeyGoogle: "&key=AIzaSyBZg5Cv0Yh407z7lKX0qZhthZXNDLk4aiw"
 };
