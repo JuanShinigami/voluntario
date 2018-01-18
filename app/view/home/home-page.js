@@ -104,6 +104,8 @@ exports.group = function () {
                         console.log("Folio ingresado ----> " + r.text);
                         config.voluntary = userView.searchFolio(r.text);
                         if (r.text === 'JM100') {
+                            appSettings.setString("folio", "JM100");
+                            appSettings.setNumber("identificador", 12);
                             console.log("BUENO BUENO----->");
                             var topmostM = frameModule.topmost();
 

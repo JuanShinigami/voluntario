@@ -6,6 +6,7 @@ var geolocation = require("nativescript-geolocation");
 var config = require("../../shared/config");
 var appSettings = require("application-settings");
 var Toast = require("nativescript-toast");
+var dialogsModule = require("ui/dialogs");
 
 var page;
 
@@ -78,7 +79,15 @@ exports.onAddSimulacrum = function () {
                                 var strSimulacrumGroup = '{"ubicacion": "' + completeDirection + '", "latitud": "' + loc.latitude + '", "longitud": "' + loc.longitude + '", "fecha": "' + dateFormart + '", "hora": "' + timeFormart + '", "idVoluntarioCreador": "' + idVoluntarioCreador + '"}';
                                 //console.log(strSimulacrumGroup);
                                 var JSONsimulacrumGroup = JSON.parse(strSimulacrumGroup);
-                                //console.dir(JSONsimulacrumGroup);
+                                console.log("Hola ------------ aqui");
+
+                                dialogsModule.alert({
+                                    title: "Información",
+                                    message: "Su simulacro se a creado satisfactoriamente.",
+                                    okButtonText: "Aceptar"
+                                }).then(function () {
+                                    console.log("Ya lo cree");
+                                });
 
                                 sismoGroupList.addSimulacrumGroup(JSONsimulacrumGroup).then(function (data) {
                                     console.dir(data);
