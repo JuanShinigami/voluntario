@@ -33,7 +33,7 @@ function onNavigatingTo(args) {
     if (appSettings.getBoolean("message") === undefined) {
         dialogsModule.alert({
             title: "Información",
-            message: "Latido Vivo es una herramienta para poder simular un simulacro. © 2017 IOFractal.",
+            message: "Voluntario es una herramienta para poder simular un simulacro. © 2017 IOFractal.",
             okButtonText: "Aceptar"
         }).then(function () {
             appSettings.setBoolean("message", true);

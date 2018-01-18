@@ -6,6 +6,7 @@ var geolocation = require("nativescript-geolocation");
 var config = require("../../shared/config");
 var appSettings = require("application-settings");
 var Toast = require("nativescript-toast");
+var dialogsModule = require("ui/dialogs");
 
 var page;
 
@@ -16,7 +17,7 @@ var pageData = new observableModule.fromObject({
 });
 
 exports.loaded = function(args) {
-    
+    console.log("Entre aqui en la vista del cliente");
     page = args.object;
 
     page.bindingContext = pageData;
@@ -26,7 +27,8 @@ exports.loaded = function(args) {
     //pageData.set("isLoading", true);
     //sismoGroupList.empty();
 
-    sismoGroupList.load(1);
+    //-- Temporal --
+    //sismoGroupList.load(1);
     //pageData.set("isLoading", true);
 }
 
@@ -79,6 +81,16 @@ exports.onAddSimulacrum = function () {
                                 //console.log(strSimulacrumGroup);
                                 var JSONsimulacrumGroup = JSON.parse(strSimulacrumGroup);
                                 //console.dir(JSONsimulacrumGroup);
+
+                                // --- Si ya se persistio el simulacro grupo ---
+                                dialogsModule.alert({
+                                    title: "Información",
+                                    message: "Tu simulacro se ha creado satisfactoriamente, ",
+                                    okButtonText: "Aceptar"
+                                }).then(function () {
+                                    console.log("Fue Creado correctamente--------->");
+                                });
+
 
                                 sismoGroupList.addSimulacrumGroup(JSONsimulacrumGroup).then(function (data) {
                                     console.dir(data);
