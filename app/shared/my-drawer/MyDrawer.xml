@@ -5,9 +5,9 @@ Feel free to customize layouts and components to change how your app drawer look
 <GridLayout rows="auto, *" class="sidedrawer sidedrawer-left" loaded="onLoaded"
     xmlns:myDrawer="shared/my-drawer">
     <StackLayout class="sidedrawer-header">
-        <Label class="sidedrawer-header-image fa" text="&#xf2bd;" />
-        <Label class="sidedrawer-header-brand" text="Folio: JM100" />
-        <!--<Label class="footnote" text="username@mail.com" />-->
+        <Label class="sidedrawer-header-image" text="{{name}}" />
+        <Label class="sidedrawer-header-brand" text="{{'Folio: '+folio}}" />
+        <Label class="footnote" text="{{email}}" />
     </StackLayout>
 
     <ScrollView row="1">
@@ -38,10 +38,9 @@ Feel free to customize layouts and components to change how your app drawer look
 
             <StackLayout class="hr-light"></StackLayout>
 
-            <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Configuración' ? ' selected': '') }}"
-                route="view/settings/settings-page" tap="onNavigationItemTap">
-                <Label row="0" col="0" text="&#xf013;" class="fa" />
-                <Label row="0" col="1" text="Configuración" class="p-r-10" />
+            <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Cerrar sesión' ? ' selected': '') }}" tap="onLogout">
+                <Label row="0" col="0" text="&#xf00d;" class="fa" />
+                <Label row="0" col="1" text="Cerrar Sesión" class="p-r-10" />
             </GridLayout>
         </StackLayout>
     </ScrollView>

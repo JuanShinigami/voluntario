@@ -13,7 +13,8 @@ var page;
 var toast;
 var sismoGroupList = new SismoGroupViewModel([]);
 var pageData = new observableModule.fromObject({
-    sismoGroupList: sismoGroupList
+    sismoGroupList: sismoGroupList,
+    isLoading: false
 });
 
 exports.loaded = function(args) {
@@ -28,7 +29,11 @@ exports.loaded = function(args) {
     //sismoGroupList.empty();
 
     //-- Temporal --
-    //sismoGroupList.load(1);
+    sismoGroupList.load(parseInt(appSettings.getString("identificador"))).then(function (data) {
+        //console.dir(data);
+        console.dir(data.response[0]);
+        pageData.set("sismoGroupList", data.response);
+    });
     //pageData.set("isLoading", true);
 }
 
@@ -38,6 +43,7 @@ exports.onDrawerButtonTap = function(args){
 }
 
 exports.onAddSimulacrum = function () {
+    pageData.set("isLoading", true);
     geolocation.isEnabled().then(function (isEnabled) {
         if (!isEnabled) {
             geolocation.enableLocationRequest().then(function () {
@@ -70,39 +76,92 @@ exports.onAddSimulacrum = function () {
                             })
                             .then(function (data) {
 
+
+
                                 var completeDirection = JSON.stringify(data.results[0].formatted_address);
                                 var idVoluntarioCreador = 1;
                                 var date = new Date();
-                                var dateFormart = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay();
-                                var timeFormart = (date.getHours() + 1) + ":" + (date.getMinutes() + 1) + ":" + (date.getSeconds() + 1);
+                                var dateFormat = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+                                var timeFormat = date.getHours() + ":" + (date.getMinutes() + 1);
+                                console.log("fecha : " + dateFormat);
+                                console.log("tiempo : " + timeFormat)
                                 console.log(completeDirection);
                                 viewToast(completeDirection);
-                                var strSimulacrumGroup = '{"ubicacion": "' + completeDirection + '", "latitud": "' + loc.latitude + '", "longitud": "' + loc.longitude + '", "fecha": "' + dateFormart + '", "hora": "' + timeFormart + '", "idVoluntarioCreador": "' + idVoluntarioCreador + '"}';
+                                var strSimulacrumGroup = '{"ubicacion": ' + completeDirection + ', "latitud": "' + loc.latitude + '", "longitud": "' + loc.longitude + '", "fecha": "' + dateFormat + '", "hora": "' + timeFormat + '", "idVoluntarioCreador": "' + appSettings.getString("identificador") + '", "estatus": "creada", "token": "token"}';
+                                var datos = new Array();
+                                datos["ubicacion"] = completeDirection;
+                                datos["latitud"] = loc.latitude;
+                                datos["longitud"] = loc.longitude;
+                                datos["fecha"] = dateFormat;
+                                datos["hora"] = timeFormat;
+                                datos["idVoluntarioCreador"] = appSettings.getString("identificador");
+                                //console.log("Ubicacion de el Arreglo ----------> " + datos["ubicacion"]);
+                                //console.log("Antes de convertirlo.");
                                 //console.log(strSimulacrumGroup);
                                 var JSONsimulacrumGroup = JSON.parse(strSimulacrumGroup);
-                                console.log("Hola ------------ aqui");
+                                //console.log("Hola ------------ aqui");
 
-                                dialogsModule.alert({
-                                    title: "Información",
-                                    message: "Su simulacro se a creado satisfactoriamente.",
-                                    okButtonText: "Aceptar"
-                                }).then(function () {
-                                    console.log("Ya lo cree");
+                                sismoGroupList.addSimulacrumGroup(datos).then(function (data) {
+                                    pageData.set("isLoading", false);
+                                    dialogsModule.alert({
+                                        title: "Informaci\u00F3n",
+                                        message: "Tu simulacro se ha creado satisfactoriamente.",
+                                        okButtonText: "Aceptar"
+                                    }).then(function () {
+
+                                        var topmost = frameModule.topmost();
+
+                                        // Opciones de la navegacion
+                                        var navigationOptions = {
+                                            moduleName: "view/simulacrum-detail/simulacrum-detail",
+                                            backstackVisible: false,
+                                            clearHistory: false,
+                                            animated: true,
+                                            transition: {
+                                                name: "slideLeft",
+                                                duration: 380,
+                                                curve: "easeIn"
+                                            }
+                                        };
+
+                                        // Navegamos a la vista indicada
+                                        topmost.navigate(navigationOptions);
+                                        console.log("Fue Creado correctamente--------->");
+                                    });
                                 });
 
                                 // --- Si ya se persistio el simulacro grupo ---
+                                // Esto es despues de que se ha persistido el simulacro grupo
+                                /**pageData.set("isLoading", false);
                                 dialogsModule.alert({
-                                    title: "Información",
-                                    message: "Tu simulacro se ha creado satisfactoriamente, ",
+                                    title: "Informaci\u00F3n",
+                                    message: "Tu simulacro se ha creado satisfactoriamente.",
                                     okButtonText: "Aceptar"
                                 }).then(function () {
+                                    
+                                    var topmost = frameModule.topmost();
+
+                                    // Opciones de la navegacion
+                                    var navigationOptions = {
+                                        moduleName: "view/simulacrum-detail/simulacrum-detail",
+                                        backstackVisible: false,
+                                        clearHistory: false,
+                                        animated: true,
+                                        transition: {
+                                            name: "slideLeft",
+                                            duration: 380,
+                                            curve: "easeIn"
+                                        }
+                                    };
+                                    
+                                    // Navegamos a la vista indicada
+                                    topmost.navigate(navigationOptions);
                                     console.log("Fue Creado correctamente--------->");
-                                });
+                                });*/
 
+                                //sismoGroupList.addSimulacrumGroup(JSONsimulacrumGroup);
 
-                                sismoGroupList.addSimulacrumGroup(JSONsimulacrumGroup).then(function (data) {
-                                    console.dir(data);
-                                });
+                                
                                 
 
                             });

@@ -41,7 +41,8 @@ function UserViewModel(items) {
         return fetch(config.apiUrl + "voluntaryCreator/existsVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
-                folio: folio
+                folio: folio,
+                token: "token"
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -51,11 +52,11 @@ function UserViewModel(items) {
         .then(function (response) {
             return response.json();
         })
-            .then(function (data) {
-                return data;
+        .then(function (data) {
+            return data;
             //Agregar al appsettings lo que recibimos...
             //appSettings
-            console.log("HOLA");
+            
         });
     };
     return viewModel;

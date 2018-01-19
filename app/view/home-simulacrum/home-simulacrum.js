@@ -38,7 +38,10 @@ var pageData = new observableModule.fromObject({
     cronometro: "00:00:00",
     initial: true,
     evacuate: false,
-    end: false
+    end: false,
+    classButtonPrimary: "button-primary",
+    classButtonSuccess: "button-success-disabled",
+    classButtonInfo: "button-info-disabled"
 });
 
 exports.loaded = function (args) {
@@ -57,6 +60,7 @@ exports.start = function () {
     
     viewToast("En unos momentos se iniciará el simulacro. ¡Debe estar atento!.");
     pageData.initial = false;
+    pageData.classButtonPrimary = "button-primary-disabled";
     
     var x = Math.floor((Math.random() * 5) + 1);
     setTimeout(myFunction, (1000 * x));
@@ -70,6 +74,7 @@ function myFunction() {
     cont = appSettings.getNumber("count");
     refreshIntervalId = setInterval(playMusic, 500);
     pageData.evacuate = true;
+    pageData.classButtonSuccess = "button-success";
     var dateInit = new Date();
     console.log(diasSemana[dateInit.getDay()] + ", " + dateInit.getDate() + " de " + meses[dateInit.getMonth()] + " de " + dateInit.getFullYear());
     
@@ -137,7 +142,9 @@ function tiempo1() { //función del temporizador
 
 exports.evacuate = function () {
     pageData.evacuate = false;
+    pageData.classButtonSuccess = "button-success-disabled";
     pageData.end = true;
+    pageData.classButtonInfo = "button-info";
     empezar1();
 }
 
@@ -149,7 +156,9 @@ exports.stop = function () {
 
 function parar() {
     pageData.initial = true;
+    pageData.classButtonPrimary = "button-primary";
     pageData.end = false;
+    pageData.classButtonInfo = "button-info-disabled";
     if (marcha == 1 && marcha1 == 1) { //sólo si está en funcionamiento
         clearInterval(elcrono); //parar el crono
         clearInterval(elcrono1);

@@ -20,9 +20,9 @@
   <StackLayout orientation="vertical">
     <!--<TextField id="minutes" text="{{ minutes }}" hint="Minutos" keyboardType="datetime" returnKeyType="done" />-->
     <Label text="{{ cronometro1 }}" horizontalAlignment="center" verticalAlignment="center" class="text-crono"/>
-    <Button text="Preparar simulacro" tap="start" isEnabled="{{ initial }}" class="button-primary" />
-    <Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="button-success" />
-    <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="button-info" />
+    <Button text="Preparar simulacro" tap="start" isEnabled="{{ initial }}" class="{{classButtonPrimary}}" />
+    <Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
+    <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />
     
     <GridLayout>
       <ListView items="{{ alarmList }}" id="alarmList" itemTap="listViewItemTap">

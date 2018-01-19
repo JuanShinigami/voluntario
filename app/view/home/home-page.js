@@ -83,7 +83,7 @@ exports.individual = function () {
 exports.group = function () {
     dialogsModule.confirm({
         title: "Aviso",
-        message: "Tienes folio?",
+        message: "\u00BFTienes folio?",
         okButtonText: "Si",
         cancelButtonText: "No"
     }).then(function (result) {
@@ -102,8 +102,43 @@ exports.group = function () {
                         toast = Toast.makeText("No ingresaste el folio.").show();
                     } else {
                         console.log("Folio ingresado ----> " + r.text);
-                        config.voluntary = userView.searchFolio(r.text);
-                        if (r.text === 'JM100') {
+                        userView.searchFolio(r.text).then(function (data) {
+                            //console.log("Entre...");
+                            console.dir(data);
+                            console.log("Tamaño----> " + data.response.length);
+                            if (data.response.length === 0) {
+                                alert("No se encuentra ningun usuario con el folio; " + r.text);
+                            } else {
+                                console.log("Encontre a : " + data.response[0].nombre);
+                                appSettings.setString("folio", data.response[0].folio);
+                                appSettings.setString("name", data.response[0].nombre);
+                                appSettings.setString("email", data.response[0].correo);
+                                appSettings.setString("identificador", data.response[0].id);
+                                console.log("BUENO BUENO----->");
+                                var topmostM = frameModule.topmost();
+
+                                // Opciones de la navegacion
+                                var navigationOptionsM = {
+                                    moduleName: "view/home-client/home-client",
+                                    backstackVisible: false,
+                                    clearHistory: true,
+                                    animated: true,
+                                    transition: {
+                                        name: "slideLeft",
+                                        duration: 380,
+                                        curve: "easeIn"
+                                    }
+                                };
+
+                                // Navegamos a la vista indicada
+                                topmostM.navigate(navigationOptionsM);
+
+                            }
+                        });
+
+                        // Fase de pruebas //
+
+                        /*if (r.text === 'JM100') {
                             appSettings.setString("folio", "JM100");
                             appSettings.setNumber("identificador", 12);
                             console.log("BUENO BUENO----->");
@@ -129,7 +164,9 @@ exports.group = function () {
 
                         } else {
                             alert("No se encuentra ningun usuario con el folio; " + r.text);
-                        }
+                        }*/
+
+                        // Termina fase de pruebas //
 
                     }
 

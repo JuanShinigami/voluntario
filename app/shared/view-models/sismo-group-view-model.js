@@ -5,23 +5,37 @@ var appSettings = require("application-settings");
 
 function SismoGroupViewModel(items) {
     var viewModel = new ObservableArray(items);
-    
-    viewModel.addSimulacrumGroup = function (JSONsimulacrumGroup) {
-        console.log("Entre aqui-------->");
-        return fetch(config.apiMateo + "simulacrumGroup/addSimulacrumGroup", {
+
+    viewModel.addSimulacrumGroup = function (datos) {
+        return fetch(config.apiUrl + "simulacrumGroup/addSimulacrumGroup", {
             method: "POST",
-            body: JSONsimulacrumGroup,
+            body: JSON.stringify({
+                ubicacion: datos["ubicacion"],
+                latitud: datos["latitud"],
+                longitud: datos["longitud"],
+                fecha: datos["fecha"],
+                hora: datos["hora"],
+                idVoluntarioCreador: datos["idVoluntarioCreador"],
+                estatus: "creada",
+                token: "token"
+            }),
             headers: {
                 "Content-Type": "application/json"
             }
         })
-        .then(handleErrors)
-        .then(function (response) {
-            return response.json();
-            }).then(function (data) {
+            .then(handleErrors)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
                 return data;
-        });
+                //Agregar al appsettings lo que recibimos...
+                //appSettings
+
+            });
     };
+
+    
 
     /*viewModel.searchDirections = function (latitude, longitude) {
 
@@ -43,40 +57,28 @@ function SismoGroupViewModel(items) {
     };*/
 
     viewModel.load = function (idClient) {
-        //console.log("ID del Cliente ------> " + idClient);
-        //var itemsListSismoGroup = new ObservableArray();
-        //console.log("JSON ----------> " + JSON.stringify({id:idClient}));
-        return fetch(config.apiUrl + "sismoGrupo/buscarSismoDetalle", {
+
+        return fetch(config.apiUrl + "simulacrumGroup/searchSimulacrumDetail", {
             method: "POST",
             body: JSON.stringify({
+                token: "token",
                 id: idClient
             }),
             headers: {
                 "Content-Type": "application/json"
             }
         })
-        .then(handleErrors)
-        .then(function (response) {
-            //console.log("FINAL");
-            return response.json();
-        }).then(function (data) {
-            //console.log("SUCCESS");
-            //console.dir(data.response);
-            console.dir(data);
-            data.response.forEach(function (client) {
-                console.log("ID ----------------- > " + client.id);
-                viewModel.push({
-                    id: client.id,
-                    ubicacion: client.ubicacion,
-                    latitud: client.latitud,
-                    longitud: client.longitud,
-                    fecha: client.fecha,
-                    hora: client.hora,
-                    participantes: client.participantes,
-                    idUsuario: client.idUsuarios
-                });
+            .then(handleErrors)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                return data;
+                //Agregar al appsettings lo que recibimos...
+                //appSettings
+
             });
-        });
+        
     };
 
     viewModel.empty = function() {

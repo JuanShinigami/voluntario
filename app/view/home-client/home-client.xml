@@ -55,7 +55,7 @@
         -->
         <nsDrawer:RadSideDrawer.mainContent>
             <GridLayout class="page-content">
-
+              <ActivityIndicator row="0" busy="{{ isLoading }}" height="60" width="60"></ActivityIndicator>
               <ListView items="{{ sismoGroupList }}" id="sismoGroupList">
                 <ListView.itemTemplate>
                   <GridLayout columns="auto">
