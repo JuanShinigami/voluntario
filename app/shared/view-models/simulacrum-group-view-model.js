@@ -5,7 +5,6 @@ var appSettings = require("application-settings");
 
 function SismoGroupViewModel(items) {
     var viewModel = new ObservableArray(items);
-
     viewModel.addSimulacrumGroup = function (datos) {
         return fetch(config.apiUrl + "simulacrumGroup/addSimulacrumGroup", {
             method: "POST",
@@ -16,7 +15,7 @@ function SismoGroupViewModel(items) {
                 fecha: datos["fecha"],
                 hora: datos["hora"],
                 idVoluntarioCreador: datos["idVoluntarioCreador"],
-                estatus: "creada",
+                estatus: "Creada",
                 token: "token"
             }),
             headers: {
@@ -29,35 +28,10 @@ function SismoGroupViewModel(items) {
             })
             .then(function (data) {
                 return data;
-                //Agregar al appsettings lo que recibimos...
-                //appSettings
-
             });
     };
 
-    
-
-    /*viewModel.searchDirections = function (latitude, longitude) {
-
-        fetch(config.apiMapsDirection + latitude + "," + longitude + config.apiKeyGoogle, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(handleErrors)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                console.dir(data);
-                return data;
-                
-            });
-
-    };*/
-
     viewModel.load = function (idClient) {
-
         return fetch(config.apiUrl + "simulacrumGroup/searchSimulacrumDetail", {
             method: "POST",
             body: JSON.stringify({
@@ -74,11 +48,29 @@ function SismoGroupViewModel(items) {
             })
             .then(function (data) {
                 return data;
-                //Agregar al appsettings lo que recibimos...
-                //appSettings
-
             });
         
+    };
+
+    viewModel.delete = function (idSimulacrum) {
+        return fetch(config.apiUrl + "voluntarySimulacrum/deletelistVoluntary", {
+            method: "POST",
+            body: JSON.stringify({
+                token: "token",
+                idSimulacro: idSimulacrum
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(handleErrors)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                return data;
+            });
+
     };
 
     viewModel.empty = function() {
@@ -91,7 +83,6 @@ function SismoGroupViewModel(items) {
 }
 
 function handleErrors(response) {
-    //console.log("ERROR");
     if (!response.ok) {
         console.log(JSON.stringify(response));
         throw Error(response.statusText);

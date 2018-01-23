@@ -7,27 +7,33 @@
     ios:horizontalAlignment="center"
     android:horizontalAlignment="left">
           
-          <Label text="Simulacros creados" style="font-size:22;" class="action-label-1" />
+          <Label text="{{ titleBar }}" style="font-size:22;" />
         </StackLayout>
       </ActionBar.titleView>
-      <ActionItem tap="onCreateSimulacrumGroup"  ios.systemIcon="4" android.systemIcon="ic_menu_add"/>
+      <!--<Label text="&#xf0c0;" class="fa image-icon-bar" tap="onOption" horizontalAlignment="right" visibility="{{ enabledCreate ? 'collapse' : 'visible' }}"/>-->
+      <ActionItem tap="onCreateSimulacrumGroup"  ios.systemIcon="4" android.systemIcon="ic_menu_add" visibility="{{ enabledCreate ? 'visible' : 'collapse' }}"/>
+      <ActionItem text="Unirse" class="icon-join" tap="join" visibility="{{ enabledCreate ? 'collapse' : 'visible' }}"/>
     </ActionBar>
   </Page.actionBar>
 
-
+  
+  
   <GridLayout>
-    <ListView items="{{ simulacrumList }}" id="simulacrumList">
+    <ListView items="{{ sismoGroupList }}" id="sismoGroupList">
       <ListView.itemTemplate>
-        <GridLayout rows="auto,auto" columns="*,*,*" >
-          <Label text="Fecha" row="0" col="0" class="text-list-title" horizontalAlignment="center" />
-          <Label text="Voluntarios" row="0" col="1" class="text-list-title" horizontalAlignment="center" />
-          <Label text="Duración" row="0" col="2" class="text-list-title" horizontalAlignment="center" />
-          <Label text="{{ date }}" row="1" col="0" class="text-list-title" horizontalAlignment="center" />
-          <Label text="{{ countVoluntary }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />
-          <Label text="{{ duration }}" row="1" col="2" class="text-list-title" horizontalAlignment="center" />
+        <GridLayout rows="auto,auto" columns="40,*,*,*,40" >
+          <Label text="{{id}}" rowSpan="2" col="0" class="text-list-title" horizontalAlignment="center" verticalAlignment="center" />
+          <Label text="Fecha" row="0" col="1" class="text-list-title" horizontalAlignment="center" />
+          <Label text="Voluntarios" row="0" col="2" class="text-list-title" horizontalAlignment="center" />
+          <Label text="Duración" row="0" col="3" class="text-list-title" horizontalAlignment="center" />
+          <Label text="{{ fecha }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />
+          <Label text="{{ voluntario }}" row="" col="2" class="text-list-title" horizontalAlignment="center" />
+          <Label text="{{ estatus }}" row="1" col="3" class="text-list-title" horizontalAlignment="center" />
+          <Label text="&#xf014;" class="fa image-icon-bar" rowSpan="2" col="4" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
         </GridLayout>
       </ListView.itemTemplate>
     </ListView>
+    <ActivityIndicator busy="{{ isLoading }}" height="60" width="60"/>
   </GridLayout>
   
 
