@@ -1,0 +1,34 @@
+<Page loaded="loaded">
+  <Page.actionBar>
+    <ActionBar class="action-bar">
+      <ActionBar.titleView>
+        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="back"/>
+        <StackLayout orientation="horizontal"
+    ios:horizontalAlignment="center"
+    android:horizontalAlignment="left">
+          
+          <Label text="Simulacros creados" style="font-size:22;" class="action-label-1" />
+        </StackLayout>
+      </ActionBar.titleView>
+      <ActionItem tap="onCreateSimulacrumGroup"  ios.systemIcon="4" android.systemIcon="ic_menu_add"/>
+    </ActionBar>
+  </Page.actionBar>
+
+
+  <GridLayout>
+    <ListView items="{{ simulacrumList }}" id="simulacrumList">
+      <ListView.itemTemplate>
+        <GridLayout rows="auto,auto" columns="*,*,*" >
+          <Label text="Fecha" row="0" col="0" class="text-list-title" horizontalAlignment="center" />
+          <Label text="Voluntarios" row="0" col="1" class="text-list-title" horizontalAlignment="center" />
+          <Label text="Duración" row="0" col="2" class="text-list-title" horizontalAlignment="center" />
+          <Label text="{{ date }}" row="1" col="0" class="text-list-title" horizontalAlignment="center" />
+          <Label text="{{ countVoluntary }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />
+          <Label text="{{ duration }}" row="1" col="2" class="text-list-title" horizontalAlignment="center" />
+        </GridLayout>
+      </ListView.itemTemplate>
+    </ListView>
+  </GridLayout>
+  
+
+</Page>

@@ -1,0 +1,21 @@
+<Page loaded="loaded" xmlns:df="nativescript-pro-ui/dataform">
+  <Page.actionBar>
+    <ActionBar class="action-bar">
+      <ActionBar.titleView>
+        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="back"/>
+        <StackLayout orientation="horizontal"
+    ios:horizontalAlignment="center"
+    android:horizontalAlignment="left">
+          
+          <Label text="Crear simulacro grupal" style="font-size:22;" class="action-label-1" />
+        </StackLayout>
+      </ActionBar.titleView>
+      <ActionItem tap="onSaveSimulacrumGroup"  ios.systemIcon="2" android.systemIcon="ic_menu_save"/>
+    </ActionBar>
+  </Page.actionBar>
+  <StackLayout>
+    <Label text="Fecha" />
+    <Label text="Selecciona la hora" />
+    <TimePicker hour="5" minute="30" loaded="onPickerLoaded"></TimePicker>
+  </StackLayout>
+</Page>

@@ -22,6 +22,7 @@ var page;
 var toast;
 var userView = new UserViewModel([]);
 
+
 var pageData = new observableModule.fromObject({
 });
 //var HomeViewModel = require("./home-view-model");
@@ -81,118 +82,40 @@ exports.individual = function () {
 }
 
 exports.group = function () {
-    dialogsModule.confirm({
-        title: "Aviso",
-        message: "\u00BFTienes folio?",
-        okButtonText: "Si",
-        cancelButtonText: "No"
+    dialogsModule.action({
+        message: "\u00BFQué acción desea realizar?",
+        cancelButtonText: "Cancelar",
+        actions: ["Crear", "Unirse"]
     }).then(function (result) {
-        // result argument is boolean
         console.log("Dialog result: " + result);
-        if (result) {
-            dialogsModule.prompt({
-                title: "Coloca tu folio",
-                message: "",
-                okButtonText: "Aceptar",
-                cancelButtonText: "Cancelar",
-            }).then(function (r) {
-                console.log("Dialog result: " + r.result + ", text: " + r.text);
-                if (r.result) {
-                    if (r.text === '') {
-                        toast = Toast.makeText("No ingresaste el folio.").show();
-                    } else {
-                        console.log("Folio ingresado ----> " + r.text);
-                        userView.searchFolio(r.text).then(function (data) {
-                            //console.log("Entre...");
-                            console.dir(data);
-                            console.log("Tamaño----> " + data.response.length);
-                            if (data.response.length === 0) {
-                                alert("No se encuentra ningun usuario con el folio; " + r.text);
-                            } else {
-                                console.log("Encontre a : " + data.response[0].nombre);
-                                appSettings.setString("folio", data.response[0].folio);
-                                appSettings.setString("name", data.response[0].nombre);
-                                appSettings.setString("email", data.response[0].correo);
-                                appSettings.setString("identificador", data.response[0].id);
-                                console.log("BUENO BUENO----->");
-                                var topmostM = frameModule.topmost();
 
-                                // Opciones de la navegacion
-                                var navigationOptionsM = {
-                                    moduleName: "view/home-client/home-client",
-                                    backstackVisible: false,
-                                    clearHistory: true,
-                                    animated: true,
-                                    transition: {
-                                        name: "slideLeft",
-                                        duration: 380,
-                                        curve: "easeIn"
-                                    }
-                                };
-
-                                // Navegamos a la vista indicada
-                                topmostM.navigate(navigationOptionsM);
-
-                            }
-                        });
-
-                        // Fase de pruebas //
-
-                        /*if (r.text === 'JM100') {
-                            appSettings.setString("folio", "JM100");
-                            appSettings.setNumber("identificador", 12);
-                            console.log("BUENO BUENO----->");
-                            var topmostM = frameModule.topmost();
-
-                            // Opciones de la navegacion
-                            var navigationOptionsM = {
-                                moduleName: "view/home-client/home-client",
-                                backstackVisible: false,
-                                clearHistory: true,
-                                animated: true,
-                                transition: {
-                                    name: "slideLeft",
-                                    duration: 380,
-                                    curve: "easeIn"
-                                }
-                            };
-
-                            // Navegamos a la vista indicada
-                            topmostM.navigate(navigationOptionsM);
-                            //appSettings.setBoolean("existUser", true);
-                            //appSettings.setString("folioUser", r.text);
-
-                        } else {
-                            alert("No se encuentra ningun usuario con el folio; " + r.text);
-                        }*/
-
-                        // Termina fase de pruebas //
-
+        switch (result) {
+            case "Crear":
+                var topmost = frameModule.topmost();
+                console.log("Crear");
+                // Opciones de la navegacion
+                var navigationOptions = {
+                    moduleName: "view/list-simulacrum-group/list-simulacrum-group",
+                    backstackVisible: false,
+                    clearHistory: false,
+                    animated: true,
+                    transition: {
+                        name: "slideLeft",
+                        duration: 380,
+                        curve: "easeIn"
                     }
+                };
 
-                } else {
-                    console.log("No quiero buscarlo");
-                }
-            });
-        } else {
-            var topmost = frameModule.topmost();
-
-            // Opciones de la navegacion
-            var navigationOptions = {
-                moduleName: "view/add-user/add-user",
-                backstackVisible: false,
-                clearHistory: false,
-                animated: true,
-                transition: {
-                    name: "slideLeft",
-                    duration: 380,
-                    curve: "easeIn"
-                }
-            };
-
-            // Navegamos a la vista indicada
-            topmost.navigate(navigationOptions);
+                // Navegamos a la vista indicada
+                topmost.navigate(navigationOptions);
+                break;
+            case "Unirse":
+                console.log("Unirse");
+                break;
+            default:
+                break;
         }
+
     });
 
 }

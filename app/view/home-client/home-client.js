@@ -195,3 +195,16 @@ function viewToast(message) {
     toast = Toast.makeText(message, "long");
     toast.show();
 }
+
+exports.listViewItemTap = function (args) {
+
+    var item = args.view.bindingContext;
+    // index: el valor seleccionado
+    var index = pageData.sismoGroupList.indexOf(item);
+    //alert("Seleccione 1 --->" + item.name);
+    console.log("ITEM --->" + item.identify);
+    console.log("INDEX --->" + index);
+
+
+
+}
