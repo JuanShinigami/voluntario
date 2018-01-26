@@ -2,6 +2,8 @@ var config = require("../../shared/config");
 var fetchModule = require("fetch");
 var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
+var Toast = require("nativescript-toast");
+var toast;
 
 function SismoGroupViewModel(items) {
     var viewModel = new ObservableArray(items);
@@ -15,6 +17,7 @@ function SismoGroupViewModel(items) {
                 fecha: datos["fecha"],
                 hora: datos["hora"],
                 idVoluntarioCreador: datos["idVoluntarioCreador"],
+                tiempoPreparacion: datos['tiempoPreparacion'],
                 estatus: "Creada",
                 token: "token"
             }),
@@ -84,10 +87,16 @@ function SismoGroupViewModel(items) {
 
 function handleErrors(response) {
     if (!response.ok) {
+        viewToast(response.statusText);
         console.log(JSON.stringify(response));
         throw Error(response.statusText);
     }
     return response;
+}
+
+function viewToast(message) {
+    toast = Toast.makeText(message, "long");
+    toast.show();
 }
 
 module.exports = SismoGroupViewModel;

@@ -7,7 +7,7 @@
     ios:horizontalAlignment="center"
     android:horizontalAlignment="left">
           <Image src="~/images/logoBar.png" class="action-image"></Image>
-          <Label text="Voluntario   " style="font-size:22;" class="action-label-1" />
+          <Label text="Registro" style="font-size:22;" class="action-label-1" />
         </StackLayout>
       </ActionBar.titleView>
       <ActionItem tap="onSaveUser"  ios.systemIcon="2" android.systemIcon="ic_menu_save"/>
@@ -15,7 +15,6 @@
   </Page.actionBar>
 
   <StackLayout orientation="vertical" class="margin-page">
-    <Label text="Agregar Usuario" horizontalAlignment="center" class="title-activity" />
     <Label text="Nombre" class="label-text-static"/>
     <TextField text="{{ name }}" class="field-text-static" hint="Nombre" returnKeyType="next" />
     <Label text="Correo Electrónico" class="label-text-static"/>

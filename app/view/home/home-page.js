@@ -6,6 +6,7 @@ var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
 var UserViewModel = require("../../shared/view-models/user-view-model");
 var Toast = require("nativescript-toast");
+var localNotifications = require("nativescript-local-notifications");
 
 var topmost;
 var navigationOptions;
@@ -18,8 +19,38 @@ var pageData = new observableModule.fromObject({
 });
 
 
-exports.onNavigatingTo = function(args) {
+exports.loaded = function(args) {
     topmost = frameModule.topmost();
+
+    // OPCIONES DE NAVEGACION
+    /*var navigationEntryArt = {
+        moduleName: "view/simulacrum-join/simulacrum-join",
+        backstackVisible: false,
+        animated: true,
+        context: {
+            date: new Date(new Date().getTime() - (5 * 1000))
+        },
+        transition: {
+            name: "slideLeft",
+            duration: 380,
+            curve: "easeIn"
+        }
+    };
+    // Dirigimos a la vista de articulos
+    frameModule.topmost().navigate(navigationEntryArt);*/
+    //navigateTopmost("view/simulacrum-join/simulacrum-join", true, false);
+    localNotifications.addOnMessageReceivedCallback(
+        function (notification) {
+            navigateTopmost("view/simulacrum-join/simulacrum-join", true, false);
+            console.log("ID: " + notification.id);
+            console.log("Title: " + notification.title);
+            console.log("Body: " + notification.body);
+            console.dir(notification.groupSummary);
+            
+        }
+    ).then(function () {
+        console.log("Listener added");
+    });
     if (appSettings.getBoolean("message") === undefined) {
         dialogsModule.alert({
             title: "Información",
@@ -76,4 +107,14 @@ function navigateTopmost(nameModule, backstack, clearHistory) {
         }
     };
     topmost.navigate(navigationOptions);
+}
+
+exports.logout = function () {
+    appSettings.remove("login");
+    appSettings.remove("folioUser");
+    appSettings.remove("emailUser");
+    appSettings.remove("phoneUser");
+    appSettings.remove("nameUser");
+    appSettings.remove("idUser");
+    navigateTopmost("view/login/login", false, true);
 }

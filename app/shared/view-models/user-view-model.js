@@ -9,6 +9,27 @@ function UserViewModel(items) {
 
     var viewModel = new ObservableArray(items);
 
+    viewModel.login = function (datos) {
+        return fetch(config.apiUrl + "voluntaryCreator/registryVoluntaryCreator", {
+            method: "POST",
+            body: JSON.stringify({
+                correo: datos['correo'],
+                folio: datos['folio'],
+                token: "token"
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(handleErrors)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            return data;
+        });
+    };
+
 
     viewModel.add = function (userData) {
         console.log("JSON -------> " + JSON.stringify(userData));
@@ -30,10 +51,6 @@ function UserViewModel(items) {
         })
             .then(function (data) {
 
-                
-            //data.response.forEach(function (client) {
-            //    console.log("Nombre ----> " + client.alias);
-            //});
         });
     };
 

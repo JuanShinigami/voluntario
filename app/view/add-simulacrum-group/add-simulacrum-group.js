@@ -67,6 +67,8 @@ exports.onSaveSimulacrumGroup = function () {
                             return response.json();
                         })
                         .then(function (data) {
+                            var timeWait = Math.floor(Math.random() * 10) + 1;
+                            //console.log("TIMEPO DE ESPERA -----> " + timeWait);
                             var completeDirection = JSON.stringify(data.results[0].formatted_address);
                             var datos = new Array();
                             datos["ubicacion"] = completeDirection.slice(1, -1);
@@ -74,9 +76,11 @@ exports.onSaveSimulacrumGroup = function () {
                             datos["longitud"] = loc.longitude;
                             datos["fecha"] = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
                             datos["hora"] = timepickker.hour + ":" + timepickker.minute;
-                            datos["idVoluntarioCreador"] = 10;
-                            pageData.set("isLoading", false);
+                            datos["idVoluntarioCreador"] = appSettings.getNumber("idUser");
+                            datos["tiempoPreparacion"] = timeWait;
+                            
                             sismoGroupList.addSimulacrumGroup(datos).then(function (data) {
+                                pageData.set("isLoading", false);
                                 dialogsModule.alert({
                                     title: "Informaci\u00F3n",
                                     message: "Tu simulacro se ha creado satisfactoriamente.",
@@ -85,6 +89,14 @@ exports.onSaveSimulacrumGroup = function () {
 
                                     
                                 });
+                            }).catch(function (error) {
+                                pageData.set("isLoading", false);
+                                console.log(error);
+                                dialogsModule.alert({
+                                    message: "No es posible guardar un simulacro, intentalo más tarde.",
+                                    okButtonText: "Aceptar"
+                                });
+                                return Promise.reject();
                             });
                         });
                     }

@@ -9,6 +9,7 @@ var geolocation = require("nativescript-geolocation");
 var SismoGroupViewModel = require("../../shared/view-models/simulacrum-group-view-model");
 var SimulacrumVoluntaryViewModel = require("../../shared/view-models/simulacrum-voluntary-view-model");
 var UserViewModel = require("../../shared/view-models/user-view-model");
+var localNotifications = require("nativescript-local-notifications");
 
 var sismoGroupList = new SismoGroupViewModel([]);
 var userViewModel = new UserViewModel([]);
@@ -35,12 +36,28 @@ exports.loaded = function (args) {
     page = args.object;
     page.bindingContext = pageData;
     loadList();
+    //pruebaTestNotification();
+}
+
+function pruebaTestNotification() {
+    //console.dir(localNotifications);
+    var strMinutes = "";
+    config.min = 5;
+    if (config.min > 1) {
+        strMinutes = "Minutos";
+    } else {
+        strMinutes = "Minuto";
+    }
+    
+    
+
 }
 
 function loadList() {
+    //console.log("LALAL-->" + appSettings.getNumber("idUser"));
     pageData.set("isLoading", true);
     var listView = page.getViewById("sismoGroupList");
-    sismoGroupList.load(10).then(function (data) {
+    sismoGroupList.load(appSettings.getNumber("idUser")).then(function (data) {
         //console.dir(data);
         pageData.sismoGroupList = data.response;
         pageData.set("isLoading", false);
@@ -71,10 +88,7 @@ function navigateTopmost(nameModule, backstack, clearHistory) {
             curve: "easeIn"
         }
     };
-
-    // Navegamos a la vista indicada
     topmost.navigate(navigationOptions);
-
 }
 
 exports.join = function () {
@@ -121,8 +135,9 @@ exports.join = function () {
                                                         datos['tiempo_estoy_listo'] = "";
                                                         datos['mensajeVoluntario'] = "";
                                                         var b = toDate(simulacrumGroup.hora, "h:m");
-                                                        config.dateSimulacrum = b;
+                                                        //config.dateSimulacrum = b;
                                                         console.log("HORA --> " + b.getHours() + "Minutos --> " + b.getMinutes());
+                                                        //console.dir(b);
                                                         definirSimulacroVoluntario(b);
                                                         /*simulacrumVoluntaryViewModel.addVoluntary(datos).then(function (responseSaveVoluntary) {
                                                             
@@ -131,6 +146,8 @@ exports.join = function () {
                                                         alert("Te encuentras muy lejos para unirte a este simulacro.");
                                                     }
                                                     //console.log(geolocation.distance(loc, loc2));
+                                                } else {
+                                                    alert("Ya no es posible unirte al simulacro.");
                                                 }
                                             });
                                         });
@@ -160,12 +177,17 @@ exports.join = function () {
 exports.delete = function (args) {
     var item = args.view.bindingContext;
     var index = sismoGroupList.indexOf(item);
-    console.log("item--->" + item);
-    console.dir(item);
-    console.log("index--->" + index);
+    //console.log("item--->" + item);
+    //console.dir(item);
+    //console.log("index--->" + index);
     sismoGroupList.delete(item.id).then(function (data) {
         console.dir(data);
-        loadList();
+        if (data.response.simulacro.status) {
+            loadList();
+        } else {
+            alert("No es posible eliminarlo");
+        }
+        
     });
 }
 
@@ -185,14 +207,35 @@ function playMusic() {
 }
 
 function definirSimulacroVoluntario(b) {
-    var newDate = new Date();
-    /*if (b.getHours + ":" + b.getMinutes === newDate.getHours + ":" + newDate.getMinutes) {
+
+    localNotifications.schedule([{
+        id: 1,
+        title: "\u00BFEst\u00e1s listo para el simulacro?",
+        body: "Iniciar\u00e1 dentro de 1 minuto.",
+        ticker: "Aviso de sumulacro.",
+        sound: "customsound-ios.wav",
+        ongoing: true,
+        badge: 1,
+        groupSummary: b,
+        at: new Date(b.getTime() - (60 * 1000))
+    }]).then(function () {
+        appSettings.setBoolean("notification", true);
+    }),
+    function (error) {
+            console.log("scheduling error: " + error);
+    };
+
+    /*var newDate = new Date();
+    if (b.getHours + ":" + b.getMinutes === newDate.getHours + ":" + newDate.getMinutes) {
         refreshIntervalId = setInterval(playMusic, 500);
-    }*/
-    refreshIntervalDate = setInterval("test('" + newDate.getMilliseconds() + "')", 1000);
-    
+    }
+    refreshIntervalDate = setInterval("test('" + newDate.getMilliseconds() + "')", 1000);*/
 }
 
 function test(time) {
     console.log(time);
+}
+
+function cargarNotification() {
+    
 }

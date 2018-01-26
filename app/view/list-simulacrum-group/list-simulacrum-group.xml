@@ -27,7 +27,7 @@
           <Label text="Voluntarios" row="0" col="2" class="text-list-title" horizontalAlignment="center" />
           <Label text="Duración" row="0" col="3" class="text-list-title" horizontalAlignment="center" />
           <Label text="{{ fecha }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />
-          <Label text="{{ voluntario }}" row="" col="2" class="text-list-title" horizontalAlignment="center" />
+          <Label text="{{ voluntario }}" row="1" col="2" class="text-list-title" horizontalAlignment="center" />
           <Label text="{{ estatus }}" row="1" col="3" class="text-list-title" horizontalAlignment="center" />
           <Label text="&#xf014;" class="fa image-icon-bar" rowSpan="2" col="4" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
         </GridLayout>

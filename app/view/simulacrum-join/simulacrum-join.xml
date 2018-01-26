@@ -1,0 +1,22 @@
+<Page loaded="loaded">
+  <Page.actionBar>
+    <ActionBar class="action-bar">
+      <ActionBar.titleView>
+        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="back"/>
+        <StackLayout orientation="horizontal"
+    ios:horizontalAlignment="center"
+    android:horizontalAlignment="left">
+
+          <Label text="¡Atento!" style="font-size:22;" />
+        </StackLayout>
+      </ActionBar.titleView>
+    </ActionBar>
+  </Page.actionBar>
+
+  <StackLayout orientation="vertical">
+    <!--<TextField id="minutes" text="{{ minutes }}" hint="Minutos" keyboardType="datetime" returnKeyType="done" />-->
+    <Label text="{{ cronometro1 }}" horizontalAlignment="center" verticalAlignment="center" class="text-crono"/>
+    <Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
+    <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />
+  </StackLayout>
+</Page>

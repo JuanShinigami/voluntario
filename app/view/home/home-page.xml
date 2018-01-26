@@ -1,17 +1,17 @@
-<Page class="page"
-    navigatingTo="onNavigatingTo"  
+<Page class="page" loaded="loaded" 
     xmlns="http://www.nativescript.org/tns.xsd">
-
-    <!--Add your page content here-->
+  <Page.actionBar>
     <ActionBar class="action-bar">
-      <StackLayout id="ttr" orientation="horizontal">
-        <Label text="Voluntario" style="font-size:22;"  />
-        <!--<Image src="~/images/VoluntarioLogotipo.png" class="img-action-bar" />-->
-      
-
-      <!--<Label class="action-bar-title" text="  Inicio"></Label>-->
-      </StackLayout>
+      <ActionBar.titleView>
+        <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="center">
+          <Label text="Voluntario" style="font-size:22;"/>
+        </StackLayout>
+      </ActionBar.titleView>
+      <ActionItem text="Cerrar sesión" tap="logout"/>
     </ActionBar>
+  </Page.actionBar>
+    <!--Add your page content here-->
+    
   <ScrollView>
     <GridLayout columns="1,*,1" rows="100, auto, auto, auto">
       <Label colSpan="3" row="0" text="Simulacro" horizontalAlignment="center" verticalAlignment="center" class="label-title" />
