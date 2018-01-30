@@ -41,11 +41,24 @@ exports.loaded = function(args) {
     //navigateTopmost("view/simulacrum-join/simulacrum-join", true, false);
     localNotifications.addOnMessageReceivedCallback(
         function (notification) {
-            navigateTopmost("view/simulacrum-join/simulacrum-join", true, false);
+            var navigationEntryArt = {
+                moduleName: "view/simulacrum-join/simulacrum-join",
+                backstackVisible: false,
+                animated: true,
+                context: {
+                    date: notification.id
+                },
+                transition: {
+                    name: "slideLeft",
+                    duration: 380,
+                    curve: "easeIn"
+                }
+            };
+            frameModule.topmost().navigate(navigationEntryArt);
             console.log("ID: " + notification.id);
             console.log("Title: " + notification.title);
             console.log("Body: " + notification.body);
-            console.dir(notification.groupSummary);
+            console.log("Time : " + notification.groupedMessages);
             
         }
     ).then(function () {

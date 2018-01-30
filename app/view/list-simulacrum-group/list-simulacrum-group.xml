@@ -19,7 +19,7 @@
   
   
   <GridLayout>
-    <ListView items="{{ sismoGroupList }}" id="sismoGroupList">
+    <ListView items="{{ sismoGroupList }}" id="sismoGroupList" itemTap="listViewItemTap">
       <ListView.itemTemplate>
         <GridLayout rows="auto,auto" columns="40,*,*,*,40" >
           <Label text="{{id}}" rowSpan="2" col="0" class="text-list-title" horizontalAlignment="center" verticalAlignment="center" />

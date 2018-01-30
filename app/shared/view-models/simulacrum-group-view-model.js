@@ -8,6 +8,7 @@ var toast;
 function SismoGroupViewModel(items) {
     var viewModel = new ObservableArray(items);
     viewModel.addSimulacrumGroup = function (datos) {
+        //console.dir(datos);
         return fetch(config.apiUrl + "simulacrumGroup/addSimulacrumGroup", {
             method: "POST",
             body: JSON.stringify({
@@ -18,6 +19,7 @@ function SismoGroupViewModel(items) {
                 hora: datos["hora"],
                 idVoluntarioCreador: datos["idVoluntarioCreador"],
                 tiempoPreparacion: datos['tiempoPreparacion'],
+                tipoSimulacro: datos['tipoSimulacro'],
                 estatus: "Creada",
                 token: "token"
             }),
@@ -30,6 +32,7 @@ function SismoGroupViewModel(items) {
                 return response.json();
             })
             .then(function (data) {
+                console.dir(data);
                 return data;
             });
     };

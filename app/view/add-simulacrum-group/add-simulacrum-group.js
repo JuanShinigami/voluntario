@@ -78,6 +78,7 @@ exports.onSaveSimulacrumGroup = function () {
                             datos["hora"] = timepickker.hour + ":" + timepickker.minute;
                             datos["idVoluntarioCreador"] = appSettings.getNumber("idUser");
                             datos["tiempoPreparacion"] = timeWait;
+                            datos["tipoSimulacro"] = "creado";
                             
                             sismoGroupList.addSimulacrumGroup(datos).then(function (data) {
                                 pageData.set("isLoading", false);

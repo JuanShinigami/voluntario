@@ -31,30 +31,34 @@ var refreshIntervalId;
 var pageData = new observableModule.fromObject({
     cronometro1: "00:00:00",
     cronometro: "00:00:00",
-    initial: true,
     evacuate: false,
     end: false,
-    classButtonPrimary: "button-primary",
     classButtonSuccess: "button-success-disabled",
     classButtonInfo: "button-info-disabled"
 });
 
 exports.loaded = function (args) {
     alarm = sound.create("~/sounds/alarm2.mp3");
+    topmost = frameModule.topmost();
     page = args.object;
     page.bindingContext = pageData;
     var requestData = page.navigationContext;
     validate(requestData.date);
 }
 
-function validate(date) {
-    console.log(date);
+function validate(dateTime) {
+    console.log(dateTime);
+    var date = new Date(dateTime - 10000000000000000);
     emp = new Date(); //fecha actual
     elcrono = setInterval(tiempo, 10); //función del temporizador.
     var diasDif = date.getTime() - emp.getTime();
     var dias = Math.round(diasDif / (1000));
-    console.log("Segundos -- >" + (dias * -1));
-    segundosDif = (dias * -1);
+    console.log("Segundos -- >" + (dias));
+    segundosDif = dias;
+    if (dias <= 0) {
+        navigateTopmost("view/home/home-page", true, false);
+        viewToast("Lamentablemente te perdiste del simulacro.");
+    }
 
 }
 
@@ -68,21 +72,114 @@ function tiempo() { //función del temporizador
     cs = Math.round(cs);
     sg = cr.getSeconds(); //segundos del cronómetro
     mn = cr.getMinutes(); //minutos del cronómetro
-    ho = cr.getHours() - 1; //horas del cronómetro
+    //ho = cr.getHours() - 1; //horas del cronómetro
 
 
-    if (cs < 10) { cs = "0" + cs; }  //poner siempre 2 cifras en los números
-    if (sg < 10) { sg = "0" + sg; }
-    if (mn < 10) { mn = "0" + mn; }
-    if (segundosDif == sg && cs == 0) {
+    //if (cs < 10) { cs = "0" + cs; }  //poner siempre 2 cifras en los números
+    //if (sg < 10) { sg = "0" + sg; }
+    //if (mn < 10) { mn = "0" + mn; }
+    if ( mn == 0 && segundosDif == sg && cs == 0) {
+
         console.log("Es hora de tocar ----> " + mn + ":" + sg + ":" + cs);
         refreshIntervalId = setInterval(playMusic, 500);
+        pageData.classButtonSuccess = "button-success";
+        pageData.evacuate = true;
+        
+
     }
     //console.log(mn + ":" + sg + ":" + cs);
     //console.log(sg);
 
 }
 
+function empezar() {
+
+    if (marcha == 0) { //solo si el cronómetro esta parado
+        emp1 = new Date(); //fecha actual
+        elcrono1 = setInterval(tiempoStart, 10); //función del temporizador.
+        marcha = 1; //indicamos que se ha puesto en marcha.
+    }
+}
+function tiempoStart() { //función del temporizador
+    actual1 = new Date(); //fecha en el instante
+    cro1 = actual1 - emp1; //tiempo transcurrido en milisegundos
+    cr1 = new Date(); //fecha donde guardamos el tiempo transcurrido
+    cr1.setTime(cro1);
+    cs1 = cr1.getMilliseconds(); //milisegundos del cronómetro
+    cs1 = cs1 / 10; //paso a centésimas de segundo.
+    cs1 = Math.round(cs1);
+    sg1 = cr1.getSeconds(); //segundos del cronómetro
+    mn1 = cr1.getMinutes(); //minutos del cronómetro
+    ho1 = cr1.getHours() - 1; //horas del cronómetro
+
+
+    if (cs1 < 10) { cs1 = "0" + cs1; }  //poner siempre 2 cifras en los números
+    if (sg1 < 10) { sg1 = "0" + sg1; }
+    if (mn1 < 10) { mn1 = "0" + mn1; }
+    textCro = mn1 + ":" + sg1 + ":" + cs1;
+    pageData.set("cronometro1", textCro);
+    //console.log(sg);
+
+}
+
+
 function playMusic() {
     alarm.play();
+}
+
+exports.evacuate = function () {
+    pageData.classButtonSuccess = "button-success-disabled";
+    pageData.classButtonInfo = "button-info";
+    empezar();
+    pageData.evacuate = false;
+    pageData.end = true;
+}
+
+exports.stop = function () {
+    alarm.stop();
+    clearInterval(refreshIntervalId);
+    pageData.end = false;
+    pageData.cronometro1 = "00:00:00";
+    clearInterval(elcrono1);
+    pageData.classButtonInfo = "button-info-disabled";
+}
+
+function navigateTopmost(nameModule, backstack, clearHistory) {
+    navigationOptions = {
+        moduleName: nameModule,
+        backstackVisible: backstack,
+        clearHistory: clearHistory,
+        animated: true,
+        transition: {
+            name: "slideLeft",
+            duration: 380,
+            curve: "easeIn"
+        }
+    };
+    topmost.navigate(navigationOptions);
+}
+
+function viewToast(message) {
+    toast = Toast.makeText(message, "long");
+    toast.show();
+}
+
+exports.back = function () {
+    var topmost = frameModule.topmost();
+
+    // Opciones de la navegacion
+    var navigationOptions = {
+        moduleName: "view/home/home-page",
+        backstackVisible: false,
+        clearHistory: true,
+        animated: true,
+        transition: {
+            name: "slideLeft",
+            duration: 380,
+            curve: "easeIn"
+        }
+    };
+
+    // Navegamos a la vista indicada
+    topmost.navigate(navigationOptions);
 }

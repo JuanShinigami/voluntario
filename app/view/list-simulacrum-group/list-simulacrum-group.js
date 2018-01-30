@@ -59,6 +59,9 @@ function loadList() {
     var listView = page.getViewById("sismoGroupList");
     sismoGroupList.load(appSettings.getNumber("idUser")).then(function (data) {
         //console.dir(data);
+        //data.response.forEach(function (element) {
+        //    console.dir(element);
+        //});
         pageData.sismoGroupList = data.response;
         pageData.set("isLoading", false);
         listView.animate({
@@ -209,17 +212,17 @@ function playMusic() {
 function definirSimulacroVoluntario(b) {
 
     localNotifications.schedule([{
-        id: 1,
+        id: 10000000000000000+b.getTime(),
         title: "\u00BFEst\u00e1s listo para el simulacro?",
         body: "Iniciar\u00e1 dentro de 1 minuto.",
         ticker: "Aviso de sumulacro.",
-        sound: "customsound-ios.wav",
+        sound: require("application").ios ? "customsound-ios.wav" : "customsound-android",
         ongoing: true,
         badge: 1,
-        groupSummary: b,
+        //groupSummary: b.getTime(),
         at: new Date(b.getTime() - (60 * 1000))
     }]).then(function () {
-        appSettings.setBoolean("notification", true);
+        //appSettings.setBoolean("notification", true);
     }),
     function (error) {
             console.log("scheduling error: " + error);
@@ -237,5 +240,32 @@ function test(time) {
 }
 
 function cargarNotification() {
+    
+}
+
+exports.listViewItemTap = function (args) {
+    var item = args.view.bindingContext;
+    var index = pageData.sismoGroupList.indexOf(item);
+    console.dir(item);
+    var dateSimulacrum = toDate(item.hora, "h:m");
+    console.log(dateSimulacrum);
+    if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
+        var navigationEntryArt = {
+            moduleName: "view/simulacrum-join/simulacrum-join",
+            backstackVisible: false,
+            animated: true,
+            context: {
+                date: (dateSimulacrum.getTime() + 10000000000000000)
+            },
+            transition: {
+                name: "slideLeft",
+                duration: 380,
+                curve: "easeIn"
+            }
+        };
+        frameModule.topmost().navigate(navigationEntryArt);
+    } else {
+        alert("Ya no esta disponible el simulacro");
+    }
     
 }
