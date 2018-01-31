@@ -31,6 +31,28 @@ function SimulacrumVoluntaryViewModel(items) {
             });
     };
 
+    viewModel.loadSimulacrum = function (idClient) {
+        return fetch(config.apiUrl + "voluntarySimulacrum/listSimulacrumClient", {
+            method: "POST",
+            body: JSON.stringify({
+                idClient: idClient
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(handleErrors)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                //console.dir(data);
+                return data;
+            });
+    };
+
+    return viewModel;
+
 }
 
 function handleErrors(response) {

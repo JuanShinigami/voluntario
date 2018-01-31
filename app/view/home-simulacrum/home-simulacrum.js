@@ -44,7 +44,7 @@ var pageData = new observableModule.fromObject({
     classButtonInfo: "button-info-disabled"
 });
 
-exports.loaded = function (args) {
+exports.onNavigatingTo = function (args) {
     alarm = sound.create("~/sounds/alarm2.mp3");
     var listaGlobal = appSettings.getString("simulacrumArray");
     var arrayTest = JSON.parse(listaGlobal);
@@ -266,4 +266,9 @@ exports.listViewItemTap = function (args) {
     //viewInfoClient(item);
 
 
+}
+
+exports.onDrawerButtonTap = function (args) {
+    const sideDrawer = frameModule.topmost().getViewById("sideDrawer");
+    sideDrawer.showDrawer();
 }

@@ -37,7 +37,7 @@ function loadDefaultValues() {
 }
 
 exports.back = function () {
-    navigateTopmost("view/list-simulacrum-group/list-simulacrum-group", true, false);
+    navigateTopmost("view/home/home-page", true, false);
 }
 
 exports.onSaveSimulacrumGroup = function () {

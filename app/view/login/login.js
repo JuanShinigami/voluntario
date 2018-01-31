@@ -22,10 +22,20 @@ exports.loaded = function (args) {
     topmost = frameModule.topmost();
     page = args.object;
     page.bindingContext = user;
+    if (appSettings.getBoolean("message") === undefined) {
+        dialogsModule.alert({
+            title: "Informaci\u00F3n",
+            message: "Voluntario es una herramienta para poder simular un simulacro. \u00A9 2017 IOFractal.",
+            okButtonText: "Aceptar"
+        }).then(function () {
+            appSettings.setBoolean("message", true);
+        });
+    }
     //console.log("Cargue el login");
 };
 
 exports.signIn = function () {
+    console.log("HOLA");
     var datos = new Array();
     datos['correo'] = user.email;
     datos['folio'] = user.folio;
@@ -45,6 +55,13 @@ exports.signIn = function () {
         } else {
             alert("\241Comprueba tus datos de acceso!");
         }
+    }).catch(function (error) {
+        console.log(error);
+        dialogsModule.alert({
+            message: "No pude procesar la petición.",
+            okButtonText: "OK"
+        });
+        return Promise.reject();
     });
     
     //alert("Signing in");

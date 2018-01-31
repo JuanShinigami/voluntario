@@ -13,7 +13,7 @@ var observableModule = require("data/observable");
 function onLoaded(args) {
     const component = args.object;
     const componentTitle = component.selectedPage;
-    component.bindingContext = new MyDrawerViewModel(componentTitle, appSettings.getString("folio"), appSettings.getString("name"), appSettings.getString("email"));
+    component.bindingContext = new MyDrawerViewModel(componentTitle, appSettings.getString("folioUser"), appSettings.getString("nameUser"), appSettings.getString("emailUser"));
    
 }
 
@@ -36,14 +36,14 @@ function onNavigationItemTap(args) {
 
 exports.onLogout = function () {
 
-    console.log("Tu folio actual ----- " + appSettings.getString("folio"));
-    console.log("Identificador ----- " + appSettings.getString("identificador"));
-    appSettings.remove("folio");
-    appSettings.remove("identificador");
-    appSettings.remove("email");
-    appSettings.remove("name");
+    appSettings.remove("login");
+    appSettings.remove("folioUser");
+    appSettings.remove("emailUser");
+    appSettings.remove("phoneUser");
+    appSettings.remove("nameUser");
+    appSettings.remove("idUser");
     frameModule.topmost().navigate({
-        moduleName: "view/home/home-page",
+        moduleName: "view/login/login",
         transition: {
             name: "fade"
         }

@@ -1,40 +1,81 @@
-<Page loaded="loaded">
-  <Page.actionBar>
-    <ActionBar>
-      <ActionBar.titleView>
-        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="back"/>
-        <!--<StackLayout orientation="vertical" verticalAlignment="center" horizontalAlignment="left">
-          <Label text="Latido Vivo" style="font-size:22;" textWrap="true" />
-        </StackLayout>-->
-        <StackLayout orientation="horizontal"
-    ios:horizontalAlignment="center"
-    android:horizontalAlignment="left">
-          
-          <Label text="Simulacro" style="font-size:22;" class="action-label-1" />
-        </StackLayout>
-      </ActionBar.titleView>
+<Page
+    navigatingTo="onNavigatingTo"
+    xmlns:nsDrawer="nativescript-pro-ui/sidedrawer"
+    xmlns:myDrawer="shared/my-drawer"
+    xmlns="http://www.nativescript.org/tns.xsd">
 
-      <!--<ActionItem tap="onCleanList" icon="~/images/recycle.png" />-->
-    </ActionBar>
-  </Page.actionBar>
-  <StackLayout orientation="vertical">
-    <!--<TextField id="minutes" text="{{ minutes }}" hint="Minutos" keyboardType="datetime" returnKeyType="done" />-->
-    <Label text="{{ cronometro1 }}" horizontalAlignment="center" verticalAlignment="center" class="text-crono"/>
-    <Button text="Preparar simulacro" tap="start" isEnabled="{{ initial }}" class="{{classButtonPrimary}}" />
-    <Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
-    <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />
-    
-    <GridLayout>
-      <ListView items="{{ alarmList }}" id="alarmList" itemTap="listViewItemTap">
-        <ListView.itemTemplate>
-          <GridLayout rows="auto,auto" columns="*,*,*" >
-            <Label text="{{ 'Simulacro ' + identify }}" row="0" colSpan="3" class="text-list-title" horizontalAlignment="center" />
-          <Label text="{{ date }}" row="1" col="0" class="text-list" horizontalAlignment="center" />
-          <Label text="{{ time }}" row="1" col="1" class="text-list" horizontalAlignment="center" />
-          <Label text="{{ duration }}" row="1" col="2" class="text-list" horizontalAlignment="center" />
-          </GridLayout>
-        </ListView.itemTemplate>
-      </ListView>
-    </GridLayout>
-  </StackLayout>
+  <ActionBar class="action-bar">
+    <!-- 
+        Use the NavigationButton as a side-drawer button in Android because ActionItems are shown on the right side of the ActionBar
+        -->
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
+    <!-- 
+        Use the ActionItem for IOS with position set to left. Using the NavigationButton as a side-drawer button in iOS is not possible, because its function is to always navigate back in the application.
+        -->
+    <ActionItem icon="res://navigation/menu"
+        android:visibility="collapsed"
+        tap="onDrawerButtonTap"
+        ios.position="left">
+    </ActionItem>
+    <Label class="action-bar-title" text="Simulacro"></Label>
+  </ActionBar>
+
+  <!--
+    RadSideDrawer is a UI component part of the Progress NativeScript UI set of components.
+    Learn more about the RadSideDrawer UI component and how it can be customized in this documentation article:
+    http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawer/getting-started
+    The RadSideDrawer component is designed to be used as a root element to the <Page> and
+    it shouldn't have any other siblings other than the <ActionBar> component.
+    -->
+  <nsDrawer:RadSideDrawer id="sideDrawer" showOverNavigation="true">
+    <!--
+        Use the RadSideDrawer.drawerTransition component to change the open/close animation of the drawer.
+        -->
+    <nsDrawer:RadSideDrawer.drawerTransition>
+      <nsDrawer:SlideInOnTopTransition/>
+    </nsDrawer:RadSideDrawer.drawerTransition>
+
+    <!--
+        Use the RadSideDrawer.drawerContent component to display the content of the app drawer on this page.
+        Always wrap content in a layout component.
+        -->
+    <nsDrawer:RadSideDrawer.drawerContent>
+      <StackLayout>
+        <!--
+                Use {N} custom components to reuse UI across your mobile app.
+                The MyDrawer custom component defined in "/shared/my-drawer" holds the contents of the app drawer.
+                Learn more about custom components and how they can be used in this documentation article:
+                http://docs.nativescript.org/ui/basics#custom-components
+                -->
+        <myDrawer:MyDrawer selectedPage="Simulacro Individual"/>
+      </StackLayout>
+    </nsDrawer:RadSideDrawer.drawerContent>
+
+    <!--
+        Use the RadSideDrawer.mainContent component to display the content of the page when you have an app drawer.
+        Always wrap content in a layout component.
+        -->
+    <nsDrawer:RadSideDrawer.mainContent>
+      <StackLayout orientation="vertical">
+        <!--<TextField id="minutes" text="{{ minutes }}" hint="Minutos" keyboardType="datetime" returnKeyType="done" />-->
+        <Label text="{{ cronometro1 }}" horizontalAlignment="center" verticalAlignment="center" class="text-crono"/>
+        <Button text="Preparar simulacro" tap="start" isEnabled="{{ initial }}" class="{{classButtonPrimary}}" />
+        <Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
+        <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />
+
+        <GridLayout>
+          <ListView items="{{ alarmList }}" id="alarmList" itemTap="listViewItemTap">
+            <ListView.itemTemplate>
+              <GridLayout rows="auto,auto" columns="*,*,*" >
+                <Label text="{{ 'Simulacro ' + identify }}" row="0" colSpan="3" class="text-list-title" horizontalAlignment="center" />
+                <Label text="{{ date }}" row="1" col="0" class="text-list" horizontalAlignment="center" />
+                <Label text="{{ time }}" row="1" col="1" class="text-list" horizontalAlignment="center" />
+                <Label text="{{ duration }}" row="1" col="2" class="text-list" horizontalAlignment="center" />
+              </GridLayout>
+            </ListView.itemTemplate>
+          </ListView>
+        </GridLayout>
+      </StackLayout>
+    </nsDrawer:RadSideDrawer.mainContent>
+  </nsDrawer:RadSideDrawer>
 </Page>

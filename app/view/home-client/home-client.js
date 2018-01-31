@@ -29,7 +29,7 @@ exports.loaded = function(args) {
     //sismoGroupList.empty();
 
     //-- Temporal --
-    sismoGroupList.load(parseInt(appSettings.getString("identificador"))).then(function (data) {
+    sismoGroupList.load(parseInt(appSettings.getNumber("idUser"))).then(function (data) {
         //console.dir(data);
         console.dir(data.response[0]);
         pageData.set("sismoGroupList", data.response);
