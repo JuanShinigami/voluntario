@@ -34,12 +34,13 @@ function UserViewModel(items) {
     viewModel.add = function (userData) {
         console.log("JSON -------> " + JSON.stringify(userData));
         console.log("NOMBRE QUE LE MANDO DEL JS --------------->" + userData.name);
-        return fetch(config.apiUrl + "voluntaryCreator/addVoluntaryCreador", {
+        return fetch(config.apiUrl + "voluntaryCreator/addVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 nombre: userData.name,
                 telefono: userData.phone,
-                correo: userData.email
+                correo: userData.email,
+                token: "token"
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -49,12 +50,13 @@ function UserViewModel(items) {
         .then(function (response) {
             return response.json();
         })
-            .then(function (data) {
-
+        .then(function (data) {
+            return data;
         });
     };
 
     viewModel.searchFolio = function (folio) {
+        console.log(folio);
         return fetch(config.apiUrl + "voluntaryCreator/existsVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({

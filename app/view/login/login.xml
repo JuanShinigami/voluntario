@@ -9,6 +9,7 @@
       </ActionBar.titleView>
     </ActionBar>
   </Page.actionBar>
+  <ActivityIndicator busy="{{ isLoading }}" height="60" width="60"/>
   <ScrollView>
   <StackLayout orientation="vertical">
     

@@ -87,8 +87,22 @@ exports.onSaveSimulacrumGroup = function () {
                                     message: "Tu simulacro se ha creado satisfactoriamente.",
                                     okButtonText: "Aceptar"
                                 }).then(function () {
-
-                                    
+                                    var dateSimulacrum = toDate(datos["hora"], "h:m");
+                                    var navigationEntryArt = {
+                                        moduleName: "view/simulacrum-join/simulacrum-join",
+                                        backstackVisible: false,
+                                        animated: true,
+                                        context: {
+                                            date: (dateSimulacrum.getTime() + 10000000000000000),
+                                            create: true
+                                        },
+                                        transition: {
+                                            name: "slideLeft",
+                                            duration: 380,
+                                            curve: "easeIn"
+                                        }
+                                    };
+                                    frameModule.topmost().navigate(navigationEntryArt);
                                 });
                             }).catch(function (error) {
                                 pageData.set("isLoading", false);
@@ -141,4 +155,15 @@ function handleErrors(response) {
         throw Error(response.statusText);
     }
     return response;
+}
+
+function toDate(dStr, format) {
+    var now = new Date();
+    if (format == "h:m") {
+        now.setHours(dStr.substr(0, dStr.indexOf(":")));
+        now.setMinutes(dStr.substr(dStr.indexOf(":") + 1));
+        now.setSeconds(0);
+        return now;
+    } else
+        return "Invalid Format";
 }

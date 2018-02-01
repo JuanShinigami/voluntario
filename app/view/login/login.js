@@ -35,7 +35,7 @@ exports.loaded = function (args) {
 };
 
 exports.signIn = function () {
-    console.log("HOLA");
+    user.set("isLoading", true);
     var datos = new Array();
     datos['correo'] = user.email;
     datos['folio'] = user.folio;
@@ -48,7 +48,8 @@ exports.signIn = function () {
             appSettings.setString("nameUser", data.response.datos[0].nombre);
             appSettings.setNumber("idUser", parseInt(data.response.datos[0].id));
             appSettings.setBoolean("login", true);
-            navigateTopmost("view/home/home-page", false, false);
+            user.set("isLoading", false);
+            navigateTopmost("view/home/home-page", false, true);
             
             //console.log("LOA --> " + data.response.datos[0].folio);
             
@@ -61,6 +62,7 @@ exports.signIn = function () {
             message: "No pude procesar la petición.",
             okButtonText: "OK"
         });
+        user.set("isLoading", false);
         return Promise.reject();
     });
     
@@ -68,7 +70,7 @@ exports.signIn = function () {
 };
 
 exports.register = function () {
-    alert("Registering");
+    navigateTopmost("view/add-user/add-user", false, false);
 };
 
 function navigateTopmost(nameModule, backstack, clearHistory) {

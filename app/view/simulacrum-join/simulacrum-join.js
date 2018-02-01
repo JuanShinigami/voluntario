@@ -6,7 +6,8 @@ var appSettings = require("application-settings");
 var frameModule = require("ui/frame");
 var sound = require("nativescript-sound");
 var Toast = require("nativescript-toast");
-
+var SismoGroupViewModel = require("../../shared/view-models/simulacrum-group-view-model");
+var sismoGroupList = new SismoGroupViewModel([]);
 
 
 var page;
@@ -27,6 +28,8 @@ var alarm;
 var toast;
 var segundosDif = 0;
 var refreshIntervalId;
+var timerExecuteLoad;
+var idSimulacrum;
 
 var pageData = new observableModule.fromObject({
     cronometro1: "00:00:00",
@@ -34,7 +37,9 @@ var pageData = new observableModule.fromObject({
     evacuate: false,
     end: false,
     classButtonSuccess: "button-success-disabled",
-    classButtonInfo: "button-info-disabled"
+    classButtonInfo: "button-info-disabled",
+    countVoluntary: 0,
+    isLoading: true
 });
 
 exports.loaded = function (args) {
@@ -43,12 +48,23 @@ exports.loaded = function (args) {
     page = args.object;
     page.bindingContext = pageData;
     var requestData = page.navigationContext;
-    validate(requestData.date);
+    validate(requestData);
+    
+
 }
 
 function validate(dateTime) {
-    console.log(dateTime);
-    var date = new Date(dateTime - 10000000000000000);
+    //console.dir(dateTime);
+    if (dateTime.create) {
+        idSimulacrum = dateTime.dataSimulacrum.idSimulacro;
+        //console.log(idSimulacrum);
+        timerExecuteLoad = setInterval(searchCountVoluntary, 1000);
+        console.log("Lo creee");
+    } else {
+        console.log("Me uni");
+    }
+
+    var date = new Date(dateTime.date - 10000000000000000);
     emp = new Date(); //fecha actual
     elcrono = setInterval(tiempo, 10); //función del temporizador.
     var diasDif = date.getTime() - emp.getTime();
@@ -60,6 +76,13 @@ function validate(dateTime) {
         viewToast("Lamentablemente te perdiste del simulacro.");
     }
 
+}
+
+function searchCountVoluntary() {
+    sismoGroupList.countVoluntary(idSimulacrum).then(function (responseData) {
+        pageData.countVoluntary = responseData.response[0].totalVoluntario;
+        //console.log("Cantidad de voluntarios ---> " + responseData.response[0].totalVoluntario);
+    });
 }
 
 function tiempo() { //función del temporizador
@@ -78,6 +101,7 @@ function tiempo() { //función del temporizador
     //if (cs < 10) { cs = "0" + cs; }  //poner siempre 2 cifras en los números
     //if (sg < 10) { sg = "0" + sg; }
     //if (mn < 10) { mn = "0" + mn; }
+    //console.log(mn + ":" + sg + ":" + cs);
     if ( mn == 0 && segundosDif == sg && cs == 0) {
 
         console.log("Es hora de tocar ----> " + mn + ":" + sg + ":" + cs);

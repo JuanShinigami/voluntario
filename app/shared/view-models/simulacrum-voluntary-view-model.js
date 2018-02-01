@@ -5,17 +5,37 @@ var appSettings = require("application-settings");
 
 function SimulacrumVoluntaryViewModel(items) {
     var viewModel = new ObservableArray(items);
-    viewModel.addVoluntary = function (datos) {
-        return fetch(config.apiUrl + "voluntarySimulacrum/updateVoluntarySimulacrum", {
+    viewModel.addVoluntarySimulacrum = function (datos) {
+        return fetch(config.apiUrl + "voluntarySimulacrum/addVoluntarySimulacrum", {
             method: "POST",
             body: JSON.stringify({
-                ubicacion: datos["ubicacion"],
-                latitud: datos["latitud"],
-                longitud: datos["longitud"],
-                fecha: datos["fecha"],
-                hora: datos["hora"],
-                idVoluntarioCreador: datos["idVoluntarioCreador"],
-                estatus: "Creada",
+                idVoluntario: datos["idVoluntario"],
+                idSimulacro: datos["idSimulacro"],
+                tiempo_inicio: datos["tiempo_inicio"],
+                tiempo_estoy_listo: datos["tiempo_estoy_listo"],
+                mensajeVoluntario: datos["mensajeVoluntario"],
+                tipoSimulacro: datos["tipoSimulacro"],
+                token: "token"
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(handleErrors)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            return data;
+        });
+    };
+
+    viewModel.deleteVoluntary = function (datos) {
+        return fetch(config.apiUrl + "voluntarySimulacrum/deteleVoluntaryOfSimulacrum", {
+            method: "POST",
+            body: JSON.stringify({
+                idVoluntario: datos["idVoluntario"],
+                idSimulacro: datos["idSimulacro"],
                 token: "token"
             }),
             headers: {

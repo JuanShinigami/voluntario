@@ -5,10 +5,14 @@ var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
 var frameModule = require("ui/frame");
 var UserViewModel = require("../../shared/view-models/user-view-model");
-var page;
+var Toast = require("nativescript-toast");
 
+var page;
+var topmost;
+var navigationOptions;
 
 var userView = new UserViewModel([]);
+
 var pageData = new observableModule.fromObject({
 	name: "",
 	email: "",
@@ -16,27 +20,44 @@ var pageData = new observableModule.fromObject({
 });
 
 exports.loaded = function (args) {
+    topmost = frameModule.topmost();
 	page = args.object;
-	page.bindingContext = pageData;
-	console.log("Cargue la actividad para agregar un usuario");
-	pageData.name = '';
-	pageData.email = '';
-	pageData.phone = '';
-	//userView.add();
+    page.bindingContext = pageData;
+    pageData.name = '';
+    pageData.email = '';
+    pageData.phone = '';
 }
 
 exports.onSaveUser = function () {
-
+    //pageData.set("isLoading", true);
     var userJson = { "name": pageData.name, "email": pageData.email, "phone": pageData.phone };
 
 	// console.log("Verificar -----> " + pageData.name);
 	if (verifyEmpty(pageData.name) && verifyEmpty(pageData.email) && verifyEmpty(pageData.phone)) {
-	    userView.add(userJson).catch(function () {
-	        dialogsModule.alert({
-	            message: "Ocurrio un error al agregar un usuario, consulte con su administrador.",
-	            okButtonText: "Aceptar"
-	        });
-	    });
+        pageData.set("isLoading", true);
+        userView.add(userJson).catch(function () {
+            dialogsModule.alert({
+                message: "Ocurrio un error al registrarte, intentalo m\u00E1s tarde.",
+                okButtonText: "Aceptar"
+            });
+            pageData.set("isLoading", false);
+        }).then(function (data) {
+            console.dir(data);
+            if (data.response.flag) {
+                dialogsModule.alert({
+                    message: "Tu registro fue exitoso y tu folio asignado es: " + data.response.usuario.folio,
+                    okButtonText: "Aceptar"
+                }).then(function () {
+                    navigateTopmost("view/login/login", false, true);
+                });
+            } else {
+                dialogsModule.alert({
+                    message: "Ocurrio un error al registrarte, intentalo m\u00E1s tarde.",
+                    okButtonText: "Aceptar"
+                });
+            }
+            pageData.set("isLoading", false);
+        });
 	    
 	} else {
 		dialogsModule.alert({
@@ -52,23 +73,7 @@ exports.onSaveUser = function () {
 }
 
 exports.back = function () {
-    var topmost = frameModule.topmost();
-
-    // Opciones de la navegacion
-    var navigationOptions = {
-        moduleName: "view/home/home-page",
-        backstackVisible: false,
-        clearHistory: false,
-        animated: true,
-        transition: {
-            name: "slideLeft",
-            duration: 380,
-            curve: "easeIn"
-        }
-    };
-
-    // Navegamos a la vista indicada
-    topmost.navigate(navigationOptions);
+    navigateTopmost("view/login/login", false, true);
 }
 
 function verifyEmpty(field) {
@@ -77,4 +82,19 @@ function verifyEmpty(field) {
 		flag = false;
 	}
 	return flag;
+}
+
+function navigateTopmost(nameModule, backstack, clearHistory) {
+    navigationOptions = {
+        moduleName: nameModule,
+        backstackVisible: backstack,
+        clearHistory: clearHistory,
+        animated: true,
+        transition: {
+            name: "slideLeft",
+            duration: 380,
+            curve: "easeIn"
+        }
+    };
+    topmost.navigate(navigationOptions);
 }

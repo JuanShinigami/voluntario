@@ -58,6 +58,28 @@ function SismoGroupViewModel(items) {
         
     };
 
+    viewModel.countVoluntary = function (idSimulacrum) {
+        return fetch(config.apiUrl + "simulacrumGroup/countVoluntary", {
+            method: "POST",
+            body: JSON.stringify({
+                token: "token",
+                idSimulacro: idSimulacrum
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(handleErrors)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                return data;
+            });
+
+    };
+
+
     viewModel.delete = function (idSimulacrum) {
         return fetch(config.apiUrl + "voluntarySimulacrum/deletelistVoluntary", {
             method: "POST",
