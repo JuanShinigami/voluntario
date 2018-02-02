@@ -19,7 +19,7 @@
       <Label text="Correo Electrónico" class="label-text-static"/>
       <TextField text="{{ email }}" class="field-text-static" keyboardType="email"  hint="Correo electrónico" returnKeyType="next" />
       <Label text="Teléfono" class="label-text-static"/>
-      <TextField text="{{ phone }}" class="field-text-static" keyboardType="phone"  hint="Teléfono" returnKeyType="done"/>
+      <TextField text="{{ phone }}" class="final-field-text" keyboardType="phone"  hint="Teléfono" returnKeyType="done"/>
     </StackLayout>
     <ActivityIndicator busy="{{ isLoading }}" rowSpan="2" colSpan="2"  height="60" width="60"/>
   </GridLayout>

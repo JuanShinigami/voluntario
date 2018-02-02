@@ -57,7 +57,22 @@
         Always wrap content in a layout component.
         -->
         <nsDrawer:RadSideDrawer.mainContent>
-            
+          <GridLayout>
+            <ListView items="{{ massageList }}" id="massageList" itemTap="listViewItemTap">
+              <ListView.itemTemplate>
+                <GridLayout rows="auto" columns="60,*" >
+                  <!--<Label text="{{fecha}}" rowSpan="2" col="0" class="text-list-title" horizontalAlignment="center" verticalAlignment="center" />
+                  <Label text="Voluntarios" row="0" col="1" class="text-list-title" horizontalAlignment="center" />
+                  <Label text="Estado" row="0" col="2" class="text-list-title" horizontalAlignment="center" />
+                  <Label text="{{ voluntario }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />
+                  <Label text="{{ estatus }}" row="1" col="2" class="text-list-title" horizontalAlignment="center" />
+                  <Label text="&#xf014;" class="fa" rowSpan="3" col="3" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
+                  <Label text="{{ ubicacion }}" row="2" colSpan="4" />-->
+                </GridLayout>
+              </ListView.itemTemplate>
+            </ListView>
+            <ActivityIndicator busy="{{ isLoading }}" height="60" width="60"/>
+          </GridLayout>
         </nsDrawer:RadSideDrawer.mainContent>
     </nsDrawer:RadSideDrawer>
 </Page>

@@ -72,7 +72,7 @@
                       <!--<Label text="{{ 0.fecha }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />-->
                       <Label text="{{ voluntario }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />
                       <Label text="{{ estatus }}" row="1" col="2" class="text-list-title" horizontalAlignment="center" />
-                      <Label text="&#xf014;" class="fa" rowSpan="3" col="3" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
+                      <Label text="&#xf014;" class="fa image-icon" rowSpan="3" col="3" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
                       <Label text="{{ ubicacion }}" row="2" colSpan="4" />
                     </GridLayout>
                   </ListView.itemTemplate>
@@ -92,7 +92,7 @@
                       <Label text="Hora del simulacro" row="0" col="1" class="text-list-title" horizontalAlignment="center" />
                       <Label text="{{ tiempo_estoy_listo }}" row="1" col="2" class="text-list-title" horizontalAlignment="center" />
                       <Label text="{{ hora }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />
-                      <Label text="&#xf00d;" class="fa image-icon-bar" visibility="{{ status ? 'visible' : 'collapsed' }}" rowSpan="3" col="3" horizontalAlignment="center" verticalAlignment="center" tap="cancel" />
+                      <Label text="&#xf00d;" class="fa image-icon" visibility="{{ status ? 'visible' : 'collapsed' }}" rowSpan="3" col="3" horizontalAlignment="center" verticalAlignment="center" tap="cancel" />
                       <Label text="{{ ubicacion }}" row="2" colSpan="4" />
                     </GridLayout>
                   </ListView.itemTemplate>

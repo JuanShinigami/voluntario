@@ -27,6 +27,8 @@ var hourIni;
 var alarm;
 var toast;
 var segundosDif = 0;
+var minutes;
+var seconds;
 var refreshIntervalId;
 var timerExecuteLoad;
 var idSimulacrum;
@@ -39,7 +41,8 @@ var pageData = new observableModule.fromObject({
     classButtonSuccess: "button-success-disabled",
     classButtonInfo: "button-info-disabled",
     countVoluntary: 0,
-    isLoading: true
+    isLoading: true,
+    countVoluntaryVisible: false
 });
 
 exports.loaded = function (args) {
@@ -48,19 +51,30 @@ exports.loaded = function (args) {
     page = args.object;
     page.bindingContext = pageData;
     var requestData = page.navigationContext;
+    console.log(requestData);
     validate(requestData);
     
-
 }
 
 function validate(dateTime) {
-    //console.dir(dateTime);
+    console.dir(dateTime);
     if (dateTime.create) {
-        idSimulacrum = dateTime.dataSimulacrum.idSimulacro;
+        pageData.countVoluntaryVisible = true;
+        if (dateTime.currentCreate) {
+            idSimulacrum = dateTime.idSimulacrum;
+            timerExecuteLoad = setInterval(searchCountVoluntary, 1000);
+        } else {
+            idSimulacrum = dateTime.dataSimulacrum.idSimulacro;
+            timerExecuteLoad = setInterval(searchCountVoluntary, 1000);
+            //console.log(idSimulacrum);
+            //timerExecuteLoad = setInterval(searchCountVoluntary, 1000);
+        }
+        //idSimulacrum = dateTime.dataSimulacrum.idSimulacro;
         //console.log(idSimulacrum);
-        timerExecuteLoad = setInterval(searchCountVoluntary, 1000);
-        console.log("Lo creee");
+        //timerExecuteLoad = setInterval(searchCountVoluntary, 1000);
+        //console.log("Lo creee");
     } else {
+        pageData.countVoluntaryVisible = false;
         console.log("Me uni");
     }
 
@@ -68,11 +82,15 @@ function validate(dateTime) {
     emp = new Date(); //fecha actual
     elcrono = setInterval(tiempo, 10); //función del temporizador.
     var diasDif = date.getTime() - emp.getTime();
-    var dias = Math.round(diasDif / (1000));
-    console.log("Segundos -- >" + (dias));
-    segundosDif = dias;
-    if (dias <= 0) {
-        navigateTopmost("view/home/home-page", true, false);
+    var seg = Math.round(diasDif / (1000));
+    minutes = Math.floor(seg / 60);
+    seconds = seg % 60;
+    //console.log("Segundos -- >" + (dias));
+    console.log("Minutis ----> " + minutes);
+    console.log("Second-----> " + seconds);
+    //segundosDif = dias;
+    if (seconds <= 0) {
+        navigateTopmost("view/home/home-page", false, true);
         viewToast("Lamentablemente te perdiste del simulacro.");
     }
 
@@ -102,12 +120,15 @@ function tiempo() { //función del temporizador
     //if (sg < 10) { sg = "0" + sg; }
     //if (mn < 10) { mn = "0" + mn; }
     //console.log(mn + ":" + sg + ":" + cs);
-    if ( mn == 0 && segundosDif == sg && cs == 0) {
+    if (mn === minutes && seconds === sg && cs === 0) {
 
+        startSound();
+        /*pageData.isLoading = false;
         console.log("Es hora de tocar ----> " + mn + ":" + sg + ":" + cs);
         refreshIntervalId = setInterval(playMusic, 500);
-        pageData.classButtonSuccess = "button-success";
-        pageData.evacuate = true;
+        pageData.classButtonSuccess = "button-success";*/
+        //pageData.evacuate = true;
+        
         
 
     }
@@ -116,8 +137,16 @@ function tiempo() { //función del temporizador
 
 }
 
-function empezar() {
+function startSound() {
+    //pageData.isLoading = false;
+    //console.log("Es hora de tocar ----> " + mn + ":" + sg + ":" + cs);}
+    pageData.set("isLoading", false);
+    refreshIntervalId = setInterval(playMusic, 500);
+    pageData.classButtonSuccess = "button-success";
+    pageData.evacuate = true;
+}
 
+function empezar() {
     if (marcha == 0) { //solo si el cronómetro esta parado
         emp1 = new Date(); //fecha actual
         elcrono1 = setInterval(tiempoStart, 10); //función del temporizador.
@@ -163,8 +192,10 @@ exports.stop = function () {
     alarm.stop();
     clearInterval(refreshIntervalId);
     pageData.end = false;
+    viewToast("TIEMPO EN SALIR----> " + pageData.get("cronometro1"));
     pageData.cronometro1 = "00:00:00";
     clearInterval(elcrono1);
+    clearInterval(timerExecuteLoad);
     pageData.classButtonInfo = "button-info-disabled";
 }
 

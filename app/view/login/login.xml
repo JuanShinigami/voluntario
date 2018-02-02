@@ -17,7 +17,7 @@
     <TextField class="input-login" id="email" text="{{ email }}" hint="Correo electrónico" keyboardType="email" autocorrect="false" autocapitalizationType="none" />
     <TextField class="input-login" text="{{ folio }}" hint="Folio" secure="true" />
     <Button class="buttom-login" text="Entrar" tap="signIn" />
-    <Button class="buttom-link" text="Registrate" tap="register"/>
+    <Label class="buttom-link" text="Registrate" tap="register" horizontalAlignment="center"/>
       
   </StackLayout>
   </ScrollView>

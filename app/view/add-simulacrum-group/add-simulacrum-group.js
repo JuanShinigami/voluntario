@@ -31,13 +31,14 @@ exports.loaded = function (args) {
 }
 
 function loadDefaultValues() {
+    date = new Date();
     timepickker = page.getViewById('timePicker');
     timepickker.hour = date.getHours();
     timepickker.minute = date.getMinutes();
 }
 
 exports.back = function () {
-    navigateTopmost("view/home/home-page", true, false);
+    navigateTopmost("view/home/home-page", false, false);
 }
 
 exports.onSaveSimulacrumGroup = function () {
@@ -81,6 +82,7 @@ exports.onSaveSimulacrumGroup = function () {
                             datos["tipoSimulacro"] = "creado";
                             
                             sismoGroupList.addSimulacrumGroup(datos).then(function (data) {
+                                
                                 pageData.set("isLoading", false);
                                 dialogsModule.alert({
                                     title: "Informaci\u00F3n",
@@ -88,13 +90,19 @@ exports.onSaveSimulacrumGroup = function () {
                                     okButtonText: "Aceptar"
                                 }).then(function () {
                                     var dateSimulacrum = toDate(datos["hora"], "h:m");
+                                    var res = datos["fecha"].split("-");
+                                    dateSimulacrum.setFullYear(parseInt(res[2]));
+                                    dateSimulacrum.setMonth(parseInt(res[1] - 1));
+                                    dateSimulacrum.setDate(parseInt(res[0]));
                                     var navigationEntryArt = {
                                         moduleName: "view/simulacrum-join/simulacrum-join",
                                         backstackVisible: false,
                                         animated: true,
                                         context: {
                                             date: (dateSimulacrum.getTime() + 10000000000000000),
-                                            create: true
+                                            create: true,
+                                            currentCreate: true,
+                                            idSimulacrum: parseInt(data.response.id)
                                         },
                                         transition: {
                                             name: "slideLeft",

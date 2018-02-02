@@ -15,8 +15,8 @@
 
   <StackLayout orientation="vertical">
     <GridLayout rows="auto" columns="*,60,60" >
-      <Label text="Voluntarios" row="0" col="0" horizontalAlignment="center" verticalAlignment="center" />
-      <Label text="{{ countVoluntary }}" row="0" col="1" horizontalAlignment="center" verticalAlignment="center" />
+      <Label text="Voluntarios" row="0" visibility="{{ countVoluntaryVisible ? 'visible' : 'collapse' }}" class="text-title" col="0" horizontalAlignment="center" verticalAlignment="center" />
+      <Label text="{{ countVoluntary }}" visibility="{{ countVoluntaryVisible ? 'visible' : 'collapse' }}" class="text-title" row="0" col="1" horizontalAlignment="center" verticalAlignment="center" />
       <ActivityIndicator col="2" row="0" busy="{{ isLoading }}" height="60" width="60"/>
     </GridLayout>
       <!--<TextField id="minutes" text="{{ minutes }}" hint="Minutos" keyboardType="datetime" returnKeyType="done" />-->

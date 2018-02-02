@@ -29,6 +29,7 @@ var pageData = new observableModule.fromObject({
 
 exports.onNavigatingTo = function(args) {
     topmost = frameModule.topmost();
+    console.log("IDIDID---> " + appSettings.getNumber("idUser"));
 
     // OPCIONES DE NAVEGACION
     /*var navigationEntryArt = {
@@ -231,22 +232,38 @@ exports.join = function () {
                                                     loc2.latitude = simulacrumGroup.latitud;
                                                     loc2.longitude = simulacrumGroup.longitud;
                                                     if (geolocation.distance(loc, loc2) < 5) {
-                                                        alert("Si puedo unirme al simulacro");
+                                                        
                                                         var datos = new Array();
-                                                        datos['idVoluntario'] = parseInt(responseSearchFolio.response[0].id);
+                                                        datos['idVoluntario'] = appSettings.getNumber("idUser");
                                                         datos['idSimulacro'] = simulacrumGroup.id;
                                                         datos['tiempo_inicio'] = "";
                                                         datos['tiempo_estoy_listo'] = "";
                                                         datos['mensajeVoluntario'] = "";
                                                         datos['tipoSimulacro'] = "unido"
-                                                         var b = toDate(simulacrumGroup.hora, "h:m");
+                                                        var b = toDate(simulacrumGroup.hora, "h:m");
+                                                        var res = simulacrumGroup.fecha.split("-");
+
+                                                        b.setFullYear(parseInt(res[2]));
+                                                        b.setMonth(parseInt(res[1] - 1));
+                                                        b.setDate(parseInt(res[0]));
                                                         //config.dateSimulacrum = b;
                                                         console.log("HORA --> " + b.getHours() + "Minutos --> " + b.getMinutes());
-                                                        //console.dir(b);
+                                                        console.dir(responseSearchFolio.response[0]);
                                                         
-                                                        simulacrumVoluntaryViewModel.addVoluntarySimulacrum(responseSaveVoluntraySimulacrum).then(function (responseSaveVoluntary) {
-                                                            console.dir(responseSaveVoluntraySimulacrum);
-                                                            definirSimulacroVoluntario(b);    
+                                                        simulacrumVoluntrayList.addVoluntarySimulacrum(datos).then(function (responseSaveVoluntary) {
+                                                            console.dir(responseSaveVoluntary.response);
+                                                            if (responseSaveVoluntary.response.voluntarioSimulacro.status) {
+                                                                loadList();
+                                                                definirSimulacroVoluntario(b);
+                                                                dialogsModule.alert({
+                                                                    message: "Te has unido al simulacro de " + responseSearchFolio.response[0].nombre,
+                                                                    okButtonText: "Aceptar"
+                                                                });
+                                                            } else {
+                                                                viewToast("Lo sentimos no puedes unirte al simulacro.");
+                                                            }
+
+                                                            //definirSimulacroVoluntario(b);
                                                         });
                                                     } else {
                                                         alert("Te encuentras muy lejos para unirte a este simulacro.");
@@ -325,7 +342,7 @@ exports.delete = function (args) {
     var item = args.view.bindingContext;
     var index = sismoGroupList.indexOf(item);
     //console.log("item--->" + item);
-    console.dir(item);
+    //console.dir(item);
     //console.log("index--->" + index);
     sismoGroupList.delete(item.idSimulacro).then(function (data) {
         //console.dir(data);
@@ -386,7 +403,8 @@ exports.listViewItemTap = function (args) {
             context: {
                 date: (dateSimulacrum.getTime() + 10000000000000000),
                 create: true,
-                dataSimulacrum: item
+                dataSimulacrum: item,
+                currentCreate: false
             },
             transition: {
                 name: "slideLeft",
@@ -405,7 +423,12 @@ exports.listViewItemTapJoin = function (args) {
     var item = args.view.bindingContext;
     var index = pageData.simulacrumGroupListJoin.indexOf(item);
     //console.dir(item);
+    var res = item.fecha.split("-");
+
     var dateSimulacrum = toDate(item.hora, "h:m");
+    dateSimulacrum.setFullYear(parseInt(res[2]));
+    dateSimulacrum.setMonth(parseInt(res[1] - 1));
+    dateSimulacrum.setDate(parseInt(res[0]));
     //console.log(dateSimulacrum);
     if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
             var navigationEntryArt = {

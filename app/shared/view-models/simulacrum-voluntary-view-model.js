@@ -6,6 +6,7 @@ var appSettings = require("application-settings");
 function SimulacrumVoluntaryViewModel(items) {
     var viewModel = new ObservableArray(items);
     viewModel.addVoluntarySimulacrum = function (datos) {
+        console.log("Entre a la peticion");
         return fetch(config.apiUrl + "voluntarySimulacrum/addVoluntarySimulacrum", {
             method: "POST",
             body: JSON.stringify({
