@@ -43,7 +43,6 @@ exports.back = function () {
 
 exports.onSaveSimulacrumGroup = function () {
     pageData.set("isLoading", true);
-    //console.log("Entre aqui para guardar");
     geolocation.isEnabled().then(function (isEnabled) {
         if (!isEnabled) {
             geolocation.enableLocationRequest().then(function () {
@@ -52,12 +51,9 @@ exports.onSaveSimulacrumGroup = function () {
                 viewToast("No puedo acceder a tu ubicación.");
             });
         } else {
-            //console.log("aqui 1");
             var location = geolocation.getCurrentLocation({ desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000 }).
                 then(function (loc) {
                     if (loc) {
-                        //console.log("aqui 2");
-                        //console.dir(loc);
                         fetch(config.apiMapsDirection + loc.latitude + "," + loc.longitude + config.apiKeyGoogle, {
                             method: "GET",
                             headers: {
@@ -69,7 +65,6 @@ exports.onSaveSimulacrumGroup = function () {
                         })
                         .then(function (data) {
                             var timeWait = Math.floor(Math.random() * 10) + 1;
-                            //console.log("TIMEPO DE ESPERA -----> " + timeWait);
                             var completeDirection = JSON.stringify(data.results[0].formatted_address);
                             var datos = new Array();
                             datos["ubicacion"] = completeDirection.slice(1, -1);

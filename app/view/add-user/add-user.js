@@ -29,10 +29,8 @@ exports.loaded = function (args) {
 }
 
 exports.onSaveUser = function () {
-    //pageData.set("isLoading", true);
     var userJson = { "name": pageData.name, "email": pageData.email, "phone": pageData.phone };
 
-	// console.log("Verificar -----> " + pageData.name);
 	if (verifyEmpty(pageData.name) && verifyEmpty(pageData.email) && verifyEmpty(pageData.phone)) {
         pageData.set("isLoading", true);
         userView.add(userJson).catch(function () {
@@ -68,8 +66,6 @@ exports.onSaveUser = function () {
 			console.log("Di en aceptar");
 		});
 	}
-	
-
 }
 
 exports.back = function () {

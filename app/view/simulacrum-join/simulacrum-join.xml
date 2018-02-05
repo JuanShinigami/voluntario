@@ -19,7 +19,6 @@
       <Label text="{{ countVoluntary }}" visibility="{{ countVoluntaryVisible ? 'visible' : 'collapse' }}" class="text-title" row="0" col="1" horizontalAlignment="center" verticalAlignment="center" />
       <ActivityIndicator col="2" row="0" busy="{{ isLoading }}" height="60" width="60"/>
     </GridLayout>
-      <!--<TextField id="minutes" text="{{ minutes }}" hint="Minutos" keyboardType="datetime" returnKeyType="done" />-->
     <Label text="{{ cronometro1 }}" horizontalAlignment="center" verticalAlignment="center" class="text-crono"/>
     <Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
     <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />

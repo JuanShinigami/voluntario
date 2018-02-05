@@ -25,22 +25,6 @@ exports.onNavigatingTo = function(args) {
 function loadMessage() {
     pageData.set("isLoading", true);
     var listView = page.getViewById("simulacrumGroupList");
-
-    /*messageViewModel.searchMessages(appSettings.getNumber("idUser")).then(function (responseData) {
-        console.dir(responseData);
-        pageData.set("isLoading", false);
-        listView.animate({
-            opacity: 1,
-            duration: 1000
-        });
-
-    }).catch(function (error) {
-        console.log(error);
-        viewToast("No pude cargar los mensajes");
-        user.set("isLoading", false);
-        return Promise.reject();
-    });*/
-
     pageData.set("isLoading", false);
     listView.animate({
         opacity: 1,
