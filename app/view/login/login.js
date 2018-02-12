@@ -37,13 +37,15 @@ exports.loaded = function (args) {
 };
 
 exports.signIn = function () {
-    
+    console.log("VAMOS AL LOGIN");
 
     user.set("isLoading", true);
     var datos = new Array();
     datos['correo'] = user.email;
     datos['folio'] = user.folio;
+    //navigateTopmost("view/home/home-page", false, true);
     userViewModel.login(datos).then(function (data) {
+
         if (data.response.status) {
             appSettings.setString("folioUser", data.response.datos[0].folio);
             appSettings.setString("emailUser", data.response.datos[0].correo);
@@ -63,8 +65,7 @@ exports.signIn = function () {
         });
         user.set("isLoading", false);
         return Promise.reject();
-    });
-    
+    });    
 };
 
 exports.register = function () {

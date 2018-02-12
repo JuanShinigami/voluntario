@@ -6,12 +6,14 @@ var appSettings = require("application-settings");
 var frameModule = require("ui/frame");
 var geolocation = require("nativescript-geolocation");
 var Toast = require("nativescript-toast");
+var ModalPicker = require("nativescript-modal-datetimepicker").ModalDatetimepicker;
 var SismoGroupViewModel = require("../../shared/view-models/simulacrum-group-view-model");
 
 var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
 var diasSemana = new Array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
 var date = new Date();
 var sismoGroupList = new SismoGroupViewModel([]);
+var picker = new ModalPicker();
 
 var page;
 var topmost;
@@ -20,14 +22,16 @@ var timepickker;
 
 var pageData = new observableModule.fromObject({
     sismoGroupList: sismoGroupList,
-    currentDate: diasSemana[date.getDay()] + ", " + date.getDate() + " de " + meses[date.getMonth()] + " de " + date.getFullYear()
+    currentDate: diasSemana[date.getDay()] + ", " + date.getDate() + " de " + meses[date.getMonth()] + " de " + date.getFullYear(),
+    selectDate: "",
+    selectTime: ""
 });
 
 exports.loaded = function (args) {
     topmost = frameModule.topmost();
     page = args.object;
     page.bindingContext = pageData;
-    loadDefaultValues();
+    //loadDefaultValues();
 }
 
 function loadDefaultValues() {
@@ -51,6 +55,9 @@ exports.onSaveSimulacrumGroup = function () {
                 viewToast("No puedo acceder a tu ubicación.");
             });
         } else {
+
+
+
             var location = geolocation.getCurrentLocation({ desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000 }).
                 then(function (loc) {
                     if (loc) {
@@ -70,8 +77,8 @@ exports.onSaveSimulacrumGroup = function () {
                             datos["ubicacion"] = completeDirection.slice(1, -1);
                             datos["latitud"] = loc.latitude;
                             datos["longitud"] = loc.longitude;
-                            datos["fecha"] = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-                            datos["hora"] = timepickker.hour + ":" + timepickker.minute;
+                            datos["fecha"] = pageData.selectDate;
+                            datos["hora"] = pageData.selectTime;
                             datos["idVoluntarioCreador"] = appSettings.getNumber("idUser");
                             datos["tiempoPreparacion"] = timeWait;
                             datos["tipoSimulacro"] = "creado";
@@ -124,6 +131,8 @@ exports.onSaveSimulacrumGroup = function () {
                     console.log("Error: " + e.message);
                 });
         }
+
+
     }, function (e) {
         viewToast("Vuelve a intenerlo.");
         pageData.set("isLoading", false);
@@ -170,3 +179,33 @@ function toDate(dStr, format) {
     } else
         return "Invalid Format";
 }
+
+exports.selectDate = function () {
+    picker.pickDate({
+        title: "Select Your Birthday",
+        theme: "dark",
+        minDate: new Date()
+    }).then((result) => {
+        console.log("Date is: " + result.day + "-" + result.month + "-" + result.year);
+        pageData.selectDate = result.day + "-" + result.month + "-" + result.year;
+    }).catch((error) => {
+        console.log("Error: " + error);
+    });
+};
+
+exports.selectTime = function () {
+    picker.pickTime({
+        theme: "light",
+        minTime: {
+            hour: new Date().getHours(),
+            minute: new Date().getMinutes()
+        },
+    })
+        .then((result) => {
+            console.log("Time is: " + result.hour + ":" + result.minute);
+            pageData.selectTime = result.hour + ":" + result.minute;
+        })
+        .catch((error) => {
+            console.log("Error: " + error);
+        });
+};
