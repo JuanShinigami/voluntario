@@ -1,0 +1,34 @@
+<Page loaded="loaded" >
+  <Page.actionBar>
+    <ActionBar class="action-bar">
+      <ActionBar.titleView>
+        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="back"/>
+        <StackLayout orientation="horizontal"
+    ios:horizontalAlignment="center"
+    android:horizontalAlignment="center">
+          <Label text="Detalle del simulacro" style="font-size:22;" class="action-label-1" />
+        </StackLayout>
+      </ActionBar.titleView>
+    </ActionBar>
+  </Page.actionBar>
+  <StackLayout orientation="vertical">
+    <GridLayout rows="auto" columns="*" class="name">
+      <Label text="{{ name }}" horizontalAlignment="center" verticalAlignment="center" class="label-name" col="0" row="0" />
+    </GridLayout>
+    <GridLayout rows="auto" columns="*,*" class="date">
+      <Label text="{{ date }}" horizontalAlignment="center" verticalAlignment="center" col="0" row="0" class="label-date"/>
+      <Label text="{{ hour + ' hrs.' }}" horizontalAlignment="center" verticalAlignment="center" col="1" row="0" class="label-date"/>
+    </GridLayout>
+    
+    <GridLayout rows="auto" columns="auto,*" class="body">
+      <Label text="Tiempo en salir a salvo: " horizontalAlignment="center" verticalAlignment="center" col="0" row="0" class="label-body"/>
+      <Label text="{{ output }}" verticalAlignment="center" col="1" row="0" class="label-body"/>
+    </GridLayout>
+    <GridLayout rows="auto" columns="auto,*" class="body">
+      <Label text="Lugar: " horizontalAlignment="center" verticalAlignment="center" col="0" row="0" class="label-body"/>
+      <TextView editable="false" text="{{ ubicacion }}" verticalAlignment="center" col="1" row="0" class="label-body"/>
+    </GridLayout>
+    
+  </StackLayout>
+
+</Page>

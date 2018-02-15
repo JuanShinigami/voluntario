@@ -24,6 +24,14 @@ exports.loaded = function (args) {
     topmost = frameModule.topmost();
     page = args.object;
     page.bindingContext = user;
+
+    var emails = page.getViewById('email');
+    if (emails.android) {
+        //console.log("SOY ANDROID");
+        emails.dismissSoftInput();
+        emails.android.clearFocus();
+    }
+
     if (appSettings.getBoolean("message") === undefined) {
         dialogsModule.alert({
             title: "Informaci\u00F3n",

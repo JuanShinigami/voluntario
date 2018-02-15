@@ -27,8 +27,12 @@
      <StackLayout class="title" tap="selectTime">
        <Label text="&#xf017; Selecciona la hora" class="fa image-icon" horizontalAlignment="center" />
      </StackLayout>
-     <Label text="{{ hourView }}" class="selectLabel" horizontalAlignment="center"  />
-     <Label text="{{ minutesView }}" class="selectLabel" horizontalAlignment="center"  />
+     <GridLayout columns="auto, auto" rows="auto, auto" horizontalAlignment="center">
+       <Label text="{{ hourView }}" class="clokLabel" horizontalAlignment="center" col="0" row="0"  />
+       <Label text="{{ minutesView }}" class="clokLabel" horizontalAlignment="center" col="0" row="1" />
+       <Label text=" Hrs." class="clokLabel" horizontalAlignment="center" col="1" rowSpan="2" verticalAlignment="center" />
+     </GridLayout>
+     
       <!--<TimePicker loaded="onPickerLoaded" id="timePicker" horizontalAlignment="center"/>-->
     </StackLayout>
     <ActivityIndicator busy="{{ isLoading }}" rowSpan="2" colSpan="2"  height="60" width="60"/>

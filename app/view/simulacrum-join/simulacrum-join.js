@@ -34,6 +34,7 @@ var refreshIntervalId;
 var timerExecuteLoad;
 var idSimulacrum;
 var idVoluntarySimulacrum;
+var time;
 
 var pageData = new observableModule.fromObject({
     cronometro1: "00:00:00",
@@ -54,8 +55,15 @@ exports.loaded = function (args) {
     page.bindingContext = pageData;
     var requestData = page.navigationContext;
     console.dir(requestData);
+    idSimulacrum = 0;
     //validate(requestData);
     load(requestData);
+}
+
+exports.onUnloaded = function () {
+    clearTimeout(time);
+    viewToast("Debes de volver antes de que inicie el simulacro.");
+    console.log("Vuelve");
 }
 
 function load(data) {
@@ -77,7 +85,7 @@ function load(data) {
                 pageData.countVoluntaryVisible = false;
         } 
         //console.log("Segundos --> " + (parseInt(ms / 1000)));
-        setTimeout(startSound, ms);
+        time = setTimeout(startSound, ms);
 
 
     } else {
@@ -149,6 +157,19 @@ function startSound() {
     pageData.classButtonSuccess = "button-success";
     pageData.evacuate = true;
     refreshIntervalId = setInterval(playMusic, 500);
+    if (idSimulacrum != 0) {
+        var datos = new Array();
+        datos['idSimulacum'] = idSimulacrum;
+        sismoGroupList.updateStatusSimulacrumGroup(datos).then(function (data) {
+            if (data.response.status) {
+                console.log("LO actualice a completado");
+            }
+        }).catch(function (error) {
+            viewToast("Algo va mal con la conexion al servidor.");
+            return Promise.reject();
+        });
+    }
+    
 }
 
 function empezar() {

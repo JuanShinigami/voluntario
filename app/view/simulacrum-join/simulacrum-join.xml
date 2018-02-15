@@ -1,4 +1,4 @@
-<Page loaded="loaded">
+<Page loaded="loaded" unloaded="onUnloaded">
   <Page.actionBar>
     <ActionBar class="action-bar">
       <ActionBar.titleView>

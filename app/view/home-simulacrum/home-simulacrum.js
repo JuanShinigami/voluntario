@@ -165,16 +165,9 @@ function parar() {
         arrayTest.push({ identify: cont, date: dateIni, time: hourIni, duration: "Tiempo : " + textCro1 });
         pageData.set("alarmList", arrayTest);
         appSettings.setString("simulacrumArray", JSON.stringify(arrayTest));
-
+        
         cont++;
         appSettings.setNumber("count", cont);
-
-
-        config.simulacrumArray.push({ identify: config.count, date: dateIni, time: hourIni, duration: "Tiempo : " + textCro1 });
-        
-        pruebaShini.push({ identify: config.count, date: dateIni, time: hourIni, duration: "Tiempo : " + textCro1 });
-        var stringTest = JSON.stringify(pruebaShini);
-        pageData.set("alarmList", pruebaShini);
         
         pageData.cronometro1 = "00:00:00";
         

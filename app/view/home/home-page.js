@@ -116,6 +116,13 @@ function loadList() {
 
 }
 
+exports.pullToRefreshInitiated = function () {
+    alert("Le di refrescar");
+    setTimeout(function () {
+        page.getViewById("simulacrumGroupList").notifyPullToRefreshFinished();
+    }, 2000);
+}
+
 exports.individual = function () {
     // false, false
     navigateTopmost("view/home-simulacrum/home-simulacrum", false, false);
@@ -166,7 +173,7 @@ exports.onDrawerButtonTap = function (args) {
 }
 
 exports.onSelectedIndexChanged = function (args) {
-    console.log("Estoy en index ---> " + args.newIndex);
+    //console.log("Estoy en index ---> " + args.newIndex);
     switch (args.newIndex) {
         case 0:
             pageData.enabledCreate = true;
@@ -207,11 +214,11 @@ exports.join = function () {
                             okButtonText: "Unirme",
                             cancelButtonText: "Cancelar"
                         }).then(function (r) {
-                            console.log("Dialog result: " + r.result + ", text: " + r.text);
+                            //console.log("Dialog result: " + r.result + ", text: " + r.text);
                             if (r.result) {
                                 if (r.text.length > 0) {
                                     userViewModel.searchFolio(r.text).then(function (responseSearchFolio) {
-                                        console.log("ID DE SIMULACRO --->" + parseInt(responseSearchFolio.response[0].id));
+                                        //console.log("ID DE SIMULACRO --->" + parseInt(responseSearchFolio.response[0].id));
                                         sismoGroupList.load(parseInt(responseSearchFolio.response[0].id)).then(function (responseList) {
                                             responseList.response.forEach(function (simulacrumGroup) {
 
@@ -238,7 +245,7 @@ exports.join = function () {
                                                         
                                                         simulacrumVoluntrayList.addVoluntarySimulacrum(datos).then(function (responseSaveVoluntary) {
                                                             
-                                                            console.dir(responseSaveVoluntary.response);
+                                                            //console.dir(responseSaveVoluntary.response);
                                                             if (responseSaveVoluntary.response.voluntarioSimulacro.status) {
 
                                                                 var myObj = JSON.stringify({
@@ -307,7 +314,7 @@ exports.cancel = function (args) {
             datos['idSimulacro'] = item.idSimulacro;
 
             simulacrumVoluntrayList.deleteVoluntary(datos).then(function (responseData) {
-                console.dir(responseData.response.respuesta.status);
+                //console.dir(responseData.response.respuesta.status);
                 if (responseData.response.respuesta.status) {
                     loadList();
                 } else {
@@ -380,12 +387,11 @@ exports.listViewItemTap = function (args) {
     var myObj = JSON.stringify({
         dateTime: dateSimulacrum.getTime(),
         idVoluntarySimulacrum: parseInt(item.id),
-        //idVoluntary: appSettings.getNumber("idUser"),
         idSimulacrum: parseInt(item.idSimulacro),
         typeVoluntary: 'create'
     });
 
-    console.log("lO QUE FALTA ---> " + (dateSimulacrum.getTime() - new Date().getTime()));
+    //console.log("lO QUE FALTA ---> " + (dateSimulacrum.getTime() - new Date().getTime()));
     if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
         var navigationEntryArt = {
             moduleName: "view/simulacrum-join/simulacrum-join",
@@ -402,7 +408,24 @@ exports.listViewItemTap = function (args) {
         };
         frameModule.topmost().navigate(navigationEntryArt);
     } else {
-        alert("Ya no esta disponible el simulacro");
+        if (item.tiempo_inicio != ""){
+            var navigationEntryArt = {
+                moduleName: "view/view-detail-simulacrum/view-detail-simulacrum",
+                backstackVisible: false,
+                animated: true,
+                context: {
+                    item: item,
+                },
+                transition: {
+                    name: "slideLeft",
+                    duration: 380,
+                    curve: "easeIn"
+                }
+            };
+            frameModule.topmost().navigate(navigationEntryArt);
+        } else {
+            alert("Simulacro no disponible");
+        }
     }
 
     /*if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
@@ -432,7 +455,7 @@ exports.listViewItemTap = function (args) {
 exports.listViewItemTapJoin = function (args) {
     var item = args.view.bindingContext;
     var index = pageData.simulacrumGroupList.indexOf(item);
-    console.dir(item);
+    //console.dir(item);
     var res = item.fecha.split("-");
     var dateSimulacrum = toDate(item.hora, "h:m");
     dateSimulacrum.setFullYear(parseInt(res[2]));

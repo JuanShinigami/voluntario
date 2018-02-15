@@ -19,7 +19,7 @@ exports.onNavigatingTo = function(args) {
 
     page = args.object;
     page.bindingContext = pageData;
-    loadMessage();
+    //loadMessage();
 }
 
 function loadMessage() {

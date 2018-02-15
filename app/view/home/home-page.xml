@@ -1,4 +1,4 @@
-<Page class="page" xmlns:nsDrawer="nativescript-pro-ui/sidedrawer"  xmlns:lv="nativescript-pro-ui/listview"
+<Page class="page" xmlns:nsDrawer="nativescript-pro-ui/sidedrawer" xmlns:lv="nativescript-pro-ui/listview"
     xmlns:myDrawer="./shared/my-drawer" navigatingTo="onNavigatingTo" xmlns="http://www.nativescript.org/tns.xsd">
 
   <ActionBar class="action-bar">
@@ -28,9 +28,15 @@
           <TabViewItem  title="Creados">
             <TabViewItem.view>
               <GridLayout>
-                <ListView items="{{ simulacrumGroupList }}" id="simulacrumGroupList" itemTap="listViewItemTap" itemTapLong="log">
+                <ListView items="{{ simulacrumGroupList }}" id="simulacrumGroupList" itemTap="listViewItemTap" pullToRefresh="true" pullToRefreshInitiated="pullToRefreshInitiated">
                   <ListView.itemTemplate>
-                    <GridLayout rows="auto,auto,auto" columns="100,*,*,40" >
+                    <GridLayout rows="auto,auto" columns="200,*,40">
+                      <Label text="{{ fecha }}" row="0" col="0" class="label-date" horizontalAlignment="center" verticalAlignment="center" />
+                      <Label text="{{ hora + ' hrs.' }}" row="1" col="0" class="label-hour" horizontalAlignment="center" verticalAlignment="center" />
+                      <Label text="{{ estatus }}" rowSpan="2" col="1" class="label-status" horizontalAlignment="center" verticalAlignment="center" />
+                      <Label text="&#xf014;" class="fa image-icon" rowSpan="2" col="2" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
+                    </GridLayout>
+                    <!--<GridLayout rows="auto,auto,auto" columns="100,*,*,40" >
                       <Label text="{{fecha}}" rowSpan="2" col="0" class="text-list-title" horizontalAlignment="center" verticalAlignment="center" />
                       <Label text="Voluntarios" row="0" col="1" class="text-list-title" horizontalAlignment="center" />
                       <Label text="Estado" row="0" col="2" class="text-list-title" horizontalAlignment="center" />
@@ -38,7 +44,7 @@
                       <Label text="{{ estatus }}" row="1" col="2" class="text-list-title" horizontalAlignment="center" />
                       <Label text="&#xf014;" class="fa image-icon" rowSpan="3" col="3" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
                       <Label text="{{ ubicacion }}" row="2" colSpan="4" />
-                    </GridLayout>
+                    </GridLayout>-->
                   </ListView.itemTemplate>
                 </ListView>
                 <Label text="&#xf02a; No hay simulacros" class="fa" horizontalAlignment="center" verticalAlignment="center" visibility="{{ listCreate ? 'visible' : 'collapsed' }}" />

@@ -204,8 +204,8 @@ exports.onSaveSimulacrumGroup = function () {
             alert("La hora debe ser mayor a " + dateCurrentValidate.getHours() + ":" + dateCurrentValidate.getMinutes() + " Hrs.");
         }
 
-        console.log("FECHA ACTUAL--->" + dateCurrentValidate.getTime());
-        console.log("FECHA INPUT --->" + dateInput.getTime());
+        //console.log("FECHA ACTUAL--->" + dateCurrentValidate.getTime());
+        //console.log("FECHA INPUT --->" + dateInput.getTime());
 
     } else if (flagTime && !flagDate) {
         alert("¡Debes Selecionar una fecha!. ");
@@ -354,9 +354,9 @@ exports.selectDate = function () {
         theme: "dark",
         minDate: new Date()
     }).then((result) => {
-        console.log("Date is: " + result.day + "-" + result.month + "-" + result.year);
+        //console.log("Date is: " + result.day + "-" + result.month + "-" + result.year);
         var dateS = new Date(result.year, (result.month - 1), result.day, 0, 0, 0, 0);
-        console.log(dateS);
+        //console.log(dateS);
         pageData.dateFormating = diasSemana[dateS.getDay()] + ", " + dateS.getDate() + " de " + meses[dateS.getMonth()] + " de " + dateS.getFullYear();
         pageData.selectDate = result.day + "-" + result.month + "-" + result.year;
         flagDate = true;
@@ -374,7 +374,7 @@ exports.selectTime = function () {
         },
     })
         .then((result) => {
-            console.log("Time is: " + result.hour + ":" + result.minute);
+            //console.log("Time is: " + result.hour + ":" + result.minute);
             pageData.hourView = result.hour;
             pageData.minutesView = result.minute;
             pageData.selectTime = result.hour + ":" + result.minute;

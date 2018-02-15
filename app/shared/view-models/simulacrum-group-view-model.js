@@ -101,6 +101,27 @@ function SismoGroupViewModel(items) {
 
     };
 
+    viewModel.updateStatusSimulacrumGroup = function (datos) {
+        return fetch(config.apiUrl + "simulacrumGroup/updateSimulacrumGroup", {
+            method: "POST",
+            body: JSON.stringify({
+                token: "token",
+                id: datos['idSimulacum'],
+                estatus: 'Completada',
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(handleErrors)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            return data;
+        });
+    };
+
     viewModel.empty = function() {
         while (viewModel.length) {
            viewModel.pop();
