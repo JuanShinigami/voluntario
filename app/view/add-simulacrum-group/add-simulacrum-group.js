@@ -45,6 +45,9 @@ function loadDefaultValues() {
     pageData.selectTime = "No seleccionado";
     flagDate = false;
     flagTime = false;
+    pageData.dateFormating = "";
+    pageData.hourView = "";
+    pageData.minutesView = "";
 }
 
 exports.back = function () {

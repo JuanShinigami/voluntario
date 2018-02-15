@@ -238,12 +238,12 @@ exports.join = function () {
                                                         
                                                         simulacrumVoluntrayList.addVoluntarySimulacrum(datos).then(function (responseSaveVoluntary) {
                                                             
-                                                            //console.dir(responseSaveVoluntary.response);
-                                                            if (responseSaveVoluntary.response.status) {
+                                                            console.dir(responseSaveVoluntary.response);
+                                                            if (responseSaveVoluntary.response.voluntarioSimulacro.status) {
 
                                                                 var myObj = JSON.stringify({
                                                                     dateTime: b.getTime(),
-                                                                    idVoluntarySimulacrum: parseInt(responseSaveVoluntary.response.idVoluntarioSimulacro),
+                                                                    idVoluntarySimulacrum: parseInt(responseSaveVoluntary.response.voluntarioSimulacro.idVoluntarioSimulacro),
                                                                     //idVoluntary: appSettings.getNumber("idUser"),
                                                                     idSimulacrum: simulacrumGroup.id,
                                                                     typeVoluntary: 'join'
@@ -386,7 +386,7 @@ exports.listViewItemTap = function (args) {
     });
 
     console.log("lO QUE FALTA ---> " + (dateSimulacrum.getTime() - new Date().getTime()));
-    if ((dateSimulacrum.getTime() - new Date().getTime()) > 30000) {
+    if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
         var navigationEntryArt = {
             moduleName: "view/simulacrum-join/simulacrum-join",
             backstackVisible: false,
@@ -448,7 +448,7 @@ exports.listViewItemTapJoin = function (args) {
     });
 
     //console.log("lO QUE FALTA ---> " + (dateSimulacrum.getTime() - new Date().getTime()));
-    if ((dateSimulacrum.getTime() - new Date().getTime()) > 30000) {
+    if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
         var navigationEntryArt = {
             moduleName: "view/simulacrum-join/simulacrum-join",
             backstackVisible: false,
