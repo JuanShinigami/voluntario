@@ -72,6 +72,28 @@ function SimulacrumVoluntaryViewModel(items) {
             });
     };
 
+    viewModel.updateVoluntarySimulacrum = function (datos) {
+        return fetch(config.apiUrl + "voluntarySimulacrum/updateVoluntarySimulacrum", {
+            method: "POST",
+            body: JSON.stringify({
+                idVoluntarioSimulacro: datos["idVoluntarioSimulacro"],
+                tiempo_estoy_listo: datos["tiempoEstoyListo"],
+                tiempo_inicio: datos["tiempoInicio"],
+                token: "token"
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(handleErrors)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                return data;
+            });
+    }
+
     return viewModel;
 
 }

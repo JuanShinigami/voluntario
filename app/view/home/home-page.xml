@@ -41,6 +41,7 @@
                     </GridLayout>
                   </ListView.itemTemplate>
                 </ListView>
+                <Label text="&#xf02a; No hay simulacros" class="fa" horizontalAlignment="center" verticalAlignment="center" visibility="{{ listCreate ? 'visible' : 'collapsed' }}" />
                 <ActivityIndicator busy="{{ isLoading }}" height="60" width="60"/>
               </GridLayout>
             </TabViewItem.view>
@@ -61,6 +62,7 @@
                     </GridLayout>
                   </ListView.itemTemplate>
                 </ListView>
+                <Label text="&#xf02a; No hay simulacros" class="fa" horizontalAlignment="center" verticalAlignment="center" visibility="{{ listJoin ? 'visible' : 'collapsed' }}" />
                 <ActivityIndicator busy="{{ isLoading }}" height="60" width="60"/>
               </GridLayout>
             </TabViewItem.view>

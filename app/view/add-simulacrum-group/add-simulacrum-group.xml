@@ -18,15 +18,17 @@
   <GridLayout columns="*" rows="auto, auto">
     
    <StackLayout col="0" row="0">
+     <Label />
      <StackLayout class="title" tap="selectDate">
        <Label text="&#xf073; Selecciona la fecha" class="fa image-icon" horizontalAlignment="center" />
      </StackLayout>
      
-     <Label text="{{ selectDate }}" class="selectLabel" horizontalAlignment="center"  />
+     <Label text="{{ dateFormating }}" class="selectLabel" horizontalAlignment="center"  />
      <StackLayout class="title" tap="selectTime">
        <Label text="&#xf017; Selecciona la hora" class="fa image-icon" horizontalAlignment="center" />
      </StackLayout>
-     <Label text="{{ selectTime }}" class="selectLabel" horizontalAlignment="center"  />
+     <Label text="{{ hourView }}" class="selectLabel" horizontalAlignment="center"  />
+     <Label text="{{ minutesView }}" class="selectLabel" horizontalAlignment="center"  />
       <!--<TimePicker loaded="onPickerLoaded" id="timePicker" horizontalAlignment="center"/>-->
     </StackLayout>
     <ActivityIndicator busy="{{ isLoading }}" rowSpan="2" colSpan="2"  height="60" width="60"/>

@@ -7,7 +7,9 @@ var frameModule = require("ui/frame");
 var sound = require("nativescript-sound");
 var Toast = require("nativescript-toast");
 var SismoGroupViewModel = require("../../shared/view-models/simulacrum-group-view-model");
+var SimulacrumVoluntaryViewModel = require("../../shared/view-models/simulacrum-voluntary-view-model");
 var sismoGroupList = new SismoGroupViewModel([]);
+var simulacrumVoluntrayList = new SimulacrumVoluntaryViewModel([]);
 
 
 var page;
@@ -31,6 +33,7 @@ var seconds;
 var refreshIntervalId;
 var timerExecuteLoad;
 var idSimulacrum;
+var idVoluntarySimulacrum;
 
 var pageData = new observableModule.fromObject({
     cronometro1: "00:00:00",
@@ -39,7 +42,7 @@ var pageData = new observableModule.fromObject({
     end: false,
     classButtonSuccess: "button-success-disabled",
     classButtonInfo: "button-info-disabled",
-    countVoluntary: 0,
+    countVoluntary: 1,
     isLoading: true,
     countVoluntaryVisible: false
 });
@@ -50,8 +53,40 @@ exports.loaded = function (args) {
     page = args.object;
     page.bindingContext = pageData;
     var requestData = page.navigationContext;
-    validate(requestData);
+    console.dir(requestData);
+    //validate(requestData);
+    load(requestData);
+}
+
+function load(data) {
+    //console
+    var ms = data.data.dateTime - new Date().getTime();
+    idVoluntarySimulacrum = data.data.idVoluntarySimulacrum;
+    if (ms > 0) {
+        console.log("Milisegundos --> " + ms);
+        switch (data.data.typeVoluntary) {
+            case 'create':
+                pageData.countVoluntaryVisible = true;
+                idSimulacrum = data.data.idSimulacrum;
+                timerExecuteLoad = setInterval(searchCountVoluntary, 1000);
+                break;
+            case 'join':
+                pageData.countVoluntaryVisible = false;
+                break;
+            default:
+                pageData.countVoluntaryVisible = false;
+        } 
+        //console.log("Segundos --> " + (parseInt(ms / 1000)));
+        setTimeout(startSound, ms);
+
+
+    } else {
+        navigateTopmost("view/home/home-page", false, true);
+        viewToast("Lamentablemente te perdiste del simulacro.");
+    }
+
     
+
 }
 
 function validate(dateTime) {
@@ -109,10 +144,11 @@ function tiempo() {
 }
 
 function startSound() {
+    clearInterval(timerExecuteLoad);
     pageData.set("isLoading", false);
-    refreshIntervalId = setInterval(playMusic, 500);
     pageData.classButtonSuccess = "button-success";
     pageData.evacuate = true;
+    refreshIntervalId = setInterval(playMusic, 500);
 }
 
 function empezar() {
@@ -154,14 +190,24 @@ exports.evacuate = function () {
 }
 
 exports.stop = function () {
-    alarm.stop();
     clearInterval(refreshIntervalId);
+    alarm.stop();
     pageData.end = false;
+    var datos = new Array();
+    datos['idVoluntarioSimulacro'] = idVoluntarySimulacrum;
+    datos['tiempoEstoyListo'] = pageData.get("cronometro1");
+    datos['tiempoInicio'] = pageData.get("cronometro1");
+
     viewToast("TIEMPO EN SALIR----> " + pageData.get("cronometro1"));
     pageData.cronometro1 = "00:00:00";
     clearInterval(elcrono1);
     clearInterval(timerExecuteLoad);
     pageData.classButtonInfo = "button-info-disabled";
+
+    simulacrumVoluntrayList.updateVoluntarySimulacrum(datos).then(function (data) {
+        navigateTopmost("view/home/home-page", false, true);
+    });
+
 }
 
 function navigateTopmost(nameModule, backstack, clearHistory) {

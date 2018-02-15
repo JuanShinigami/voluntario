@@ -23,33 +23,35 @@ var userViewModel = new UserViewModel([]);
 var pageData = new observableModule.fromObject({
     enabledCreate: null,
     simulacrumGroupList: simulacrumVoluntrayList,
-    simulacrumGroupListJoin: simulacrumVoluntrayList
+    simulacrumGroupListJoin: simulacrumVoluntrayList,
+    listCreate: false,
+    listJoin: false
 });
 
 
 exports.onNavigatingTo = function(args) {
     topmost = frameModule.topmost();
 
-    localNotifications.addOnMessageReceivedCallback(
-        function (notification) {
-            var navigationEntryArt = {
-                moduleName: "view/simulacrum-join/simulacrum-join",
-                backstackVisible: false,
-                animated: true,
-                context: {
-                    date: notification.id
-                },
-                transition: {
-                    name: "slideLeft",
-                    duration: 380,
-                    curve: "easeIn"
-                }
-            };
-            frameModule.topmost().navigate(navigationEntryArt);
-            console.log("ID: " + notification.id);
+    localNotifications.addOnMessageReceivedCallback(function (notification) {
+        
+        var navigationEntryArt = {
+            moduleName: "view/simulacrum-join/simulacrum-join",
+            backstackVisible: false,
+            animated: true,
+            context: {
+                data: JSON.parse(notification.id)
+            },
+            transition: {
+                name: "slideLeft",
+                duration: 380,
+                curve: "easeIn"
+            }
+        };
+        frameModule.topmost().navigate(navigationEntryArt);
+            /*console.log("ID: " + notification.id);
             console.log("Title: " + notification.title);
             console.log("Body: " + notification.body);
-            console.log("Time : " + notification.groupedMessages);
+            console.dir(JSON.parse(notification.id));*/
             
         }
     ).then(function () {
@@ -77,11 +79,24 @@ function loadList() {
         } else {
         }
     }, function (e) {
-        viewToast("No puedo acceder a tu ubicación.");
+        //viewToast("No puedo acceder a tu ubicación.");
         console.log("Error: " + (e.message || e));
     });
     var listView = page.getViewById("simulacrumGroupList");
     simulacrumVoluntrayList.loadSimulacrum(appSettings.getNumber("idUser")).then(function (data) {
+        //console.log(data.response.listSimulacrumCreate.length);
+        //console.log(data.response.listSimulacrumJoin.length);
+        if (data.response.listSimulacrumCreate.length <= 0) {
+            pageData.listCreate = true;
+        } else {
+            pageData.listCreate = false;
+        }
+
+        if (data.response.listSimulacrumJoin.length <= 0) {
+            pageData.listJoin = true;
+        } else {
+            pageData.listJoin = false;
+        }
         pageData.simulacrumGroupList = data.response.listSimulacrumCreate;
         pageData.simulacrumGroupListJoin = data.response.listSimulacrumJoin;
         pageData.set("isLoading", false);
@@ -172,7 +187,7 @@ exports.onCreateSimulacrumGroup = function () {
 }
 
 exports.join = function () {
-
+    //definirSimulacroVoluntario(new Date());
     geolocation.isEnabled().then(function (isEnabled) {
         if (!isEnabled) {
             geolocation.enableLocationRequest().then(function () {
@@ -199,8 +214,16 @@ exports.join = function () {
                                         console.log("ID DE SIMULACRO --->" + parseInt(responseSearchFolio.response[0].id));
                                         sismoGroupList.load(parseInt(responseSearchFolio.response[0].id)).then(function (responseList) {
                                             responseList.response.forEach(function (simulacrumGroup) {
+
+                                                var b = toDate(simulacrumGroup.hora, "h:m");
+                                                var res = simulacrumGroup.fecha.split("-");
+
+                                                b.setFullYear(parseInt(res[2]));
+                                                b.setMonth(parseInt(res[1] - 1));
+                                                b.setDate(parseInt(res[0]));
+                                                
                                                 var currentDate = new Date();
-                                                if (simulacrumGroup.fecha === currentDate.getDate() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getFullYear() && simulacrumGroup.estatus === "Creada") {
+                                                if (currentDate <= b && simulacrumGroup.estatus === "Creada") {
                                                     loc2.latitude = simulacrumGroup.latitud;
                                                     loc2.longitude = simulacrumGroup.longitud;
                                                     if (geolocation.distance(loc, loc2) < 5) {
@@ -212,24 +235,27 @@ exports.join = function () {
                                                         datos['tiempo_estoy_listo'] = "";
                                                         datos['mensajeVoluntario'] = "";
                                                         datos['tipoSimulacro'] = "unido"
-                                                        var b = toDate(simulacrumGroup.hora, "h:m");
-                                                        var res = simulacrumGroup.fecha.split("-");
-
-                                                        b.setFullYear(parseInt(res[2]));
-                                                        b.setMonth(parseInt(res[1] - 1));
-                                                        b.setDate(parseInt(res[0]));
-                                                        console.log("HORA --> " + b.getHours() + "Minutos --> " + b.getMinutes());
-                                                        console.dir(responseSearchFolio.response[0]);
                                                         
                                                         simulacrumVoluntrayList.addVoluntarySimulacrum(datos).then(function (responseSaveVoluntary) {
-                                                            console.dir(responseSaveVoluntary.response);
-                                                            if (responseSaveVoluntary.response.voluntarioSimulacro.status) {
-                                                                loadList();
-                                                                definirSimulacroVoluntario(b);
+                                                            
+                                                            //console.dir(responseSaveVoluntary.response);
+                                                            if (responseSaveVoluntary.response.status) {
+
+                                                                var myObj = JSON.stringify({
+                                                                    dateTime: b.getTime(),
+                                                                    idVoluntarySimulacrum: parseInt(responseSaveVoluntary.response.idVoluntarioSimulacro),
+                                                                    //idVoluntary: appSettings.getNumber("idUser"),
+                                                                    idSimulacrum: simulacrumGroup.id,
+                                                                    typeVoluntary: 'join'
+                                                                });
+                                                                definirSimulacroVoluntario(JSON.parse(myObj));
+                                                                
                                                                 dialogsModule.alert({
                                                                     message: "Te has unido al simulacro de " + responseSearchFolio.response[0].nombre,
                                                                     okButtonText: "Aceptar"
                                                                 });
+                                                                
+                                                                loadList();
                                                             } else {
                                                                 viewToast("Lo sentimos no puedes unirte al simulacro.");
                                                             }
@@ -318,17 +344,20 @@ function toDate(dStr, format) {
         return "Invalid Format";
 }
 
-function definirSimulacroVoluntario(b) {
+function definirSimulacroVoluntario(obj) {
+
+    //console.dir(obj);
 
     localNotifications.schedule([{
-        id: 10000000000000000 + b.getTime(),
+        id: JSON.stringify(obj),
+        //id: 10000000000000000 + b.getTime(),
         title: "\u00BFEst\u00e1s listo para el simulacro?",
         body: "Iniciar\u00e1 dentro de 1 minuto.",
         ticker: "Aviso de sumulacro.",
         sound: require("application").ios ? "customsound-ios.wav" : "customsound-android",
         ongoing: true,
         badge: 1,
-        at: new Date(b.getTime() - (60 * 1000))
+        at: new Date(obj.dateTime - (60 * 1000))
     }]).then(function () {
         
     }),
@@ -341,12 +370,42 @@ function definirSimulacroVoluntario(b) {
 exports.listViewItemTap = function (args) {
     var item = args.view.bindingContext;
     var index = pageData.simulacrumGroupList.indexOf(item);
+    console.dir(item);
     var res = item.fecha.split("-");
     var dateSimulacrum = toDate(item.hora, "h:m");
     dateSimulacrum.setFullYear(parseInt(res[2]));
     dateSimulacrum.setMonth(parseInt(res[1] - 1));
     dateSimulacrum.setDate(parseInt(res[0]));
-    if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
+
+    var myObj = JSON.stringify({
+        dateTime: dateSimulacrum.getTime(),
+        idVoluntarySimulacrum: parseInt(item.id),
+        //idVoluntary: appSettings.getNumber("idUser"),
+        idSimulacrum: parseInt(item.idSimulacro),
+        typeVoluntary: 'create'
+    });
+
+    console.log("lO QUE FALTA ---> " + (dateSimulacrum.getTime() - new Date().getTime()));
+    if ((dateSimulacrum.getTime() - new Date().getTime()) > 30000) {
+        var navigationEntryArt = {
+            moduleName: "view/simulacrum-join/simulacrum-join",
+            backstackVisible: false,
+            animated: true,
+            context: {
+                data: JSON.parse(myObj)
+            },
+            transition: {
+                name: "slideLeft",
+                duration: 380,
+                curve: "easeIn"
+            }
+        };
+        frameModule.topmost().navigate(navigationEntryArt);
+    } else {
+        alert("Ya no esta disponible el simulacro");
+    }
+
+    /*if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
         var navigationEntryArt = {
             moduleName: "view/simulacrum-join/simulacrum-join",
             backstackVisible: false,
@@ -366,34 +425,43 @@ exports.listViewItemTap = function (args) {
         frameModule.topmost().navigate(navigationEntryArt);
     } else {
         alert("Ya no esta disponible el simulacro");
-    }
+    }*/
 
 }
 
 exports.listViewItemTapJoin = function (args) {
     var item = args.view.bindingContext;
-    var index = pageData.simulacrumGroupListJoin.indexOf(item);
+    var index = pageData.simulacrumGroupList.indexOf(item);
+    console.dir(item);
     var res = item.fecha.split("-");
-
     var dateSimulacrum = toDate(item.hora, "h:m");
     dateSimulacrum.setFullYear(parseInt(res[2]));
     dateSimulacrum.setMonth(parseInt(res[1] - 1));
     dateSimulacrum.setDate(parseInt(res[0]));
-    if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
-            var navigationEntryArt = {
-                moduleName: "view/simulacrum-join/simulacrum-join",
-                backstackVisible: false,
-                animated: true,
-                context: {
-                    date: (dateSimulacrum.getTime() + 10000000000000000),
-                    create: false
-                },
-                transition: {
-                    name: "slideLeft",
-                    duration: 380,
-                    curve: "easeIn"
-                }
-            };
+
+    var myObj = JSON.stringify({
+        dateTime: dateSimulacrum.getTime(),
+        idVoluntarySimulacrum: parseInt(item.id),
+        //idVoluntary: appSettings.getNumber("idUser"),
+        idSimulacrum: parseInt(item.idSimulacro),
+        typeVoluntary: 'join'
+    });
+
+    //console.log("lO QUE FALTA ---> " + (dateSimulacrum.getTime() - new Date().getTime()));
+    if ((dateSimulacrum.getTime() - new Date().getTime()) > 30000) {
+        var navigationEntryArt = {
+            moduleName: "view/simulacrum-join/simulacrum-join",
+            backstackVisible: false,
+            animated: true,
+            context: {
+                data: JSON.parse(myObj)
+            },
+            transition: {
+                name: "slideLeft",
+                duration: 380,
+                curve: "easeIn"
+            }
+        };
         frameModule.topmost().navigate(navigationEntryArt);
     } else {
         alert("Ya no esta disponible el simulacro");
