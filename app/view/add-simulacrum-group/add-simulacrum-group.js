@@ -11,7 +11,7 @@ var SismoGroupViewModel = require("../../shared/view-models/simulacrum-group-vie
 var localNotifications = require("nativescript-local-notifications");
 
 var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-var diasSemana = new Array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+var diasSemana = new Array("Domingo", "Lunes", "Martes", "Mi\351rcoles", "Jueves", "Viernes", "S\341bado");
 var date = new Date();
 var sismoGroupList = new SismoGroupViewModel([]);
 var picker = new ModalPicker();
@@ -48,6 +48,7 @@ function loadDefaultValues() {
     pageData.dateFormating = "";
     pageData.hourView = "";
     pageData.minutesView = "";
+    pageData.set("isLoading", false);
 }
 
 exports.back = function () {

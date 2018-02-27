@@ -12,6 +12,7 @@ var toast;
 var topmost;
 var navigationOptions;
 var page;
+var mapView = null;
 
 var pageData = new observableModule.fromObject({
     name: "",

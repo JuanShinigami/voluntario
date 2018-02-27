@@ -15,8 +15,8 @@ var navigationOptions;
 var page;
 
 var user = new observableModule.fromObject({
-    email: "vane@gmail.com",
-    folio: "VV100"
+    email: "",
+    folio: ""
 });
 
 
@@ -51,29 +51,36 @@ exports.signIn = function () {
     var datos = new Array();
     datos['correo'] = user.email;
     datos['folio'] = user.folio;
-    //navigateTopmost("view/home/home-page", false, true);
-    userViewModel.login(datos).then(function (data) {
-
-        if (data.response.status) {
-            appSettings.setString("folioUser", data.response.datos[0].folio);
-            appSettings.setString("emailUser", data.response.datos[0].correo);
-            appSettings.setString("phoneUser", data.response.datos[0].telefono);
-            appSettings.setString("nameUser", data.response.datos[0].nombre);
-            appSettings.setNumber("idUser", parseInt(data.response.datos[0].id));
-            appSettings.setBoolean("login", true);
-            user.set("isLoading", false);
-            navigateTopmost("view/home/home-page", false, true);
-        } else {
-            alert("\241Comprueba tus datos de acceso!");
-        }
-    }).catch(function (error) {
-        dialogsModule.alert({
-            message: "No pude procesar la petición.",
-            okButtonText: "OK"
-        });
+    if (user.email == "" || user.folio == "") {
+        alert("El correo electr\363nico y el folio son requeridos.");
         user.set("isLoading", false);
-        return Promise.reject();
-    });    
+    } else {
+        userViewModel.login(datos).then(function (data) {
+
+            if (data.response.status) {
+                appSettings.setString("folioUser", data.response.datos[0].folio);
+                appSettings.setString("emailUser", data.response.datos[0].correo);
+                appSettings.setString("phoneUser", data.response.datos[0].telefono);
+                appSettings.setString("nameUser", data.response.datos[0].nombre);
+                appSettings.setNumber("idUser", parseInt(data.response.datos[0].id));
+                appSettings.setBoolean("login", true);
+                user.set("isLoading", false);
+                navigateTopmost("view/home/home-page", false, true);
+            } else {
+                user.set("isLoading", false);
+                alert("\241Comprueba tus datos de acceso!");
+            }
+        }).catch(function (error) {
+            dialogsModule.alert({
+                message: "No pude procesar la petici\363n.",
+                okButtonText: "OK"
+            });
+            user.set("isLoading", false);
+            return Promise.reject();
+        });
+    }
+    //navigateTopmost("view/home/home-page", false, true);
+        
 };
 
 exports.register = function () {
@@ -100,4 +107,21 @@ function navigateTopmost(nameModule, backstack, clearHistory) {
 function viewToast(message) {
     toast = Toast.makeText(message, "long");
     toast.show();
+}
+
+exports.add = function () {
+    console.log(config.apiUrl);
+    dialogsModule.prompt({
+        title: "Aviso",
+        message: "Agrega la ruta del server",
+        okButtonText: "Agregar",
+        cancelButtonText: "Cancelar",
+        defaultText: config.apiUrl
+    }).then(function (r) {
+        if (r.result) {
+            config.apiUrl = r.text;
+            viewToast("Se agreg\363 correctamente.");
+        }
+        //console.log("Dialog result: " + r.result + ", text: " + r.text);
+    });
 }

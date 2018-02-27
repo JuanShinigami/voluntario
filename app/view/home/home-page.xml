@@ -30,11 +30,17 @@
               <GridLayout>
                 <ListView items="{{ simulacrumGroupList }}" id="simulacrumGroupList" itemTap="listViewItemTap" pullToRefresh="true" pullToRefreshInitiated="pullToRefreshInitiated">
                   <ListView.itemTemplate>
-                    <GridLayout rows="auto,auto" columns="200,*,40">
-                      <Label text="{{ fecha }}" row="0" col="0" class="label-date" horizontalAlignment="center" verticalAlignment="center" />
-                      <Label text="{{ hora + ' hrs.' }}" row="1" col="0" class="label-hour" horizontalAlignment="center" verticalAlignment="center" />
-                      <Label text="{{ estatus }}" rowSpan="2" col="1" class="label-status" horizontalAlignment="center" verticalAlignment="center" />
-                      <Label text="&#xf014;" class="fa image-icon" rowSpan="2" col="2" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
+                    <GridLayout rows="auto,auto" columns="60,20,130,10,*,40">
+                      <ActivityIndicator busy="true" height="30" width="30" rowSpan="2" col="0" visibility="{{ status ? 'visible' : 'collapsed' }}"/>
+                      <Label text="&#xf00c;" rowSpan="2" col="0" class="fa icon-list" horizontalAlignment="center" verticalAlignment="center" visibility="{{ status ? 'collapsed' : 'visible' }}" />
+                      <Label text="&#xf073;" class="fa" row="0" col="1" verticalAlignment="center" horizontalAlignment="center" />
+                      <Label text="&#xf017;" class="fa" row="1" col="1" verticalAlignment="center" horizontalAlignment="center" />
+                      <Label text="{{ fecha }}" row="0" col="2" class="label-date" horizontalAlignment="left" verticalAlignment="center" />
+                      <Label text="{{ hora + ' hrs.' }}" row="1" col="2" class="label-hour" horizontalAlignment="left" verticalAlignment="center" />
+                      <Label text="&#xf041;" class="fa" rowSpan="2" col="3" verticalAlignment="center" horizontalAlignment="center" />
+                      <Label text="{{ ubicacion }}" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
+                      <!--<Label text="{{ estatus }}" rowSpan="2" col="2" class="label-status" horizontalAlignment="center" verticalAlignment="center" />-->
+                      <Label text="&#xf014;" color="#e84c3d" class="fa image-icon" rowSpan="2" col="5" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
                     </GridLayout>
                     <!--<GridLayout rows="auto,auto,auto" columns="100,*,*,40" >
                       <Label text="{{fecha}}" rowSpan="2" col="0" class="text-list-title" horizontalAlignment="center" verticalAlignment="center" />
@@ -57,7 +63,19 @@
               <GridLayout>
                 <ListView items="{{ simulacrumGroupListJoin }}" id="simulacrumGroupListJoin" itemTap="listViewItemTapJoin">
                   <ListView.itemTemplate>
-                    <GridLayout rows="auto,auto,auto" columns="100,*,*,40" >
+                    <GridLayout rows="auto,auto" columns="60,20,130,10,*,40">
+                      <ActivityIndicator busy="true" height="30" width="30" rowSpan="2" col="0" visibility="{{ status ? 'visible' : 'collapsed' }}"/>
+                      <Label text="&#xf00c;" rowSpan="2" col="0" class="fa icon-list" horizontalAlignment="center" verticalAlignment="center" visibility="{{ status ? 'collapsed' : 'visible' }}" />
+                      <Label text="&#xf073;" class="fa" row="0" col="1" verticalAlignment="center" horizontalAlignment="center" />
+                      <Label text="&#xf017;" class="fa" row="1" col="1" verticalAlignment="center" horizontalAlignment="center" />
+                      <Label text="{{ fecha }}" row="0" col="2" class="label-date" horizontalAlignment="left" verticalAlignment="center" />
+                      <Label text="{{ hora + ' hrs.' }}" row="1" col="2" class="label-hour" horizontalAlignment="left" verticalAlignment="center" />
+                      <Label text="&#xf041;" class="fa" rowSpan="2" col="3" verticalAlignment="center" horizontalAlignment="center" />
+                      <Label text="{{ ubicacion }}" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
+                      <!--<Label text="{{ estatus }}" rowSpan="2" col="2" class="label-status" horizontalAlignment="center" verticalAlignment="center" />-->
+                      <Label text="&#xf00d;" color="#e84c3d" class="fa image-icon" rowSpan="2" col="5" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
+                    </GridLayout>
+                    <!--<GridLayout rows="auto,auto,auto" columns="100,*,*,40" >
                       <Label text="{{fecha}}" rowSpan="2" col="0" class="text-list-title" horizontalAlignment="center" verticalAlignment="center" />
                       <Label text="Duración" row="0" col="2" class="text-list-title" horizontalAlignment="center" />
                       <Label text="Hora del simulacro" row="0" col="1" class="text-list-title" horizontalAlignment="center" />
@@ -65,7 +83,7 @@
                       <Label text="{{ hora }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />
                       <Label text="&#xf00d;" class="fa image-icon" visibility="{{ status ? 'visible' : 'collapsed' }}" rowSpan="3" col="3" horizontalAlignment="center" verticalAlignment="center" tap="cancel" />
                       <Label text="{{ ubicacion }}" row="2" colSpan="4" />
-                    </GridLayout>
+                    </GridLayout>-->
                   </ListView.itemTemplate>
                 </ListView>
                 <Label text="&#xf02a; No hay simulacros" class="fa" horizontalAlignment="center" verticalAlignment="center" visibility="{{ listJoin ? 'visible' : 'collapsed' }}" />

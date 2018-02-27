@@ -313,10 +313,34 @@ exports.cancel = function (args) {
             datos['idVoluntario'] = item.idVoluntario;
             datos['idSimulacro'] = item.idSimulacro;
 
+            
             simulacrumVoluntrayList.deleteVoluntary(datos).then(function (responseData) {
                 //console.dir(responseData.response.respuesta.status);
+                clearTimeout(time);
                 if (responseData.response.respuesta.status) {
                     loadList();
+                    localNotifications.getScheduledIds().then(
+                        function (ids) {
+                            ids.forEach(function (notification) {
+                                var JsonNotify = JSON.parse(notification);
+                                if (JsonNotify.idSimulacrum == item.idSimulacro && item.idVoluntario == JsonNotify.idVoluntario) {
+                                    localNotifications.cancel(JSON.stringify(JsonNotify)).then(
+                                        function (foundAndCanceled) {
+                                            if (foundAndCanceled) {
+                                                console.log("OK, it's gone!");
+                                            } else {
+                                                console.log("No ID " + JSON.stringify(JsonNotify) + " was scheduled");
+                                            }
+                                        }
+                                    )
+                                }
+
+                            });
+                            console.log("ID's: " + ids.length);
+
+
+                        }
+                    );
                 } else {
                     alert("No es posible cancelar el simulacro.");
                 }
@@ -329,15 +353,52 @@ exports.cancel = function (args) {
 
 exports.delete = function (args) {
     var item = args.view.bindingContext;
-    var index = sismoGroupList.indexOf(item);
-    sismoGroupList.delete(item.idSimulacro).then(function (data) {
-        if (data.response.simulacro.status) {
-            loadList();
-        } else {
-            alert("No es posible eliminarlo");
-        }
+    dialogsModule.confirm({
+        title: "Aviso",
+        message: "¿Estás seguro que deseas eliminar el simulacro?",
+        okButtonText: "Eliminar",
+        cancelButtonText: "Cancelar"
+    }).then(function (result) {
+        if (result) {
+            
+            sismoGroupList.delete(item.idSimulacro).then(function (data) {
+                //console.dir(data);
+                clearTimeout(time);
+                if (data.response.simulacro.status) {
+                    loadList();
+                    localNotifications.getScheduledIds().then(
+                        function (ids) {
+                            ids.forEach(function (notification) {
+                                var JsonNotify = JSON.parse(notification);
+                                if (JsonNotify.idSimulacrum == item.idSimulacro) {
+                                    localNotifications.cancel(JSON.stringify(JsonNotify)).then(
+                                        function (foundAndCanceled) {
+                                            if (foundAndCanceled) {
+                                                console.log("OK, it's gone!");
+                                            } else {
+                                                console.log("No ID " + JSON.stringify(JsonNotify) + " was scheduled");
+                                            }
+                                        }
+                                    )
+                                }
 
+                            });
+                            console.log("ID's: " + ids.length);
+
+
+                        }
+                    );
+                }
+            }).catch(function (error) {
+                console.log(error);
+                viewToast("No es posible eliminar el simulacro.");
+                return Promise.reject();
+            });
+        }
     });
+
+
+   
 }
 
 function toDate(dStr, format) {
@@ -395,7 +456,8 @@ exports.listViewItemTap = function (args) {
     if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
         var navigationEntryArt = {
             moduleName: "view/simulacrum-join/simulacrum-join",
-            backstackVisible: false,
+            backstackVisible: true,
+            clearHistory: false,
             animated: true,
             context: {
                 data: JSON.parse(myObj)

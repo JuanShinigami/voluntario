@@ -1,4 +1,4 @@
-<Page loaded="loaded" >
+<Page loaded="loaded">
   <Page.actionBar>
     <ActionBar class="action-bar">
       <ActionBar.titleView>
@@ -13,7 +13,7 @@
   </Page.actionBar>
   <StackLayout orientation="vertical">
     <GridLayout rows="auto" columns="*" class="name">
-      <Label text="{{ name }}" horizontalAlignment="center" verticalAlignment="center" class="label-name" col="0" row="0" />
+      <Label text="{{ '&#xf007; ' + name }}" horizontalAlignment="center" verticalAlignment="center" class="fa label-name" col="0" row="0" />
     </GridLayout>
     <GridLayout rows="auto" columns="*,*" class="date">
       <Label text="{{ date }}" horizontalAlignment="center" verticalAlignment="center" col="0" row="0" class="label-date"/>
@@ -21,13 +21,15 @@
     </GridLayout>
     
     <GridLayout rows="auto" columns="auto,*" class="body">
-      <Label text="Tiempo en salir a salvo: " horizontalAlignment="center" verticalAlignment="center" col="0" row="0" class="label-body"/>
+      <Label text="&#xf017; " class="fa" style="font-size:25;" horizontalAlignment="center" verticalAlignment="center" col="0" row="0" />
       <Label text="{{ output }}" verticalAlignment="center" col="1" row="0" class="label-body"/>
     </GridLayout>
     <GridLayout rows="auto" columns="auto,*" class="body">
-      <Label text="Lugar: " horizontalAlignment="center" verticalAlignment="center" col="0" row="0" class="label-body"/>
+      <Label text="&#xf041;" style="font-family:FontAwesome, 'fontawesome-webfont'; font-size:25;" horizontalAlignment="center" verticalAlignment="center" col="0" row="0" />
       <TextView editable="false" text="{{ ubicacion }}" verticalAlignment="center" col="1" row="0" class="label-body"/>
     </GridLayout>
+
+    
     
   </StackLayout>
 
