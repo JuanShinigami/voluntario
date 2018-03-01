@@ -1,6 +1,6 @@
 <Page loaded="loaded">
   <Page.actionBar>
-    <ActionBar class="action-bar">
+    <!--<ActionBar class="action-bar">
       <ActionBar.titleView>
         <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="back"/>
         <StackLayout orientation="horizontal"
@@ -9,6 +9,9 @@
           <Label text="Detalle del simulacro" style="font-size:22;" class="action-label-1" />
         </StackLayout>
       </ActionBar.titleView>
+    </ActionBar>-->
+    <ActionBar title="Detalle del simulacro" class="action-bar">
+      <NavigationButton text="Atrás" android.systemIcon="ic_menu_back" tap="back"></NavigationButton>
     </ActionBar>
   </Page.actionBar>
   <StackLayout orientation="vertical">

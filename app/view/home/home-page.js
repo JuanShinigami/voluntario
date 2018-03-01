@@ -549,7 +549,24 @@ exports.listViewItemTapJoin = function (args) {
         };
         frameModule.topmost().navigate(navigationEntryArt);
     } else {
-        alert("Ya no esta disponible el simulacro");
+        if (item.tiempo_inicio != "") {
+            var navigationEntryArt = {
+                moduleName: "view/view-detail-simulacrum/view-detail-simulacrum",
+                backstackVisible: false,
+                animated: true,
+                context: {
+                    item: item,
+                },
+                transition: {
+                    name: "slideLeft",
+                    duration: 380,
+                    curve: "easeIn"
+                }
+            };
+            frameModule.topmost().navigate(navigationEntryArt);
+        } else {
+            alert("Simulacro no disponible");
+        }
     }
 
 }

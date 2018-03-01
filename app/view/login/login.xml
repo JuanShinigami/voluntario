@@ -8,10 +8,12 @@
         
       </ActionBar.titleView>
     </ActionBar>
+  
   </Page.actionBar>
-  <GridLayout columns="*" rows="auto">
+  <ScrollView>
+    <GridLayout columns="*" rows="auto">
     
-    <ScrollView>
+    
       <StackLayout orientation="vertical" col="0" row="0">
 
         <Image src="~/images/logo.png" height="250"  horizontalAlignment="center" />
@@ -22,7 +24,8 @@
         <Label class="buttom-link" text="Agregar servidor" tap="add" horizontalAlignment="center"/>
 
       </StackLayout>
-    </ScrollView>
+    
     <ActivityIndicator busy="{{ isLoading }}" height="60" width="60"/>
   </GridLayout>
+    </ScrollView>
 </Page>

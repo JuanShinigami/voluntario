@@ -1,16 +1,14 @@
 <Page class="page" xmlns:nsDrawer="nativescript-pro-ui/sidedrawer" xmlns:lv="nativescript-pro-ui/listview"
     xmlns:myDrawer="./shared/my-drawer" navigatingTo="onNavigatingTo" xmlns="http://www.nativescript.org/tns.xsd">
-
-  <ActionBar class="action-bar">
+  <ActionBar title="Simulacros" class="action-bar">
     <NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
     <ActionItem icon="res://navigation/menu"
         android:visibility="collapsed"
         tap="onDrawerButtonTap"
         ios.position="left">
     </ActionItem>
-    <Label class="action-bar-title" text="Simulacros"></Label>
-    <ActionItem tap="onCreateSimulacrumGroup" ios.systemIcon="4" android.systemIcon="ic_menu_add" visibility="{{ enabledCreate ? 'visible' : 'collapse' }}"/>
-    <ActionItem text="Unirse" android.position="popup" tap="join" visibility="{{ enabledCreate ? 'collapse' : 'visible' }}"/>
+    <ActionItem tap="onCreateSimulacrumGroup" ios.systemIcon="4" android.systemIcon="ic_menu_add" ios.position="right" visibility="{{ enabledCreate ? 'visible' : 'collapse' }}"></ActionItem>
+    <ActionItem text="Unirse" tap="join" ios.position="right" visibility="{{ enabledCreate ? 'collapse' : 'visible' }}"/>
   </ActionBar>
   <nsDrawer:RadSideDrawer id="sideDrawer" showOverNavigation="true">
     <nsDrawer:RadSideDrawer.drawerTransition>
@@ -39,18 +37,9 @@
                       <Label text="{{ hora + ' hrs.' }}" row="1" col="2" class="label-hour" horizontalAlignment="left" verticalAlignment="center" />
                       <Label text="&#xf041;" class="fa" rowSpan="2" col="3" verticalAlignment="center" horizontalAlignment="center" />
                       <Label text="{{ ubicacion }}" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
-                      <!--<Label text="{{ estatus }}" rowSpan="2" col="2" class="label-status" horizontalAlignment="center" verticalAlignment="center" />-->
+                      
                       <Label text="&#xf014;" color="#e84c3d" class="fa image-icon" rowSpan="2" col="5" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
                     </GridLayout>
-                    <!--<GridLayout rows="auto,auto,auto" columns="100,*,*,40" >
-                      <Label text="{{fecha}}" rowSpan="2" col="0" class="text-list-title" horizontalAlignment="center" verticalAlignment="center" />
-                      <Label text="Voluntarios" row="0" col="1" class="text-list-title" horizontalAlignment="center" />
-                      <Label text="Estado" row="0" col="2" class="text-list-title" horizontalAlignment="center" />
-                      <Label text="{{ voluntario }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />
-                      <Label text="{{ estatus }}" row="1" col="2" class="text-list-title" horizontalAlignment="center" />
-                      <Label text="&#xf014;" class="fa image-icon" rowSpan="3" col="3" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
-                      <Label text="{{ ubicacion }}" row="2" colSpan="4" />
-                    </GridLayout>-->
                   </ListView.itemTemplate>
                 </ListView>
                 <Label text="&#xf02a; No hay simulacros" class="fa" horizontalAlignment="center" verticalAlignment="center" visibility="{{ listCreate ? 'visible' : 'collapsed' }}" />
@@ -72,18 +61,10 @@
                       <Label text="{{ hora + ' hrs.' }}" row="1" col="2" class="label-hour" horizontalAlignment="left" verticalAlignment="center" />
                       <Label text="&#xf041;" class="fa" rowSpan="2" col="3" verticalAlignment="center" horizontalAlignment="center" />
                       <Label text="{{ ubicacion }}" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
-                      <!--<Label text="{{ estatus }}" rowSpan="2" col="2" class="label-status" horizontalAlignment="center" verticalAlignment="center" />-->
+                      
                       <Label text="&#xf00d;" color="#e84c3d" class="fa image-icon" rowSpan="2" col="5" visibility="{{ status ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
                     </GridLayout>
-                    <!--<GridLayout rows="auto,auto,auto" columns="100,*,*,40" >
-                      <Label text="{{fecha}}" rowSpan="2" col="0" class="text-list-title" horizontalAlignment="center" verticalAlignment="center" />
-                      <Label text="Duración" row="0" col="2" class="text-list-title" horizontalAlignment="center" />
-                      <Label text="Hora del simulacro" row="0" col="1" class="text-list-title" horizontalAlignment="center" />
-                      <Label text="{{ tiempo_estoy_listo }}" row="1" col="2" class="text-list-title" horizontalAlignment="center" />
-                      <Label text="{{ hora }}" row="1" col="1" class="text-list-title" horizontalAlignment="center" />
-                      <Label text="&#xf00d;" class="fa image-icon" visibility="{{ status ? 'visible' : 'collapsed' }}" rowSpan="3" col="3" horizontalAlignment="center" verticalAlignment="center" tap="cancel" />
-                      <Label text="{{ ubicacion }}" row="2" colSpan="4" />
-                    </GridLayout>-->
+                    
                   </ListView.itemTemplate>
                 </ListView>
                 <Label text="&#xf02a; No hay simulacros" class="fa" horizontalAlignment="center" verticalAlignment="center" visibility="{{ listJoin ? 'visible' : 'collapsed' }}" />

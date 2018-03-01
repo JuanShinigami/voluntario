@@ -1,6 +1,6 @@
 <Page loaded="loaded" unloaded="onUnloaded">
   <Page.actionBar>
-    <ActionBar class="action-bar">
+    <!--<ActionBar class="action-bar">
       <ActionBar.titleView>
         <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="back"/>
         <StackLayout orientation="horizontal"
@@ -10,6 +10,9 @@
           <Label text="¡Atento!" style="font-size:22;" />
         </StackLayout>
       </ActionBar.titleView>
+    </ActionBar>-->
+    <ActionBar title="¡Atento!" class="action-bar">
+      <NavigationButton text="Atrás" android.systemIcon="ic_menu_back" tap="back"></NavigationButton>
     </ActionBar>
   </Page.actionBar>
 
