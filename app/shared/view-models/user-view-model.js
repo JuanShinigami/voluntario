@@ -80,7 +80,6 @@ function UserViewModel(items) {
     };
     return viewModel;
 
-    // Vidiriana Peréz
 }
 
 function handleErrors(response) {
