@@ -73,7 +73,7 @@ exports.onSaveSimulacrumGroup = function () {
                     geolocation.enableLocationRequest().then(function () {
                     }, function (e) {
                         console.log("Error: " + (e.message || e));
-                        viewToast("No puedo acceder a tu ubicación.");
+                        viewToast("No puedo acceder a tu ubicaciÃ³n.");
                     });
                 } else {
 
@@ -143,44 +143,14 @@ exports.onSaveSimulacrumGroup = function () {
                                                 });
 
                                             } else {
-                                                alert("¡No se creo tu simulacro!. Inténtalo más tarde.");
+                                                alert("!No se creo tu simulacro!. IntÃ©ntalo mÃ¡s tarde.");
                                             }
                                             
-
-                                            /*pageData.set("isLoading", false);
-                                            dialogsModule.alert({
-                                                title: "Informaci\u00F3n",
-                                                message: "Tu simulacro se ha creado satisfactoriamente.",
-                                                okButtonText: "Aceptar"
-                                            }).then(function () {
-                                                var dateSimulacrum = toDate(datos["hora"], "h:m");
-                                                var res = datos["fecha"].split("-");
-                                                dateSimulacrum.setFullYear(parseInt(res[2]));
-                                                dateSimulacrum.setMonth(parseInt(res[1] - 1));
-                                                dateSimulacrum.setDate(parseInt(res[0]));
-                                                var navigationEntryArt = {
-                                                    moduleName: "view/simulacrum-join/simulacrum-join",
-                                                    backstackVisible: false,
-                                                    animated: true,
-                                                    context: {
-                                                        date: (dateSimulacrum.getTime() + 10000000000000000),
-                                                        create: true,
-                                                        currentCreate: true,
-                                                        idSimulacrum: parseInt(data.response.id)
-                                                    },
-                                                    transition: {
-                                                        name: "slideLeft",
-                                                        duration: 380,
-                                                        curve: "easeIn"
-                                                    }
-                                                };
-                                                frameModule.topmost().navigate(navigationEntryArt);
-                                            });*/
                                         }).catch(function (error) {
                                             pageData.set("isLoading", false);
                                             console.log(error);
                                             dialogsModule.alert({
-                                                message: "No es posible guardar un simulacro, intentalo más tarde.",
+                                                message: "No es posible guardar un simulacro, intentalo mÃ¡s tarde.",
                                                 okButtonText: "Aceptar"
                                             });
                                             return Promise.reject();
@@ -188,7 +158,7 @@ exports.onSaveSimulacrumGroup = function () {
                                     });
                             }
                         }, function (e) {
-                            viewToast("No es posible encontrar tu ubucación.");
+                            viewToast("No es posible encontrar tu ubucaciÃ³n.");
                             pageData.set("isLoading", false);
                             console.log("Error: " + e.message);
                         });
@@ -205,108 +175,15 @@ exports.onSaveSimulacrumGroup = function () {
             alert("La hora debe ser mayor a " + dateCurrentValidate.getHours() + ":" + dateCurrentValidate.getMinutes() + " Hrs.");
         }
 
-        //console.log("FECHA ACTUAL--->" + dateCurrentValidate.getTime());
-        //console.log("FECHA INPUT --->" + dateInput.getTime());
+        
 
     } else if (flagTime && !flagDate) {
-        alert("¡Debes Selecionar una fecha!. ");
+        alert("!Debes Selecionar una fecha!. ");
     } else if (!flagTime && flagDate) {
-        alert("¡Debes selecionar una hora!.");
+        alert("!Debes selecionar una hora!.");
     } else{
-        alert("¡Debes selecionar la fecha y la hora!.");
+        alert("!Debes selecionar la fecha y la hora!.");
     }
-    /*pageData.set("isLoading", true);
-    geolocation.isEnabled().then(function (isEnabled) {
-        if (!isEnabled) {
-            geolocation.enableLocationRequest().then(function () {
-            }, function (e) {
-                console.log("Error: " + (e.message || e));
-                viewToast("No puedo acceder a tu ubicación.");
-            });
-        } else {
-
-
-
-            var location = geolocation.getCurrentLocation({ desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000 }).
-                then(function (loc) {
-                    if (loc) {
-                        fetch(config.apiMapsDirection + loc.latitude + "," + loc.longitude + config.apiKeyGoogle, {
-                            method: "GET",
-                            headers: {
-                                "Content-Type": "application/json"
-                            }
-                        }).then(handleErrors)
-                        .then(function (response) {
-                            return response.json();
-                        })
-                        .then(function (data) {
-                            var timeWait = Math.floor(Math.random() * 10) + 1;
-                            var completeDirection = JSON.stringify(data.results[0].formatted_address);
-                            var datos = new Array();
-                            datos["ubicacion"] = completeDirection.slice(1, -1);
-                            datos["latitud"] = loc.latitude;
-                            datos["longitud"] = loc.longitude;
-                            datos["fecha"] = pageData.selectDate;
-                            datos["hora"] = pageData.selectTime;
-                            datos["idVoluntarioCreador"] = appSettings.getNumber("idUser");
-                            datos["tiempoPreparacion"] = timeWait;
-                            datos["tipoSimulacro"] = "creado";
-                            
-                            sismoGroupList.addSimulacrumGroup(datos).then(function (data) {
-                                
-                                pageData.set("isLoading", false);
-                                dialogsModule.alert({
-                                    title: "Informaci\u00F3n",
-                                    message: "Tu simulacro se ha creado satisfactoriamente.",
-                                    okButtonText: "Aceptar"
-                                }).then(function () {
-                                    var dateSimulacrum = toDate(datos["hora"], "h:m");
-                                    var res = datos["fecha"].split("-");
-                                    dateSimulacrum.setFullYear(parseInt(res[2]));
-                                    dateSimulacrum.setMonth(parseInt(res[1] - 1));
-                                    dateSimulacrum.setDate(parseInt(res[0]));
-                                    var navigationEntryArt = {
-                                        moduleName: "view/simulacrum-join/simulacrum-join",
-                                        backstackVisible: false,
-                                        animated: true,
-                                        context: {
-                                            date: (dateSimulacrum.getTime() + 10000000000000000),
-                                            create: true,
-                                            currentCreate: true,
-                                            idSimulacrum: parseInt(data.response.id)
-                                        },
-                                        transition: {
-                                            name: "slideLeft",
-                                            duration: 380,
-                                            curve: "easeIn"
-                                        }
-                                    };
-                                    frameModule.topmost().navigate(navigationEntryArt);
-                                });
-                            }).catch(function (error) {
-                                pageData.set("isLoading", false);
-                                console.log(error);
-                                dialogsModule.alert({
-                                    message: "No es posible guardar un simulacro, intentalo más tarde.",
-                                    okButtonText: "Aceptar"
-                                });
-                                return Promise.reject();
-                            });
-                        });
-                    }
-                }, function (e) {
-                    viewToast("No es posible encontrar tu ubucación.");
-                    pageData.set("isLoading", false);
-                    console.log("Error: " + e.message);
-                });
-        }
-
-
-    }, function (e) {
-        viewToast("Vuelve a intenerlo.");
-        pageData.set("isLoading", false);
-        console.log("Error: " + (e.message || e));
-    });*/
 }
 
 function navigateTopmost(nameModule, backstack, clearHistory) {
@@ -351,7 +228,7 @@ function toDate(dStr, format) {
 
 exports.selectDate = function () {
     picker.pickDate({
-        title: "Select Your Birthday",
+        title: "Selecciona la fecha.",
         theme: "dark",
         minDate: new Date()
     }).then((result) => {
@@ -368,6 +245,7 @@ exports.selectDate = function () {
 
 exports.selectTime = function () {
     picker.pickTime({
+        title: "Selecciona la hora.",
         theme: "light",
         minTime: {
             hour: new Date().getHours(),

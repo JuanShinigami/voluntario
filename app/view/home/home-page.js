@@ -190,6 +190,7 @@ exports.onSelectedIndexChanged = function (args) {
 }
 
 exports.onCreateSimulacrumGroup = function () {
+    console.log("ENTRE AQUI IOS");
     navigateTopmost("view/add-simulacrum-group/add-simulacrum-group", false, false);
 }
 

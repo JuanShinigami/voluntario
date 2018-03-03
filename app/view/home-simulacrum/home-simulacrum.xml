@@ -37,7 +37,7 @@
                 <Label text="&#xf017;" class="fa" row="1" col="1" verticalAlignment="center" horizontalAlignment="center" />
                 <Label text="{{ fecha }}" row="0" col="2" class="label-date" horizontalAlignment="left" verticalAlignment="center" />
                 <Label text="{{ hora + ' hrs.' }}" row="1" col="2" class="label-hour" horizontalAlignment="left" verticalAlignment="center" />
-                <Image src="~/images/crono.jpg" stretch="none" rowSpan="2" col="3" width="20" height="20" style="margin-top:8"/>
+                <Image src="~/images/crono.jpg" stretch="none" rowSpan="2" col="3" width="20" height="20" ios.style="margin-top:5" android.style="margin-top:8"/>
                 <Label text="{{ tiempo_estoy_listo }}" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
                 <Label text="&#xf014;" color="#e84c3d" style="font-size:30" class="fa" rowSpan="2" col="5"  horizontalAlignment="center" verticalAlignment="center" tap="delete" />
                 <!---->

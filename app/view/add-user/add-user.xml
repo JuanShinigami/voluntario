@@ -13,7 +13,7 @@
     </ActionBar>-->
   <ActionBar title="Registro" class="action-bar">
     <NavigationButton text="Atrás" android.systemIcon="ic_menu_back" tap="back"></NavigationButton>
-    <ActionItem tap="onSaveUser" ios.systemIcon="3" android.systemIcon="ic_menu_save" ios.position="right"></ActionItem>
+    <ActionItem tap="onSaveUser" text="Guardar" android.systemIcon="ic_menu_save" ios.position="right"></ActionItem>
   </ActionBar>
   </Page.actionBar>
   <GridLayout columns="*" rows="auto, auto">
