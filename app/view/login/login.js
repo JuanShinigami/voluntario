@@ -40,6 +40,7 @@ exports.loaded = function (args) {
         }).then(function () {
             appSettings.setBoolean("message", true);
         });
+        appSettings.setString("url", config.apiUrl);
     }
     
 };
@@ -110,16 +111,18 @@ function viewToast(message) {
 }
 
 exports.add = function () {
-    console.log(config.apiUrl);
+    //console.log(config.apiUrl);
     dialogsModule.prompt({
         title: "Aviso",
         message: "Agrega la ruta del server",
         okButtonText: "Agregar",
         cancelButtonText: "Cancelar",
-        defaultText: config.apiUrl
+        defaultText: appSettings.getString("url")
     }).then(function (r) {
+        console.log(r.result);
         if (r.result) {
-            config.apiUrl = r.text;
+            //config.apiUrl = r.text;
+            appSettings.setString("url", r.text);
             viewToast("Se agreg\363 correctamente.");
         }
         //console.log("Dialog result: " + r.result + ", text: " + r.text);

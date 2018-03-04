@@ -2,12 +2,14 @@ var config = require("../../shared/config");
 var fetchModule = require("fetch");
 var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
+var url = "";
 
 function SimulacrumVoluntaryViewModel(items) {
     var viewModel = new ObservableArray(items);
+    url = appSettings.getString("url");
     viewModel.addVoluntarySimulacrum = function (datos) {
         console.log("Entre a la peticion");
-        return fetch(config.apiUrl + "voluntarySimulacrum/addVoluntarySimulacrum", {
+        return fetch(url + "voluntarySimulacrum/addVoluntarySimulacrum", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: datos["idVoluntario"],
@@ -32,7 +34,7 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.deleteVoluntary = function (datos) {
-        return fetch(config.apiUrl + "voluntarySimulacrum/deteleVoluntaryOfSimulacrum", {
+        return fetch(url + "voluntarySimulacrum/deteleVoluntaryOfSimulacrum", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: datos["idVoluntario"],
@@ -53,7 +55,7 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.loadSimulacrum = function (idClient) {
-        return fetch(config.apiUrl + "voluntarySimulacrum/listSimulacrumClient", {
+        return fetch(url + "voluntarySimulacrum/listSimulacrumClient", {
             method: "POST",
             body: JSON.stringify({
                 idClient: idClient
@@ -73,7 +75,7 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.updateVoluntarySimulacrum = function (datos) {
-        return fetch(config.apiUrl + "voluntarySimulacrum/updateVoluntarySimulacrum", {
+        return fetch(url + "voluntarySimulacrum/updateVoluntarySimulacrum", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntarioSimulacro: datos["idVoluntarioSimulacro"],

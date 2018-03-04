@@ -4,12 +4,14 @@ var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
 var Toast = require("nativescript-toast");
 var toast;
+var url = "";
 
 function SimulacrumIndividualViewModel(items) {
     var viewModel = new ObservableArray(items);
+    url = appSettings.getString("url");
     viewModel.addSimulacrumIndividual = function (datos) {
         //console.dir(datos);
-        return fetch(config.apiUrl + "voluntarySimulacrumIndividual/addVoluntarySimulacrumIndividual", {
+        return fetch(url + "voluntarySimulacrumIndividual/addVoluntarySimulacrumIndividual", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: datos["idVoluntario"],
@@ -34,7 +36,7 @@ function SimulacrumIndividualViewModel(items) {
     };
 
     viewModel.load = function (idCreator) {
-        return fetch(config.apiUrl + "voluntarySimulacrumIndividual/getAllSimulacrumByCreator", {
+        return fetch(url + "voluntarySimulacrumIndividual/getAllSimulacrumByCreator", {
             method: "POST",
             body: JSON.stringify({
                 token: "token",
@@ -55,7 +57,7 @@ function SimulacrumIndividualViewModel(items) {
     };
 
     viewModel.delete = function (id) {
-        return fetch(config.apiUrl + "voluntarySimulacrumIndividual/deteleVoluntaryOfSimulacrumIndividual", {
+        return fetch(url + "voluntarySimulacrumIndividual/deteleVoluntaryOfSimulacrumIndividual", {
             method: "POST",
             body: JSON.stringify({
                 token: "token",

@@ -4,14 +4,15 @@ var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
 var Toast = require("nativescript-toast");
 var toast;
+var url = "";
 
 function MessageViewModel(items) {
 
     var viewModel = new ObservableArray(items);
-
+    url = appSettings.getString("url");
     // Peticiones
     viewModel.addMessage = function (datos) {
-        return fetch(config.apiUrl + "message/addMessage", {
+        return fetch(url + "message/addMessage", {
             method: "POST",
             body: JSON.stringify({
                 mensajeCreador: datos['idUser'],
@@ -32,7 +33,7 @@ function MessageViewModel(items) {
     };
 
     viewModel.searchMessages = function (idUser) {
-        return fetch(config.apiUrl + "message/searchMessage", {
+        return fetch(url + "message/searchMessage", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: idUser,

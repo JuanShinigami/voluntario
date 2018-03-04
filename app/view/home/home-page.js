@@ -234,7 +234,7 @@ exports.join = function () {
                                                 if (currentDate <= b && simulacrumGroup.estatus === "Creada") {
                                                     loc2.latitude = simulacrumGroup.latitud;
                                                     loc2.longitude = simulacrumGroup.longitud;
-                                                    if (geolocation.distance(loc, loc2) < 5) {
+                                                    //if (geolocation.distance(loc, loc2) < 5) {
                                                         
                                                         var datos = new Array();
                                                         datos['idVoluntario'] = appSettings.getNumber("idUser");
@@ -269,9 +269,9 @@ exports.join = function () {
                                                             }
 
                                                         });
-                                                    } else {
-                                                        alert("Te encuentras muy lejos para unirte a este simulacro.");
-                                                    }
+                                                    //} else {
+                                                    //    alert("Te encuentras muy lejos para unirte a este simulacro.");
+                                                    //}
                                                 } else {
                                                     alert("Ya no es posible unirte al simulacro.");
                                                 }

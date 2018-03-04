@@ -4,12 +4,14 @@ var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
 var Toast = require("nativescript-toast");
 var toast;
+var url = "";
 
 function SismoGroupViewModel(items) {
     var viewModel = new ObservableArray(items);
+    url = appSettings.getString("url");
     viewModel.addSimulacrumGroup = function (datos) {
         //console.dir(datos);
-        return fetch(config.apiUrl + "simulacrumGroup/addSimulacrumGroup", {
+        return fetch(url + "simulacrumGroup/addSimulacrumGroup", {
             method: "POST",
             body: JSON.stringify({
                 ubicacion: datos["ubicacion"],
@@ -38,7 +40,7 @@ function SismoGroupViewModel(items) {
     };
 
     viewModel.load = function (idClient) {
-        return fetch(config.apiUrl + "simulacrumGroup/searchSimulacrumDetail", {
+        return fetch(url + "simulacrumGroup/searchSimulacrumDetail", {
             method: "POST",
             body: JSON.stringify({
                 token: "token",
@@ -59,7 +61,7 @@ function SismoGroupViewModel(items) {
     };
 
     viewModel.countVoluntary = function (idSimulacrum) {
-        return fetch(config.apiUrl + "simulacrumGroup/countVoluntary", {
+        return fetch(url + "simulacrumGroup/countVoluntary", {
             method: "POST",
             body: JSON.stringify({
                 token: "token",
@@ -81,7 +83,7 @@ function SismoGroupViewModel(items) {
 
 
     viewModel.delete = function (idSimulacrum) {
-        return fetch(config.apiUrl + "voluntarySimulacrum/deletelistVoluntary", {
+        return fetch(url + "voluntarySimulacrum/deletelistVoluntary", {
             method: "POST",
             body: JSON.stringify({
                 token: "token",
@@ -102,7 +104,7 @@ function SismoGroupViewModel(items) {
     };
 
     viewModel.updateStatusSimulacrumGroup = function (datos) {
-        return fetch(config.apiUrl + "simulacrumGroup/updateSimulacrumGroup", {
+        return fetch(url + "simulacrumGroup/updateSimulacrumGroup", {
             method: "POST",
             body: JSON.stringify({
                 token: "token",

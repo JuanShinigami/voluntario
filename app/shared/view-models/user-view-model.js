@@ -4,13 +4,19 @@ var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
 var Toast = require("nativescript-toast");
 var toast;
+var url = "";
 
 function UserViewModel(items) {
+
+    
+    url = appSettings.getString("url");
+    
 
     var viewModel = new ObservableArray(items);
 
     viewModel.login = function (datos) {
-        return fetch(config.apiUrl + "voluntaryCreator/registryVoluntaryCreator", {
+        // uri Defined config.apiUrl
+        return fetch(url + "voluntaryCreator/registryVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 correo: datos['correo'],
@@ -34,7 +40,7 @@ function UserViewModel(items) {
     viewModel.add = function (userData) {
         console.log("JSON -------> " + JSON.stringify(userData));
         console.log("NOMBRE QUE LE MANDO DEL JS --------------->" + userData.name);
-        return fetch(config.apiUrl + "voluntaryCreator/addVoluntaryCreator", {
+        return fetch(url + "voluntaryCreator/addVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 nombre: userData.name,
@@ -57,7 +63,7 @@ function UserViewModel(items) {
 
     viewModel.searchFolio = function (folio) {
         console.log(folio);
-        return fetch(config.apiUrl + "voluntaryCreator/existsVoluntaryCreator", {
+        return fetch(url + "voluntaryCreator/existsVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 folio: folio,
