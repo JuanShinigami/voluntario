@@ -21,7 +21,7 @@
         <TextField class="input-login" text="{{ folio }}" hint="Folio" returnKeyType="done"  />
         <Button class="buttom-login" text="Entrar" tap="signIn" />
         <Label class="buttom-link" text="Registrate" tap="register" horizontalAlignment="center"/>
-        <Label class="buttom-link" text="Agregar servidor" tap="add" horizontalAlignment="center"/>
+        <!--<Label class="buttom-link" text="Agregar servidor" tap="add" horizontalAlignment="center"/>-->
 
       </StackLayout>
     

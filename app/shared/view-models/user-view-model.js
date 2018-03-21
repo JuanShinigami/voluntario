@@ -4,24 +4,22 @@ var ObservableArray = require("data/observable-array").ObservableArray;
 var appSettings = require("application-settings");
 var Toast = require("nativescript-toast");
 var toast;
-var url = "";
 
 function UserViewModel(items) {
 
     
-    url = appSettings.getString("url");
+    
     
 
     var viewModel = new ObservableArray(items);
 
     viewModel.login = function (datos) {
         // uri Defined config.apiUrl
-        return fetch(url + "voluntaryCreator/registryVoluntaryCreator", {
+        return fetch(config.apiUrl + "voluntaryCreator/registryVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 correo: datos['correo'],
-                folio: datos['folio'],
-                token: "token"
+                folio: datos['folio']
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -40,13 +38,12 @@ function UserViewModel(items) {
     viewModel.add = function (userData) {
         console.log("JSON -------> " + JSON.stringify(userData));
         console.log("NOMBRE QUE LE MANDO DEL JS --------------->" + userData.name);
-        return fetch(url + "voluntaryCreator/addVoluntaryCreator", {
+        return fetch(config.apiUrl + "voluntaryCreator/addVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 nombre: userData.name,
                 telefono: userData.phone,
-                correo: userData.email,
-                token: "token"
+                correo: userData.email
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -63,11 +60,11 @@ function UserViewModel(items) {
 
     viewModel.searchFolio = function (folio) {
         console.log(folio);
-        return fetch(url + "voluntaryCreator/existsVoluntaryCreator", {
+        return fetch(config.apiUrl + "voluntaryCreator/existsVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 folio: folio,
-                token: "token"
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -82,6 +79,27 @@ function UserViewModel(items) {
             //Agregar al appsettings lo que recibimos...
             //appSettings
             
+        });
+    };
+
+    viewModel.logout = function () {
+        
+        return fetch(config.apiUrl + "voluntaryCreator/updateVoluntaryCreator", {
+            method: "POST",
+            body: JSON.stringify({
+                idVoluntario: appSettings.getNumber("idUser"),
+                token: appSettings.getString("tokenUser")
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(handleErrors)
+        .then(function (response) {
+            return response.json();s
+        })
+        .then(function (data) {
+            return data;
         });
     };
     return viewModel;

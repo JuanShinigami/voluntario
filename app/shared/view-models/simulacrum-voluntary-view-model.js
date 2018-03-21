@@ -9,7 +9,7 @@ function SimulacrumVoluntaryViewModel(items) {
     url = appSettings.getString("url");
     viewModel.addVoluntarySimulacrum = function (datos) {
         console.log("Entre a la peticion");
-        return fetch(url + "voluntarySimulacrum/addVoluntarySimulacrum", {
+        return fetch(config.apiUrl + "voluntarySimulacrum/addVoluntarySimulacrum", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: datos["idVoluntario"],
@@ -18,7 +18,7 @@ function SimulacrumVoluntaryViewModel(items) {
                 tiempo_estoy_listo: datos["tiempo_estoy_listo"],
                 mensajeVoluntario: datos["mensajeVoluntario"],
                 tipoSimulacro: datos["tipoSimulacro"],
-                token: "token"
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -34,12 +34,12 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.deleteVoluntary = function (datos) {
-        return fetch(url + "voluntarySimulacrum/deteleVoluntaryOfSimulacrum", {
+        return fetch(config.apiUrl + "voluntarySimulacrum/deteleVoluntaryOfSimulacrum", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: datos["idVoluntario"],
                 idSimulacro: datos["idSimulacro"],
-                token: "token"
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -55,10 +55,11 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.loadSimulacrum = function (idClient) {
-        return fetch(url + "voluntarySimulacrum/listSimulacrumClient", {
+        return fetch(config.apiUrl + "voluntarySimulacrum/listSimulacrumClient", {
             method: "POST",
             body: JSON.stringify({
-                idClient: idClient
+                idClient: idClient,
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -75,13 +76,13 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.updateVoluntarySimulacrum = function (datos) {
-        return fetch(url + "voluntarySimulacrum/updateVoluntarySimulacrum", {
+        return fetch(config.apiUrl + "voluntarySimulacrum/updateVoluntarySimulacrum", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntarioSimulacro: datos["idVoluntarioSimulacro"],
                 tiempo_estoy_listo: datos["tiempoEstoyListo"],
                 tiempo_inicio: datos["tiempoInicio"],
-                token: "token"
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"

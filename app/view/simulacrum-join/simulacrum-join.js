@@ -215,11 +215,12 @@ exports.stop = function () {
     alarm.stop();
     pageData.end = false;
     var datos = new Array();
+    var timeOne = "00:" + mn1 + ":" + sg1;
     datos['idVoluntarioSimulacro'] = idVoluntarySimulacrum;
-    datos['tiempoEstoyListo'] = pageData.get("cronometro1");
-    datos['tiempoInicio'] = pageData.get("cronometro1");
+    datos['tiempoEstoyListo'] = timeOne;
+    datos['tiempoInicio'] = timeOne;
 
-    viewToast("TIEMPO EN SALIR----> " + pageData.get("cronometro1"));
+    viewToast("Bien hecho. Gracias por participar.");
     pageData.cronometro1 = "00:00:00";
     clearInterval(elcrono1);
     clearInterval(timerExecuteLoad);

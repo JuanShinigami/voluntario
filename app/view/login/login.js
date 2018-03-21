@@ -35,12 +35,12 @@ exports.loaded = function (args) {
     if (appSettings.getBoolean("message") === undefined) {
         dialogsModule.alert({
             title: "Informaci\u00F3n",
-            message: "Voluntario es una herramienta para poder simular un simulacro. \u00A9 2017 IOFractal.",
+            message: "Voluntario es una herramienta para poder simular un simulacro. \u00A9 2018 IOFractal.",
             okButtonText: "Aceptar"
         }).then(function () {
             appSettings.setBoolean("message", true);
         });
-        appSettings.setString("url", config.apiUrl);
+        
     }
     
 };
@@ -57,13 +57,14 @@ exports.signIn = function () {
         user.set("isLoading", false);
     } else {
         userViewModel.login(datos).then(function (data) {
-
-            if (data.response.status) {
-                appSettings.setString("folioUser", data.response.datos[0].folio);
-                appSettings.setString("emailUser", data.response.datos[0].correo);
-                appSettings.setString("phoneUser", data.response.datos[0].telefono);
-                appSettings.setString("nameUser", data.response.datos[0].nombre);
-                appSettings.setNumber("idUser", parseInt(data.response.datos[0].id));
+            console.dir(data);
+            if (data.response.registro.status) {
+                appSettings.setString("folioUser", data.response.registro.datos[0].folio);
+                appSettings.setString("emailUser", data.response.registro.datos[0].correo);
+                appSettings.setString("phoneUser", data.response.registro.datos[0].telefono);
+                appSettings.setString("nameUser", data.response.registro.datos[0].nombre);
+                appSettings.setNumber("idUser", parseInt(data.response.registro.datos[0].id));
+                appSettings.setString("tokenUser", data.response.token);
                 appSettings.setBoolean("login", true);
                 user.set("isLoading", false);
                 navigateTopmost("view/home/home-page", false, true);

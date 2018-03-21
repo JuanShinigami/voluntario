@@ -421,7 +421,7 @@ function definirSimulacroVoluntario(obj) {
         id: JSON.stringify(obj),
         //id: 10000000000000000 + b.getTime(),
         title: "\u00BFEst\u00e1s listo para el simulacro?",
-        body: "Iniciar\u00e1 dentro de 1 minuto.",
+        body: "Iniciar\u00e1 en menos de 1 minuto.",
         ticker: "Aviso de sumulacro.",
         sound: require("application").ios ? "customsound-ios.wav" : "customsound-android",
         ongoing: true,

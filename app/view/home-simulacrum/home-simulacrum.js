@@ -60,11 +60,14 @@ function loadDefault() {
     var listView = page.getViewById("simulacrumList");
     simulacrumIndividualList.load(appSettings.getNumber("idUser")).then(function (data) {
         console.dir(data);
-        pageData.simulacrumList = data.response;
-        listView.animate({
-            opacity: 1,
-            duration: 1000
-        });
+        if (data.response.status) {
+            pageData.simulacrumList = data.response.list;
+            listView.animate({
+                opacity: 1,
+                duration: 1000
+            });
+        }
+        
     }).catch(function (error) {
         console.log(error);
         dialogsModule.alert({
@@ -194,13 +197,14 @@ function parar() {
         pageData.cronometro1 = "00:00:00";
         
         alarm.stop();
-
+        var time = '00:' + mn + ':' + sg;
         var datos = new Array();
         datos['idVoluntario'] = appSettings.getNumber("idUser");
-        datos['tiempo_inicio'] = textCro;
-        datos['tiempo_estoy_listo'] = textCro1;
+        datos['tiempo_inicio'] = time;
+        datos['tiempo_estoy_listo'] = time;
         datos['fecha'] = dateIni;
         datos['hora'] = hourIni;
+        //console.log(" HORA -----> " + mn + ":" + sg + ":" + cs);
 
         clearInterval(refreshIntervalId);
         simulacrumIndividualList.addSimulacrumIndividual(datos).then(function (data) {

@@ -11,7 +11,7 @@ function SimulacrumIndividualViewModel(items) {
     url = appSettings.getString("url");
     viewModel.addSimulacrumIndividual = function (datos) {
         //console.dir(datos);
-        return fetch(url + "voluntarySimulacrumIndividual/addVoluntarySimulacrumIndividual", {
+        return fetch(config.apiUrl + "voluntarySimulacrumIndividual/addVoluntarySimulacrumIndividual", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: datos["idVoluntario"],
@@ -19,7 +19,7 @@ function SimulacrumIndividualViewModel(items) {
                 tiempo_estoy_listo: datos["tiempo_estoy_listo"],
                 fecha: datos['fecha'],
                 hora: datos['hora'],
-                token: "token"
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -36,11 +36,11 @@ function SimulacrumIndividualViewModel(items) {
     };
 
     viewModel.load = function (idCreator) {
-        return fetch(url + "voluntarySimulacrumIndividual/getAllSimulacrumByCreator", {
+        return fetch(config.apiUrl + "voluntarySimulacrumIndividual/getAllSimulacrumByCreator", {
             method: "POST",
             body: JSON.stringify({
-                token: "token",
-                idVoluntaryCreator: idCreator
+                idVoluntaryCreator: idCreator,
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -57,11 +57,11 @@ function SimulacrumIndividualViewModel(items) {
     };
 
     viewModel.delete = function (id) {
-        return fetch(url + "voluntarySimulacrumIndividual/deteleVoluntaryOfSimulacrumIndividual", {
+        return fetch(config.apiUrl + "voluntarySimulacrumIndividual/deteleVoluntaryOfSimulacrumIndividual", {
             method: "POST",
             body: JSON.stringify({
-                token: "token",
-                id: id
+                id: id,
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"

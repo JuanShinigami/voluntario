@@ -3,12 +3,13 @@ const frameModule = require("ui/frame");
 const MyDrawerViewModel = require("./MyDrawer-view-model");
 var appSettings = require("application-settings");
 var observableModule = require("data/observable");
+var UserViewModel = require("../view-models/user-view-model");
 
 /* ***********************************************************
  * Use the "loaded" event handler of the wrapping layout element to bind the view model to your view.
  *************************************************************/
 
-
+var userViewModel = new UserViewModel([]);
 
 function onLoaded(args) {
     const component = args.object;
@@ -36,16 +37,22 @@ function onNavigationItemTap(args) {
 
 exports.onLogout = function () {
 
-    appSettings.remove("login");
-    appSettings.remove("folioUser");
-    appSettings.remove("emailUser");
-    appSettings.remove("phoneUser");
-    appSettings.remove("nameUser");
-    appSettings.remove("idUser");
-    frameModule.topmost().navigate({
-        moduleName: "view/login/login",
-        transition: {
-            name: "fade"
+
+    userViewModel.logout().then(function (dataResponse) {
+        if (dataResponse.response.status) {
+            appSettings.remove("login");
+            appSettings.remove("folioUser");
+            appSettings.remove("emailUser");
+            appSettings.remove("phoneUser");
+            appSettings.remove("nameUser");
+            appSettings.remove("idUser");
+            appSettings.remove("tokenUser");
+            frameModule.topmost().navigate({
+                moduleName: "view/login/login",
+                transition: {
+                    name: "fade"
+                }
+            });
         }
     });
 }

@@ -12,7 +12,7 @@ function MessageViewModel(items) {
     url = appSettings.getString("url");
     // Peticiones
     viewModel.addMessage = function (datos) {
-        return fetch(url + "message/addMessage", {
+        return fetch(config.apiUrl + "message/addMessage", {
             method: "POST",
             body: JSON.stringify({
                 mensajeCreador: datos['idUser'],
@@ -33,7 +33,7 @@ function MessageViewModel(items) {
     };
 
     viewModel.searchMessages = function (idUser) {
-        return fetch(url + "message/searchMessage", {
+        return fetch(config.apiUrl + "message/searchMessage", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: idUser,

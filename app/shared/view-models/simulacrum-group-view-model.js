@@ -11,7 +11,7 @@ function SismoGroupViewModel(items) {
     url = appSettings.getString("url");
     viewModel.addSimulacrumGroup = function (datos) {
         //console.dir(datos);
-        return fetch(url + "simulacrumGroup/addSimulacrumGroup", {
+        return fetch(config.apiUrl + "simulacrumGroup/addSimulacrumGroup", {
             method: "POST",
             body: JSON.stringify({
                 ubicacion: datos["ubicacion"],
@@ -23,7 +23,7 @@ function SismoGroupViewModel(items) {
                 tiempoPreparacion: datos['tiempoPreparacion'],
                 tipoSimulacro: datos['tipoSimulacro'],
                 estatus: "Creada",
-                token: "token"
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -40,11 +40,11 @@ function SismoGroupViewModel(items) {
     };
 
     viewModel.load = function (idClient) {
-        return fetch(url + "simulacrumGroup/searchSimulacrumDetail", {
+        return fetch(config.apiUrl + "simulacrumGroup/searchSimulacrumDetail", {
             method: "POST",
             body: JSON.stringify({
-                token: "token",
-                id: idClient
+                id: idClient,
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -61,11 +61,11 @@ function SismoGroupViewModel(items) {
     };
 
     viewModel.countVoluntary = function (idSimulacrum) {
-        return fetch(url + "simulacrumGroup/countVoluntary", {
+        return fetch(config.apiUrl + "simulacrumGroup/countVoluntary", {
             method: "POST",
             body: JSON.stringify({
-                token: "token",
-                idSimulacro: idSimulacrum
+                idSimulacro: idSimulacrum,
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -83,11 +83,11 @@ function SismoGroupViewModel(items) {
 
 
     viewModel.delete = function (idSimulacrum) {
-        return fetch(url + "voluntarySimulacrum/deletelistVoluntary", {
+        return fetch(config.apiUrl + "voluntarySimulacrum/deletelistVoluntary", {
             method: "POST",
             body: JSON.stringify({
-                token: "token",
-                idSimulacro: idSimulacrum
+                idSimulacro: idSimulacrum,
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -104,12 +104,12 @@ function SismoGroupViewModel(items) {
     };
 
     viewModel.updateStatusSimulacrumGroup = function (datos) {
-        return fetch(url + "simulacrumGroup/updateSimulacrumGroup", {
+        return fetch(config.apiUrl + "simulacrumGroup/updateSimulacrumGroup", {
             method: "POST",
             body: JSON.stringify({
-                token: "token",
                 id: datos['idSimulacum'],
                 estatus: 'Completada',
+                token: appSettings.getString("tokenUser")
             }),
             headers: {
                 "Content-Type": "application/json"
