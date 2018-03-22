@@ -18,7 +18,7 @@
 
         <Image src="~/images/logo.png" height="250"  horizontalAlignment="center" />
         <TextField class="input-login" id="email" text="{{ email }}" hint="Correo electrónico" keyboardType="email" returnKeyType="next" />
-        <TextField class="input-login" text="{{ folio }}" hint="Folio" returnKeyType="done"  />
+        <TextField class="input-login" text="{{ password }}" hint="Contraseña" returnKeyType="done"  />
         <Button class="buttom-login" text="Entrar" tap="signIn" />
         <Label class="buttom-link" text="Registrate" tap="register" horizontalAlignment="center"/>
         <!--<Label class="buttom-link" text="Agregar servidor" tap="add" horizontalAlignment="center"/>-->

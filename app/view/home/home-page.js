@@ -117,7 +117,7 @@ function loadList() {
 }
 
 exports.pullToRefreshInitiated = function () {
-    alert("Le di refrescar");
+    //alert("Le di refrescar");
     setTimeout(function () {
         page.getViewById("simulacrumGroupList").notifyPullToRefreshFinished();
     }, 2000);
@@ -190,7 +190,7 @@ exports.onSelectedIndexChanged = function (args) {
 }
 
 exports.onCreateSimulacrumGroup = function () {
-    console.log("ENTRE AQUI IOS");
+    //console.log("ENTRE AQUI IOS");
     navigateTopmost("view/add-simulacrum-group/add-simulacrum-group", false, false);
 }
 
@@ -204,6 +204,7 @@ exports.join = function () {
                 viewToast("No puedo acceder a tu ubicación.");
             });
         } else {
+
             var location = geolocation.getCurrentLocation({ desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000 }).
                 then(function (loc) {
                     if (loc) {
@@ -217,8 +218,73 @@ exports.join = function () {
                         }).then(function (r) {
                             //console.log("Dialog result: " + r.result + ", text: " + r.text);
                             if (r.result) {
+
                                 if (r.text.length > 0) {
-                                    userViewModel.searchFolio(r.text).then(function (responseSearchFolio) {
+                                    sismoGroupList.searchSimulacrumGroup(r.text).then(function (dataSimulacrumGroup) {
+                                        if (dataSimulacrumGroup.response != null) {
+                                            var b = toDate(simulacrumGroup.hora, "h:m");
+                                            var res = simulacrumGroup.fecha.split("-");
+
+                                            b.setFullYear(parseInt(res[2]));
+                                            b.setMonth(parseInt(res[1] - 1));
+                                            b.setDate(parseInt(res[0]));
+
+                                            var currentDate = new Date();
+                                            if (currentDate <= b) {
+                                                loc2.latitude = simulacrumGroup.latitud;
+                                                loc2.longitude = simulacrumGroup.longitud;
+
+                                                // Unirse al simulacro
+                                                var datos = new Array();
+                                                datos['idVoluntario'] = appSettings.getNumber("idUser");
+                                                datos['idSimulacro'] = simulacrumGroup.id;
+                                                datos['tiempo_inicio'] = "";
+                                                datos['tiempo_estoy_listo'] = "";
+                                                datos['mensajeVoluntario'] = "";
+                                                datos['tipoSimulacro'] = "unido"
+
+                                                simulacrumVoluntrayList.addVoluntarySimulacrum(datos).then(function (responseSaveVoluntary) {
+
+                                                    //console.dir(responseSaveVoluntary.response);
+                                                    if (responseSaveVoluntary.response.voluntarioSimulacro.status) {
+
+                                                        var myObj = JSON.stringify({
+                                                            dateTime: b.getTime(),
+                                                            idVoluntarySimulacrum: parseInt(responseSaveVoluntary.response.voluntarioSimulacro.idVoluntarioSimulacro),
+                                                            //idVoluntary: appSettings.getNumber("idUser"),
+                                                            idSimulacrum: simulacrumGroup.id,
+                                                            typeVoluntary: 'join'
+                                                        });
+                                                        //definirSimulacroVoluntario(JSON.parse(myObj));
+
+                                                        dialogsModule.alert({
+                                                            message: "Te has unido al simulacro " + r.text + ".",
+                                                            okButtonText: "Aceptar"
+                                                        });
+
+                                                        loadList();
+                                                    } else {
+                                                        viewToast("Lo sentimos no puedes unirte al simulacro.");
+                                                    }
+
+                                                });
+
+
+                                            } else {
+                                                dialogsModule.alert({
+                                                    message: "Ya no es posible unirte al simulacro.",
+                                                    okButtonText: "Aceptar"
+                                                });
+                                            }
+
+                                        } else {
+                                            dialogsModule.alert({
+                                                message: "No está registrado el simulacro con el folio: "+ r.text +".",
+                                                okButtonText: "Aceptar"
+                                            });
+                                        }
+                                    });
+                                    /*userViewModel.searchFolio(r.text).then(function (responseSearchFolio) {
                                         //console.log("ID DE SIMULACRO --->" + parseInt(responseSearchFolio.response[0].id));
                                         sismoGroupList.load(parseInt(responseSearchFolio.response[0].id)).then(function (responseList) {
                                             responseList.response.forEach(function (simulacrumGroup) {
@@ -273,14 +339,24 @@ exports.join = function () {
                                                     //    alert("Te encuentras muy lejos para unirte a este simulacro.");
                                                     //}
                                                 } else {
-                                                    alert("Ya no es posible unirte al simulacro.");
+                                                    dialogsModule.alert({
+                                                        message: "Ya no es posible unirte al simulacro.",
+                                                        okButtonText: "Aceptar"
+                                                    });
+                                                    //alert("Ya no es posible unirte al simulacro.");
                                                 }
                                             });
                                         });
-                                    });
+                                    });*/
                                 } else {
-                                    alert("Debe de ingresar el folio.");
+                                    dialogsModule.alert({
+                                        message: "Debe de ingresar el folio.",
+                                        okButtonText: "Aceptar"
+                                    });
+                                    //alert("Debe de ingresar el folio.");
                                 }
+
+
                             }
                         });
 
@@ -291,6 +367,9 @@ exports.join = function () {
                     console.log("Error: " + e.message);
                 });
         }
+
+
+
     }, function (e) {
         viewToast("Vuelve a intenerlo.");
         pageData.set("isLoading", false);
@@ -343,7 +422,11 @@ exports.cancel = function (args) {
                         }
                     );
                 } else {
-                    alert("No es posible cancelar el simulacro.");
+                    dialogsModule.alert({
+                        message: "No es posible cancelar el simulacro.",
+                        okButtonText: "Aceptar"
+                    });
+                    //alert("No es posible cancelar el simulacro.");
                 }
             });
             
@@ -452,9 +535,9 @@ exports.listViewItemTap = function (args) {
         idSimulacrum: parseInt(item.idSimulacro),
         typeVoluntary: 'create'
     });
+    
 
-    //console.log("lO QUE FALTA ---> " + (dateSimulacrum.getTime() - new Date().getTime()));
-    if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
+    if (item.tiempo_inicio === "00:00:00") {
         var navigationEntryArt = {
             moduleName: "view/simulacrum-join/simulacrum-join",
             backstackVisible: true,
@@ -471,36 +554,13 @@ exports.listViewItemTap = function (args) {
         };
         frameModule.topmost().navigate(navigationEntryArt);
     } else {
-        if (item.tiempo_inicio != ""){
-            var navigationEntryArt = {
-                moduleName: "view/view-detail-simulacrum/view-detail-simulacrum",
-                backstackVisible: false,
-                animated: true,
-                context: {
-                    item: item,
-                },
-                transition: {
-                    name: "slideLeft",
-                    duration: 380,
-                    curve: "easeIn"
-                }
-            };
-            frameModule.topmost().navigate(navigationEntryArt);
-        } else {
-            alert("Simulacro no disponible");
-        }
-    }
-
-    /*if ((dateSimulacrum.getTime() - new Date().getTime()) > 0) {
+        
         var navigationEntryArt = {
-            moduleName: "view/simulacrum-join/simulacrum-join",
+            moduleName: "view/view-detail-simulacrum/view-detail-simulacrum",
             backstackVisible: false,
             animated: true,
             context: {
-                date: (dateSimulacrum.getTime() + 10000000000000000),
-                create: true,
-                dataSimulacrum: item,
-                currentCreate: false
+                item: item,
             },
             transition: {
                 name: "slideLeft",
@@ -509,10 +569,8 @@ exports.listViewItemTap = function (args) {
             }
         };
         frameModule.topmost().navigate(navigationEntryArt);
-    } else {
-        alert("Ya no esta disponible el simulacro");
-    }*/
-
+        
+    }
 }
 
 exports.listViewItemTapJoin = function (args) {
@@ -566,7 +624,10 @@ exports.listViewItemTapJoin = function (args) {
             };
             frameModule.topmost().navigate(navigationEntryArt);
         } else {
-            alert("Simulacro no disponible");
+            dialogsModule.alert({
+                message: "Simulacro no disponible.",
+                okButtonText: "Aceptar"
+            });
         }
     }
 

@@ -14,7 +14,7 @@ var userViewModel = new UserViewModel([]);
 function onLoaded(args) {
     const component = args.object;
     const componentTitle = component.selectedPage;
-    component.bindingContext = new MyDrawerViewModel(componentTitle, appSettings.getString("folioUser"), appSettings.getString("nameUser"), appSettings.getString("emailUser"));
+    component.bindingContext = new MyDrawerViewModel(componentTitle, appSettings.getString("nameUser"), appSettings.getString("emailUser"));
    
 }
 
@@ -41,9 +41,9 @@ exports.onLogout = function () {
     userViewModel.logout().then(function (dataResponse) {
         if (dataResponse.response.status) {
             appSettings.remove("login");
-            appSettings.remove("folioUser");
+            //appSettings.remove("folioUser");
             appSettings.remove("emailUser");
-            appSettings.remove("phoneUser");
+            //appSettings.remove("phoneUser");
             appSettings.remove("nameUser");
             appSettings.remove("idUser");
             appSettings.remove("tokenUser");

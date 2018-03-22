@@ -6,7 +6,7 @@ Feel free to customize layouts and components to change how your app drawer look
     xmlns:myDrawer="shared/my-drawer">
     <StackLayout class="sidedrawer-header">
         <Label class="sidedrawer-header-brand" style="font-size:21" text="{{name}}" />
-        <Label class="sidedrawer-header-brand" text="{{'Folio: '+folio}}" />
+        <!--<Label class="sidedrawer-header-brand" text="{{'Folio: '+folio}}" />-->
         <Label class="footnote" text="{{email}}" />
     </StackLayout>
 

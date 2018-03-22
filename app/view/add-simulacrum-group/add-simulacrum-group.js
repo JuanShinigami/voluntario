@@ -1,3 +1,4 @@
+const application = require("application");
 var dialogsModule = require("ui/dialogs");
 var config = require("../../shared/config");
 var observableModule = require("data/observable");
@@ -9,12 +10,18 @@ var Toast = require("nativescript-toast");
 var ModalPicker = require("nativescript-modal-datetimepicker").ModalDatetimepicker;
 var SismoGroupViewModel = require("../../shared/view-models/simulacrum-group-view-model");
 var localNotifications = require("nativescript-local-notifications");
+var sound = require("nativescript-sound");
+var openApp = require("nativescript-open-app").openApp;
+var Vibrate = require("nativescript-vibrate").Vibrate;
+var Volume = require("nativescript-volume").Volume;
 
 var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
 var diasSemana = new Array("Domingo", "Lunes", "Martes", "Mi\351rcoles", "Jueves", "Viernes", "S\341bado");
 var date = new Date();
 var sismoGroupList = new SismoGroupViewModel([]);
 var picker = new ModalPicker();
+var vibrator = new Vibrate();
+var volume = new Volume();
 
 var page;
 var topmost;
@@ -22,6 +29,7 @@ var navigationOptions;
 var timepickker;
 var flagDate;
 var flagTime;
+var myObj;
 
 var pageData = new observableModule.fromObject({
     sismoGroupList: sismoGroupList,
@@ -35,6 +43,7 @@ var pageData = new observableModule.fromObject({
 
 exports.loaded = function (args) {
     topmost = frameModule.topmost();
+    alarm = sound.create("~/sounds/alarm2.mp3");
     page = args.object;
     page.bindingContext = pageData;
     loadDefaultValues();
@@ -65,6 +74,8 @@ exports.onSaveSimulacrumGroup = function () {
         dateInput.setDate(parseInt(resInput[0]));
 
         var dateCurrentValidate = new Date();
+        console.log("Hora ingresada: " + dateInput);
+        console.log("hora actual" + dateCurrentValidate);
         if (dateInput.getTime() >= dateCurrentValidate.getTime()) {
 
             pageData.set("isLoading", true);
@@ -112,7 +123,7 @@ exports.onSaveSimulacrumGroup = function () {
                                                 dateSimulacrum.setFullYear(parseInt(res[2]));
                                                 dateSimulacrum.setMonth(parseInt(res[1] - 1));
                                                 dateSimulacrum.setDate(parseInt(res[0]));
-                                                var myObj = JSON.stringify({
+                                                myObj = JSON.stringify({
                                                     dateTime: dateSimulacrum.getTime(),
                                                     idVoluntarySimulacrum: parseInt(data.response.voluntarioSimulacro.idVoluntarioSimulacro),
                                                     //idVoluntary: appSettings.getNumber("idUser"),
@@ -120,12 +131,15 @@ exports.onSaveSimulacrumGroup = function () {
                                                     typeVoluntary: 'create'
                                                 });
 
+                                                notificationCreate = setTimeout(programerNotification, ((dateSimulacrum.getTime() - 120000) - new Date().getTime()));
+                                                playSoundCreate = setTimeout(programerSound, (dateSimulacrum.getTime() - new Date().getTime()));
+
                                                 dialogsModule.alert({
                                                     title: "Informaci\u00F3n",
                                                     message: "Tu simulacro se ha creado satisfactoriamente.",
                                                     okButtonText: "Aceptar"
                                                 }).then(function () {
-                                                    definirSimulacroVoluntario(JSON.parse(myObj));
+                                                    //definirSimulacroVoluntario(JSON.parse(myObj));
                                                     var navigationEntryArt = {
                                                         moduleName: "view/simulacrum-join/simulacrum-join",
                                                         backstackVisible: false,
@@ -143,7 +157,10 @@ exports.onSaveSimulacrumGroup = function () {
                                                 });
 
                                             } else {
-                                                alert("!No se creo tu simulacro!. Inténtalo más tarde.");
+                                                dialogsModule.alert({
+                                                    message: "!No se creo tu simulacro!. Inténtalo más tarde.",
+                                                    okButtonText: "Aceptar"
+                                                });
                                             }
                                             
                                         }).catch(function (error) {
@@ -267,21 +284,64 @@ exports.selectTime = function () {
 function definirSimulacroVoluntario(obj) {
 
     //console.dir(obj);
-
-    localNotifications.schedule([{
+    
+    /*localNotifications.schedule([{
         id: JSON.stringify(obj),
         //id: 10000000000000000 + b.getTime(),
         title: "\u00BFEst\u00e1s listo para el simulacro?",
-        body: "Iniciar\u00e1 dentro de 1 minuto.",
+        body: "Iniciar\u00e1 dentro de 2 minuto.",
         ticker: "Aviso de sumulacro.",
         sound: require("application").ios ? "customsound-ios.wav" : "customsound-android",
         ongoing: true,
         badge: 1,
-        at: new Date(obj.dateTime - (60 * 1000))
+        at: new Date(obj.dateTime - (120 * 1000))
     }]).then(function () {
 
     }),
-        function (error) {
-            console.log("scheduling error: " + error);
-        };
+    function (error) {
+        console.log("scheduling error: " + error);
+    };*/
+    notificationCreate = setTimeout(programerNotification, (obj.getTime - (2 * 60 * 1000)));
+    playSoundCreate = setTimeout(programerSound, obj.getTime);
+
+}
+
+function programerNotification() {
+    localNotifications.schedule([{
+        id: JSON.stringify(myObj),
+        title: "\u00BFEst\u00e1s listo para el simulacro?",
+        body: "Iniciar\u00e1 dentro de 2 minuto.",
+        ticker: "Aviso de sumulacro.",
+        sound: require("application").ios ? "customsound-ios.wav" : "customsound-android",
+        ongoing: true,
+        badge: 1,
+        at: new Date(new Date().getTime())
+    }]).then(function () {
+
+    }),
+    function (error) {
+        console.log("scheduling error: " + error);
+    };
+}
+function programerSound() {
+    var installed = openApp("org.nativescript.voluntario");
+    if (installed) {
+        if (application.ios) {
+            // iOS Volume goes from 0 to 1. With its increments being 1/16.
+            volume.setVolume(7);
+        } else if (application.android) {
+            // Android Volume I'm unsure of the range, but believe it to be 0 to 15 at least for the music stream.
+            volume.setVolume(7);
+        }
+        vibrator.vibrate(3000);
+        loopSound = setInterval(playMusic, 500);
+    } else {
+        viewToast("No tegno instalado la app.");
+    }
+    
+    
+}
+
+function playMusic() {
+    alarm.play();
 }

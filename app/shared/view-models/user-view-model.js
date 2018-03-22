@@ -19,7 +19,7 @@ function UserViewModel(items) {
             method: "POST",
             body: JSON.stringify({
                 correo: datos['correo'],
-                folio: datos['folio']
+                contrasena: datos['contrasena']
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -42,6 +42,7 @@ function UserViewModel(items) {
             method: "POST",
             body: JSON.stringify({
                 nombre: userData.name,
+                contrasena: userData.password,
                 telefono: userData.phone,
                 correo: userData.email
             }),

@@ -22,8 +22,10 @@
       <TextField text="{{ name }}" class="field-text-static" hint="Nombre" returnKeyType="next" />
       <Label text="Correo Electrónico" class="label-text-static"/>
       <TextField text="{{ email }}" class="field-text-static" keyboardType="email"  hint="Correo electrónico" returnKeyType="next" />
-      <Label text="Teléfono" class="label-text-static"/>
-      <TextField text="{{ phone }}" class="final-field-text" keyboardType="phone"  hint="Teléfono" returnKeyType="done"/>
+      <Label text="Contraseña" class="label-text-static"/>
+      <TextField text="{{ password }}" secure="true" class="field-text-static" hint="Contraseña" returnKeyType="next" />
+      <Label text="Repetir Contraseña" class="label-text-static"/>
+      <TextField text="{{ repeatPassword }}" secure="true" class="final-field-text" hint="Repetir contraseña" returnKeyType="done"/>
     </StackLayout>
     <ActivityIndicator busy="{{ isLoading }}" rowSpan="2" colSpan="2"  height="60" width="60"/>
   </GridLayout>

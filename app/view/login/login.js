@@ -16,7 +16,7 @@ var page;
 
 var user = new observableModule.fromObject({
     email: "",
-    folio: ""
+    password: ""
 });
 
 
@@ -51,17 +51,21 @@ exports.signIn = function () {
     user.set("isLoading", true);
     var datos = new Array();
     datos['correo'] = user.email;
-    datos['folio'] = user.folio;
-    if (user.email == "" || user.folio == "") {
-        alert("El correo electr\363nico y el folio son requeridos.");
+    datos['contrasena'] = user.password;
+    if (user.email == "" || user.password == "") {
+        //alert("El correo electr\363nico y el folio son requeridos.");
+        dialogsModule.alert({
+            message: "El correo electr\363nico y la constraseña son requeridos.",
+            okButtonText: "Aceptar"
+        });
         user.set("isLoading", false);
     } else {
         userViewModel.login(datos).then(function (data) {
             console.dir(data);
             if (data.response.registro.status) {
-                appSettings.setString("folioUser", data.response.registro.datos[0].folio);
+                //appSettings.setString("folioUser", data.response.registro.datos[0].folio);
                 appSettings.setString("emailUser", data.response.registro.datos[0].correo);
-                appSettings.setString("phoneUser", data.response.registro.datos[0].telefono);
+                //appSettings.setString("phoneUser", data.response.registro.datos[0].telefono);
                 appSettings.setString("nameUser", data.response.registro.datos[0].nombre);
                 appSettings.setNumber("idUser", parseInt(data.response.registro.datos[0].id));
                 appSettings.setString("tokenUser", data.response.token);
@@ -70,7 +74,10 @@ exports.signIn = function () {
                 navigateTopmost("view/home/home-page", false, true);
             } else {
                 user.set("isLoading", false);
-                alert("\241Comprueba tus datos de acceso!");
+                dialogsModule.alert({
+                    message: "\241Comprueba tus datos de acceso!.",
+                    okButtonText: "Aceptar"
+                });
             }
         }).catch(function (error) {
             dialogsModule.alert({

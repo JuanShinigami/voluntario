@@ -25,12 +25,11 @@ var cro1 = 0;
 var textCro1 = "";
 var dateIni;
 var hourIni;
-var alarm;
 var toast;
 var segundosDif = 0;
 var minutes;
 var seconds;
-var refreshIntervalId;
+//var refreshIntervalId;
 var timerExecuteLoad;
 var idSimulacrum;
 var idVoluntarySimulacrum;
@@ -49,7 +48,7 @@ var pageData = new observableModule.fromObject({
 });
 
 exports.loaded = function (args) {
-    alarm = sound.create("~/sounds/alarm2.mp3");
+    //alarm = sound.create("~/sounds/alarm2.mp3");
     topmost = frameModule.topmost();
     page = args.object;
     page.bindingContext = pageData;
@@ -61,17 +60,15 @@ exports.loaded = function (args) {
 }
 
 exports.onUnloaded = function () {
-    clearTimeout(time);
-    viewToast("Debes de volver antes de que inicie el simulacro.");
-    console.log("Vuelve");
+    //viewToast("N.");
 }
 
 function load(data) {
     //console
     var ms = data.data.dateTime - new Date().getTime();
     idVoluntarySimulacrum = data.data.idVoluntarySimulacrum;
-    if (ms > 0) {
-        console.log("Milisegundos --> " + ms);
+    //if (ms > 0) {
+        //console.log("Milisegundos --> " + ms);
         switch (data.data.typeVoluntary) {
             case 'create':
                 pageData.countVoluntaryVisible = true;
@@ -88,10 +85,11 @@ function load(data) {
         time = setTimeout(startSound, ms);
 
 
-    } else {
+    //}
+    /*else {
         navigateTopmost("view/home/home-page", false, true);
         viewToast("Lamentablemente te perdiste del simulacro.");
-    }
+    }*/
 
     
 
@@ -146,7 +144,7 @@ function tiempo() {
     mn = cr.getMinutes();
     if (mn === minutes && seconds === sg && cs === 0) {
         startSound();
-        refreshIntervalId = setInterval(playMusic, 500);
+        //refreshIntervalId = setInterval(playMusic, 500);
         pageData.classButtonSuccess = "button-success";
     }
 }
@@ -156,7 +154,7 @@ function startSound() {
     pageData.set("isLoading", false);
     pageData.classButtonSuccess = "button-success";
     pageData.evacuate = true;
-    refreshIntervalId = setInterval(playMusic, 500);
+    //refreshIntervalId = setInterval(playMusic, 500);
     if (idSimulacrum != 0) {
         var datos = new Array();
         datos['idSimulacum'] = idSimulacrum;
@@ -211,8 +209,8 @@ exports.evacuate = function () {
 }
 
 exports.stop = function () {
-    clearInterval(refreshIntervalId);
-    alarm.stop();
+    //clearInterval(refreshIntervalId);
+    //alarm.stop();
     pageData.end = false;
     var datos = new Array();
     var timeOne = "00:" + mn1 + ":" + sg1;
@@ -223,7 +221,7 @@ exports.stop = function () {
     viewToast("Bien hecho. Gracias por participar.");
     pageData.cronometro1 = "00:00:00";
     clearInterval(elcrono1);
-    clearInterval(timerExecuteLoad);
+    clearInterval(loopSound);
     pageData.classButtonInfo = "button-info-disabled";
 
     simulacrumVoluntrayList.updateVoluntarySimulacrum(datos).then(function (data) {

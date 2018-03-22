@@ -10,15 +10,18 @@ var Toast = require("nativescript-toast");
 var nameModuleStr = "";
 var toast;
 
-if (appSettings.getBoolean("login") == true) {
-    //application.start({ moduleName: "view/home/home-page" });
-    nameModuleStr = "view/home/home-page";
-    //nameModuleStr = "view/login/login";
-    //application.start({ moduleName: "view/login/login" });
+if (appSettings.hasKey("login")) {
+    console.log("Existo");
+    if (appSettings.getBoolean("login")) {
+        console.log("Soy true");
+        nameModuleStr = "view/home/home-page";
+    } else {
+        console.log("soy false");
+        nameModuleStr = "view/login/login";
+    }
 } else {
-    //application.start({ moduleName: "view/login/login" });
+    console.log("No existo");
     nameModuleStr = "view/login/login";
-    //nameModuleStr = "view/home/home-page";
 }
 
 application.start({ moduleName: nameModuleStr });
