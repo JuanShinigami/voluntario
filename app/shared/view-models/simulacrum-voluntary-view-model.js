@@ -18,6 +18,8 @@ function SimulacrumVoluntaryViewModel(items) {
                 tiempo_estoy_listo: datos["tiempo_estoy_listo"],
                 mensajeVoluntario: datos["mensajeVoluntario"],
                 tipoSimulacro: datos["tipoSimulacro"],
+                altitud: datos["altitud"],
+                tagVoluntario: datos["tagVoluntario"],
                 token: appSettings.getString("tokenUser")
             }),
             headers: {
@@ -55,10 +57,10 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.loadSimulacrum = function (idClient) {
-        return fetch(config.apiUrl + "voluntarySimulacrum/listSimulacrumClient", {
+        return fetch(config.apiUrl + "voluntarySimulacrum/searchDetailVoluntaryOfVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
-                idClient: idClient,
+                idVoluntario: idClient,
                 token: appSettings.getString("tokenUser")
             }),
             headers: {
@@ -70,7 +72,6 @@ function SimulacrumVoluntaryViewModel(items) {
                 return response.json();
             })
             .then(function (data) {
-                //console.dir(data);
                 return data;
             });
     };

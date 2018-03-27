@@ -7,10 +7,6 @@ var toast;
 
 function UserViewModel(items) {
 
-    
-    
-    
-
     var viewModel = new ObservableArray(items);
 
     viewModel.login = function (datos) {
@@ -36,8 +32,8 @@ function UserViewModel(items) {
 
 
     viewModel.add = function (userData) {
-        console.log("JSON -------> " + JSON.stringify(userData));
-        console.log("NOMBRE QUE LE MANDO DEL JS --------------->" + userData.name);
+        //console.log("JSON -------> " + JSON.stringify(userData));
+        //console.log("NOMBRE QUE LE MANDO DEL JS --------------->" + userData.name);
         return fetch(config.apiUrl + "voluntaryCreator/addVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({

@@ -14,6 +14,7 @@ function SismoGroupViewModel(items) {
         return fetch(config.apiUrl + "simulacrumGroup/addSimulacrumGroup", {
             method: "POST",
             body: JSON.stringify({
+                tagGrupal: datos["tagGrupal"],
                 ubicacion: datos["ubicacion"],
                 latitud: datos["latitud"],
                 longitud: datos["longitud"],
@@ -21,7 +22,7 @@ function SismoGroupViewModel(items) {
                 hora: datos["hora"],
                 idVoluntarioCreador: datos["idVoluntarioCreador"],
                 tiempoPreparacion: datos['tiempoPreparacion'],
-                tipoSimulacro: datos['tipoSimulacro'],
+                //tipoSimulacro: datos['tipoSimulacro'],
                 estatus: "Creada",
                 token: appSettings.getString("tokenUser")
             }),
@@ -40,10 +41,12 @@ function SismoGroupViewModel(items) {
     };
 
     viewModel.load = function (idClient) {
+        console.log(idClient);
+        console.log(appSettings.getString("tokenUser"));
         return fetch(config.apiUrl + "simulacrumGroup/searchSimulacrumDetail", {
             method: "POST",
             body: JSON.stringify({
-                id: idClient,
+                idVoluntarioCreador: idClient,
                 token: appSettings.getString("tokenUser")
             }),
             headers: {
@@ -79,6 +82,27 @@ function SismoGroupViewModel(items) {
                 return data;
             });
 
+    };
+
+
+    viewModel.searchByFolio = function (folio) {
+        return fetch(config.apiUrl + "simulacrumGroup/searchSimulacrumFolio", {
+            method: "POST",
+            body: JSON.stringify({
+                folioSimulacro: folio,
+                token: appSettings.getString("tokenUser")
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(handleErrors)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            return data;
+        });
     };
 
 

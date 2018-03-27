@@ -62,27 +62,36 @@ exports.signIn = function () {
     } else {
         userViewModel.login(datos).then(function (data) {
             console.dir(data);
-            if (data.response.registro.status) {
-                //appSettings.setString("folioUser", data.response.registro.datos[0].folio);
-                appSettings.setString("emailUser", data.response.registro.datos[0].correo);
-                //appSettings.setString("phoneUser", data.response.registro.datos[0].telefono);
-                appSettings.setString("nameUser", data.response.registro.datos[0].nombre);
-                appSettings.setNumber("idUser", parseInt(data.response.registro.datos[0].id));
-                appSettings.setString("tokenUser", data.response.token);
-                appSettings.setBoolean("login", true);
-                user.set("isLoading", false);
-                navigateTopmost("view/home/home-page", false, true);
-            } else {
-                user.set("isLoading", false);
+            if (data.response.mensaje === "No existe usuario") {
                 dialogsModule.alert({
-                    message: "\241Comprueba tus datos de acceso!.",
+                    message: data.response.mensaje + ".",
                     okButtonText: "Aceptar"
                 });
+                user.set("isLoading", false);
+            } else {
+                if (data.response.registro.status) {
+                    //appSettings.setString("folioUser", data.response.registro.datos[0].folio);
+                    appSettings.setString("emailUser", data.response.registro.datos[0].correo);
+                    //appSettings.setString("phoneUser", data.response.registro.datos[0].telefono);
+                    appSettings.setString("nameUser", data.response.registro.datos[0].nombre);
+                    appSettings.setNumber("idUser", parseInt(data.response.registro.datos[0].id));
+                    appSettings.setString("tokenUser", data.response.token);
+                    appSettings.setBoolean("login", true);
+                    user.set("isLoading", false);
+                    navigateTopmost("view/home/home-page", false, true);
+                } else {
+                    user.set("isLoading", false);
+                    dialogsModule.alert({
+                        message: "\241Comprueba tus datos de acceso!.",
+                        okButtonText: "Aceptar"
+                    });
+                }
             }
+            
         }).catch(function (error) {
             dialogsModule.alert({
                 message: "No pude procesar la petici\363n.",
-                okButtonText: "OK"
+                okButtonText: "Aceptar"
             });
             user.set("isLoading", false);
             return Promise.reject();

@@ -1,18 +1,5 @@
 <Page loaded="loaded" xmlns:df="nativescript-pro-ui/dataform">
-  
   <Page.actionBar>
-    <!--<ActionBar class="action-bar">
-      <ActionBar.titleView>
-        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="back"/>
-        <StackLayout orientation="horizontal"
-    ios:horizontalAlignment="center"
-    android:horizontalAlignment="left">
-          
-          <Label text="Crear simulacro grupal" style="font-size:22;" class="action-label-1" />
-        </StackLayout>
-      </ActionBar.titleView>
-      <ActionItem tap="onSaveSimulacrumGroup"  ios.systemIcon="2" android.systemIcon="ic_menu_save"/>
-    </ActionBar>-->
     <ActionBar title="Crear simulacro grupal" class="action-bar">
       <NavigationButton text="Atrás" android.systemIcon="ic_menu_back" tap="back"></NavigationButton>
       <ActionItem tap="onSaveSimulacrumGroup" text="Guardar" android.systemIcon="ic_menu_save" ios.position="right"></ActionItem>
@@ -20,26 +7,23 @@
   </Page.actionBar>
   
   <GridLayout columns="*" rows="auto, auto">
-    
-   <StackLayout col="0" row="0">
-     <Label />
-     <StackLayout class="title" tap="selectDate">
-       <Label text="&#xf073; Selecciona la fecha" class="fa image-icon" horizontalAlignment="center" />
-     </StackLayout>
-     
-     <Label text="{{ dateFormating }}" class="selectLabel" horizontalAlignment="center"  />
-     <StackLayout class="title" tap="selectTime">
-       <Label text="&#xf017; Selecciona la hora" class="fa image-icon" horizontalAlignment="center" />
-     </StackLayout>
-     <GridLayout columns="auto, auto" rows="auto, auto" horizontalAlignment="center">
-       <Label text="{{ hourView }}" class="selectLabel" horizontalAlignment="center" col="0" row="0"  />
-       <Label text="{{ minutesView }}" class="selectLabel" horizontalAlignment="center" col="0" row="1" />
-       <Label text="   Hrs." class="selectLabel" horizontalAlignment="center" col="1" rowSpan="2" verticalAlignment="center" />
+     <GridLayout col="0" row="0" columns="50, *" rows="auto" class="label-tag">
+       <Label text="&#xf02b;" color="black" class="fa image-icon" col="0" row="0" horizontalAlignment="center" verticalAlignment="center" />
+       <TextField text="{{ tagSimulacrumGroup }}" returnKeyType="done" col="1" row="0"/>
      </GridLayout>
-     
-      <!--<TimePicker loaded="onPickerLoaded" id="timePicker" horizontalAlignment="center"/>-->
-    </StackLayout>
-    <ActivityIndicator busy="{{ isLoading }}" rowSpan="2" colSpan="2"  height="60" width="60"/>
+     <StackLayout col="0" row="1">
+        <StackLayout class="title" tap="selectDate">
+          <Label text="&#xf073; Selecciona la fecha" class="fa image-icon" horizontalAlignment="center" />
+        </StackLayout>
+        <Label text="{{ dateFormating }}" class="selectLabel" horizontalAlignment="center"  />
+        <StackLayout class="title" tap="selectTime">
+          <Label text="&#xf017; Selecciona la hora" class="fa image-icon" horizontalAlignment="center" />
+        </StackLayout>
+        <GridLayout columns="70, auto" rows="auto, auto" horizontalAlignment="center">
+          <Label text="{{ hour }}" class="selectLabel" horizontalAlignment="center" col="0" rowSpan="2" />
+          <Label text="Hrs." class="selectLabel" horizontalAlignment="center" col="1" rowSpan="2" verticalAlignment="center" />
+        </GridLayout>
+      </StackLayout>
+      <ActivityIndicator busy="{{ isLoading }}" rowSpan="2" colSpan="1"  height="60" width="60"/>
   </GridLayout>
-  
 </Page>
