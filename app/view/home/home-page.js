@@ -706,3 +706,7 @@ function navegacionApp(idSimulacroGrupo) {
     frameModule.topmost().navigate(navigationEntryArtStart);
     console.log("Termino la navegacion");
 }
+
+exports.menuCreate = function () {
+
+}

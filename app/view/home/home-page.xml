@@ -38,6 +38,7 @@
                       <Label text="&#xf02b;" class="fa"  rowSpan="2" col="3" verticalAlignment="center" horizontalAlignment="center" />
                       <Label text="{{ tagGrupal }}" color="black" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
                       <Label text="&#xf014;" color="#e84c3d" class="fa image-icon" rowSpan="2" col="5" visibility="{{ estatus.length == 6 ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
+                      <Label text="&#xf142;" class="fa" style="font-size:25" rowSpan="2" col="5" visibility="{{ estatus.length == 6 ? 'collapsed' : 'visible' }}" horizontalAlignment="center" verticalAlignment="center" tap="menuCreate" />
                     </GridLayout>
                   </ListView.itemTemplate>
                 </ListView>
@@ -61,6 +62,7 @@
                       <Label text="&#xf02b;" class="fa" rowSpan="2" col="3" verticalAlignment="center" horizontalAlignment="center" />
                       <Label text="{{ tagVoluntario.length > 0 ? tagVoluntario : tagGrupal }}" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
                       <Label text="&#xf00d;" color="#e84c3d" class="fa image-icon" rowSpan="2" col="5" visibility="{{ estatus.length == 6 ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
+                      <Label text="&#xf142;" style="font-size:90" class="fa" rowSpan="2" col="5" visibility="{{ estatus.length == 6 ? 'collapsed' : 'visible' }}" horizontalAlignment="center" verticalAlignment="center" tap="menu" />
                     </GridLayout>
                     
                   </ListView.itemTemplate>
