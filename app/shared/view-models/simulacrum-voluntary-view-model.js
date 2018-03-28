@@ -76,6 +76,26 @@ function SimulacrumVoluntaryViewModel(items) {
             });
     };
 
+    viewModel.searchDateAndHour = function (idSimulacrumGroup) {
+        return fetch(config.apiUrl + "voluntarySimulacrum/searchDateAndHourSimulacrum", {
+            method: "POST",
+            body: JSON.stringify({
+                idSimulacrumGroup: idSimulacrumGroup,
+                token: appSettings.getString("tokenUser")
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(handleErrors)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                return data;
+            });
+    };
+
     viewModel.updateVoluntarySimulacrum = function (datos) {
         return fetch(config.apiUrl + "voluntarySimulacrum/updateVoluntarySimulacrum", {
             method: "POST",
@@ -83,6 +103,7 @@ function SimulacrumVoluntaryViewModel(items) {
                 idVoluntarioSimulacro: datos["idVoluntarioSimulacro"],
                 tiempo_estoy_listo: datos["tiempoEstoyListo"],
                 tiempo_inicio: datos["tiempoInicio"],
+                tagVoluntario: datos["tagVoluntario"],
                 token: appSettings.getString("tokenUser")
             }),
             headers: {

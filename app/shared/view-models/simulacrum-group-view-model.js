@@ -127,11 +127,11 @@ function SismoGroupViewModel(items) {
 
     };
 
-    viewModel.updateStatusSimulacrumGroup = function (datos) {
+    viewModel.updateStatusSimulacrumGroup = function (idSimulacrum) {
         return fetch(config.apiUrl + "simulacrumGroup/updateSimulacrumGroup", {
             method: "POST",
             body: JSON.stringify({
-                id: datos['idSimulacum'],
+                id: idSimulacrum,
                 estatus: 'Completada',
                 token: appSettings.getString("tokenUser")
             }),

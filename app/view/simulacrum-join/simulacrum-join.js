@@ -53,10 +53,29 @@ exports.loaded = function (args) {
     page = args.object;
     page.bindingContext = pageData;
     var requestData = page.navigationContext;
-    console.dir(requestData);
+    //console.log("CUANDO CARGO LA VISTA DE SIMULACRO GRUPO");
+    //console.dir(requestData);
+    idVoluntarySimulacrum = requestData.idSG;
     idSimulacrum = 0;
+    simulacrumVoluntrayList.searchDateAndHour(requestData.idSG).then(function (data) {
+        console.dir(data);
+        var b = toDate(data.response[0].hora, "h:m");
+        var res = data.response[0].fecha.split("-");
+        b.setFullYear(parseInt(res[2]));
+        b.setMonth(parseInt(res[1] - 1));
+        b.setDate(parseInt(res[0]));
+       // if (b.getTime() < new Date().getTime()) {
+       //     console.log("YA PASO");
+       // } else {
+            var timeMS = ((b.getTime()) - (new Date().getTime()));
+            setTimeout(enabledButton, timeMS);
+       // }
+
+    }).catch(function (error) {
+        console.log("No es posible realizar la petición. " + error);
+    });
     //validate(requestData);
-    load(requestData);
+    //load(requestData);
 }
 
 exports.onUnloaded = function () {
@@ -64,6 +83,9 @@ exports.onUnloaded = function () {
 }
 
 function load(data) {
+
+
+
     //console
     var ms = data.data.dateTime - new Date().getTime();
     idVoluntarySimulacrum = data.data.idVoluntarySimulacrum;
@@ -82,7 +104,7 @@ function load(data) {
                 pageData.countVoluntaryVisible = false;
         } 
         //console.log("Segundos --> " + (parseInt(ms / 1000)));
-        time = setTimeout(startSound, ms);
+        //time = setTimeout(startSound, ms);
 
 
     //}
@@ -149,6 +171,11 @@ function tiempo() {
     }
 }
 
+function enabledButton() {
+    pageData.classButtonSuccess = "button-success";
+    pageData.evacuate = true;
+}
+
 function startSound() {
     clearInterval(timerExecuteLoad);
     pageData.set("isLoading", false);
@@ -212,19 +239,63 @@ exports.stop = function () {
     //clearInterval(refreshIntervalId);
     //alarm.stop();
     pageData.end = false;
-    var datos = new Array();
+    
     var timeOne = "00:" + mn1 + ":" + sg1;
-    datos['idVoluntarioSimulacro'] = idVoluntarySimulacrum;
-    datos['tiempoEstoyListo'] = timeOne;
-    datos['tiempoInicio'] = timeOne;
 
-    viewToast("Bien hecho. Gracias por participar.");
+    //viewToast("Bien hecho. Gracias por participar.");
     pageData.cronometro1 = "00:00:00";
     clearInterval(elcrono1);
     clearInterval(loopSound);
+    clearInterval(playSoundCreate);
+    clearInterval(notificationCreate);
+    clearInterval(changeActivity);
     pageData.classButtonInfo = "button-info-disabled";
 
+    /*dialogsModule.prompt({
+        title: "Informaci\u00F3n",
+        message: "Gracias por participar. Puedes agregar un nombre al simulacro",
+        okButtonText: "Aceptar"
+    }).then(function (r) {
+        if (r.result) {
+            datos
+        } else {
+
+        }
+
+    });*/
+
+    
+    /*var tagVoluntario = "";;
+    dialogsModule.confirm({
+        title: "Informaci\u00F3n",
+        message: "Gracias por participar. ¿Deseas agregar un nombre al simulacro?",
+        okButtonText: "Si",
+        cancelButtonText: "No"
+    }).then(function (result) {
+        // result argument is boolean
+        //console.log("Dialog result: " + result);
+        if (result) {
+            dialogsModule.prompt({
+                title: "Informaci\u00F3n",
+                message: "Agrega un nombre.",
+                okButtonText: "Aceptar"
+            }).then(function (r) {
+                if (r.result) {
+                    tagVoluntario = r.text;
+                }
+
+            });
+        }
+    });*/
+
+    var datos = new Array();
+    datos['idVoluntarioSimulacro'] = idVoluntarySimulacrum;
+    datos['tiempoEstoyListo'] = timeOne;
+    datos['tiempoInicio'] = timeOne;
+    datos['tagVoluntario'] = tagVoluntario;
+
     simulacrumVoluntrayList.updateVoluntarySimulacrum(datos).then(function (data) {
+        viewToast("Gracias por participar.");
         navigateTopmost("view/home/home-page", false, true);
     });
 
@@ -264,4 +335,15 @@ exports.back = function () {
         }
     };
     topmost.navigate(navigationOptions);
+}
+
+function toDate(dStr, format) {
+    var now = new Date();
+    if (format == "h:m") {
+        now.setHours(dStr.substr(0, dStr.indexOf(":")));
+        now.setMinutes(dStr.substr(dStr.indexOf(":") + 1));
+        now.setSeconds(0);
+        return now;
+    } else
+        return "Invalid Format";
 }

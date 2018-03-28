@@ -30,6 +30,7 @@ var timepickker;
 var flagDate;
 var flagTime;
 var myObj;
+var idSimulacrumGroup = 0;
 
 var pageData = new observableModule.fromObject({
     sismoGroupList: sismoGroupList,
@@ -121,7 +122,13 @@ exports.onSaveSimulacrumGroup = function () {
 
                                             sismoGroupList.addSimulacrumGroup(datos).then(function (data) {
                                                 console.dir(data);
-                                                
+                                                var dateSimulacrum = toDate(datos["hora"], "h:m");
+                                                var res = datos["fecha"].split("-");
+                                                dateSimulacrum.setFullYear(parseInt(res[2]));
+                                                dateSimulacrum.setMonth(parseInt(res[1] - 1));
+                                                dateSimulacrum.setDate(parseInt(res[0]));
+                                                idSimulacrumGroup = parseInt(data.response.idSimulacrum);
+                                                setTimeout(updateStatusSimulacrum, ((dateSimulacrum.getTime()) - (new Date().getTime())));
                                                 if (data.response.agrego.status) {
 
                                                     dialogsModule.alert({
@@ -203,7 +210,10 @@ exports.onSaveSimulacrumGroup = function () {
                 });
 
             } else {
-                alert("La hora debe ser mayor a " + dateCurrentValidate.getHours() + ":" + dateCurrentValidate.getMinutes() + " Hrs.");
+                dialogsModule.alert({
+                    message: "La hora debe ser mayor a " + dateCurrentValidate.getHours() + ":" + dateCurrentValidate.getMinutes() + " Hrs.",
+                    okButtonText: "Aceptar"
+                });
             }
 
 
@@ -344,6 +354,14 @@ function definirSimulacroVoluntario(obj) {
     notificationCreate = setTimeout(programerNotification, (obj.getTime - (2 * 60 * 1000)));
     playSoundCreate = setTimeout(programerSound, obj.getTime);
 
+}
+
+function updateStatusSimulacrum() {
+    sismoGroupList.updateStatusSimulacrumGroup(idSimulacrumGroup).then(function (data) {
+        console.dir(data);
+        viewToast("Ha empezado el simulacro.");
+        navigateTopmost("view/home/home-page", false, true);
+    });
 }
 
 function programerNotification() {
