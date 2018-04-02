@@ -41,10 +41,11 @@ exports.onNavigatingTo = function(args) {
     alarm = sound.create("~/sounds/alarm2.mp3");
     localNotifications.addOnMessageReceivedCallback(function (notification) {  
         console.log("Que trae notificacion en LOG");
-        if (notificationCreate === undefined) {
-            console.log("NO EXISTE NOTIFICACION");
+        if (playSoundCreate === undefined) {
+            console.log("NO EXISTE EL COMANDO SONAR");
+            
         } else {
-            console.log("EXISTE NOTIFICACION");
+            console.log("EXISTE EL COMANDO SONAR");
         }
         console.log(notificationCreate);
         console.log("Que trae notificacion en DIR");
@@ -56,11 +57,7 @@ exports.onNavigatingTo = function(args) {
             context: {
                 idSG: notification.id
             },
-            /*transition: {
-                name: "slideLeft",
-                duration: 380,
-                curve: "easeIn"
-            }*/
+            
         };
         frameModule.topmost().navigate(navigationEntryArt);
         }
@@ -77,10 +74,10 @@ function testGPS() {
     geolocation.isEnabled().then(function (isEnabled) {
         if (!isEnabled) {
             geolocation.enableLocationRequest().then(function () {
-                //viewToast("Tenemos acceso a tu ubicación.");
+                
             }, function (e) {
                 console.log("Error: " + (e.message || e));
-                //viewToast("No puedo acceder a tu ubicación.");
+                
             });
         } else {
         }
@@ -135,44 +132,7 @@ function loadListJoin(){
 }
 
 
-/*function loadList() {
-    
-    pageData.set("isLoading", true);
-    
-    var listView = page.getViewById("simulacrumGroupList");
-    simulacrumVoluntrayList.loadSimulacrum(appSettings.getNumber("idUser")).then(function (data) {
-        console.dir(data);
-        //console.log(data.response.listSimulacrumCreate.length);
-        //console.log(data.response.listSimulacrumJoin.length);
-        if (data.response.listSimulacrumCreate.length <= 0) {
-            pageData.listCreate = true;
-        } else {
-            pageData.listCreate = false;
-        }
 
-        if (data.response.listSimulacrumJoin.length <= 0) {
-            pageData.listJoin = true;
-        } else {
-            pageData.listJoin = false;
-        }
-        pageData.simulacrumGroupList = data.response.listSimulacrumCreate;
-        pageData.simulacrumGroupListJoin = data.response.listSimulacrumJoin;
-        pageData.set("isLoading", false);
-        listView.animate({
-            opacity: 1,
-            duration: 1000
-        });
-    }).catch(function (error) {
-        pageData.set("isLoading", false);
-        console.log(error);
-        dialogsModule.alert({
-            message: "No pude procesar la petición.",
-            okButtonText: "OK"
-        });
-        return Promise.reject();
-    });
-
-}*/
 
 exports.pullToRefreshInitiated = function () {
     //alert("Le di refrescar");
@@ -186,29 +146,7 @@ exports.individual = function () {
     navigateTopmost("view/home-simulacrum/home-simulacrum", false, false, null);
 }
 
-exports.group = function () {
-    
-    dialogsModule.action({
-        message: "\u00BFQué acción desea realizar?",
-        cancelButtonText: "Cancelar",
-        actions: ["Crear", "Unirse"]
-    }).then(function (result) {
-        switch (result) {
-            case "Crear":
-                config.flag = true;
-                config.titleBarListSimulacrumGroup = "Simulacros creados";
-                navigateTopmost("view/list-simulacrum-group/list-simulacrum-group", true, false);
-                break;
-            case "Unirse":
-                config.flag = false;
-                config.titleBarListSimulacrumGroup = "Participación";
-                navigateTopmost("view/list-simulacrum-group/list-simulacrum-group", true, false);
-                break;
-            default:
-                break;
-        }
-    });
-}
+
 
 function navigateTopmost(nameModule, backstack, clearHistory, JSONbody) {
     navigationOptions = {
@@ -326,7 +264,8 @@ exports.join = function () {
                                                         //console.log((b.getTime() - 120000) - (new Date().getTime()));
                                                         //console.log(new Date((b.getTime()) - (new Date().getTime()) + new Date().getTime()).toString());
 
-                                                        notificationCreate = setTimeout(programerNotification, (b.getTime() - 120000) - (new Date().getTime()));
+                                                        //notificationCreate = setTimeout(programerNotification, (b.getTime() - 120000) - (new Date().getTime()));
+                                                        programerNotificacionTest((b.getTime() - 120000));
                                                         playSoundCreate = setTimeout(programerSound, (b.getTime()) - (new Date().getTime()));
                                                         changeActivity = setTimeout(navigateActivitySimulacrumJoin, ((b.getTime() + 1000) - (new Date().getTime())));
 
@@ -653,6 +592,25 @@ function programerNotification() {
         console.log("scheduling error: " + error);
     };
 }
+
+function programerNotificacionTest(time) {
+    localNotifications.schedule([{
+        id: idSimulacrumGroup,
+        title: "\u00BFEst\u00e1s listo para el simulacro?",
+        body: "Iniciar\u00e1 dentro de 2 minuto.",
+        ticker: "Aviso de sumulacro.",
+        sound: require("application").ios ? "customsound-ios.wav" : "customsound-android",
+        ongoing: true,
+        badge: 1,
+        at: new Date(time)
+    }]).then(function () {
+        console.log("Notificacion programada");
+    }),
+    function (error) {
+        console.log("scheduling error: " + error);
+    };
+}
+
 function programerSound() {
     var installed = openApp("org.nativescript.voluntario");
     if (installed) {
@@ -707,6 +665,33 @@ function navegacionApp(idSimulacroGrupo) {
     console.log("Termino la navegacion");
 }
 
-exports.menuCreate = function () {
+exports.menuCreate = function (args) {
+    var item = args.view.bindingContext;
+    dialogsModule.action({
+        cancelButtonText: "Cancel text",
+        actions: ["Cancelar", "Option2"]
+    }).then(function (result) {
+        console.log("Dialog result: " + result);
+        if (result == "Options1") {
+            //Do action1
+        } else if (result == "Option2") {
+            //Do action2
+        }
+    });
+}
 
+exports.menuJoin = function (args) {
+    var item = args.view.bindingContext;
+    dialogsModule.action({
+        message: "Your message",
+        cancelButtonText: "Cancel text",
+        actions: ["Option1", "Option2"]
+    }).then(function (result) {
+        console.log("Dialog result: " + result);
+        if (result == "Options1") {
+            //Do action1
+        } else if (result == "Option2") {
+            //Do action2
+        }
+    });
 }
