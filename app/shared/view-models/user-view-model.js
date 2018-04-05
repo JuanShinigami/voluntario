@@ -11,11 +11,20 @@ function UserViewModel(items) {
 
     viewModel.login = function (datos) {
         // uri Defined config.apiUrl
+        var date = new Date();
+        //console.log(date.toString());
+        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
+
         return fetch(config.apiUrl + "voluntaryCreator/registryVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 correo: datos['correo'],
-                contrasena: datos['contrasena']
+                contrasena: datos['contrasena'],
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -34,6 +43,7 @@ function UserViewModel(items) {
     viewModel.add = function (userData) {
         //console.log("JSON -------> " + JSON.stringify(userData));
         //console.log("NOMBRE QUE LE MANDO DEL JS --------------->" + userData.name);
+        
         return fetch(config.apiUrl + "voluntaryCreator/addVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
@@ -57,11 +67,19 @@ function UserViewModel(items) {
 
     viewModel.searchFolio = function (folio) {
         console.log(folio);
+        var date = new Date();
+        //console.log(date.toString());
+        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "voluntaryCreator/existsVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 folio: folio,
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -80,12 +98,19 @@ function UserViewModel(items) {
     };
 
     viewModel.logout = function () {
-        
+        var date = new Date();
+        //console.log(date.toString());
+        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "voluntaryCreator/updateVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: appSettings.getNumber("idUser"),
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"

@@ -11,6 +11,12 @@ function SismoGroupViewModel(items) {
     url = appSettings.getString("url");
     viewModel.addSimulacrumGroup = function (datos) {
         //console.dir(datos);
+        var date = new Date();
+        //console.log(date.toString());
+        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "simulacrumGroup/addSimulacrumGroup", {
             method: "POST",
             body: JSON.stringify({
@@ -24,7 +30,9 @@ function SismoGroupViewModel(items) {
                 tiempoPreparacion: datos['tiempoPreparacion'],
                 //tipoSimulacro: datos['tipoSimulacro'],
                 estatus: "Creada",
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -43,11 +51,19 @@ function SismoGroupViewModel(items) {
     viewModel.load = function (idClient) {
         console.log(idClient);
         console.log(appSettings.getString("tokenUser"));
+        var date = new Date();
+        //console.log(date.toString());
+        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "simulacrumGroup/searchSimulacrumDetail", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntarioCreador: idClient,
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -64,11 +80,19 @@ function SismoGroupViewModel(items) {
     };
 
     viewModel.countVoluntary = function (idSimulacrum) {
+        var date = new Date();
+        //console.log(date.toString());
+        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "simulacrumGroup/countVoluntary", {
             method: "POST",
             body: JSON.stringify({
                 idSimulacro: idSimulacrum,
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -86,11 +110,19 @@ function SismoGroupViewModel(items) {
 
 
     viewModel.searchByFolio = function (folio) {
+        var date = new Date();
+        //console.log(date.toString());
+        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "simulacrumGroup/searchSimulacrumFolio", {
             method: "POST",
             body: JSON.stringify({
                 folioSimulacro: folio,
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -107,11 +139,19 @@ function SismoGroupViewModel(items) {
 
 
     viewModel.delete = function (idSimulacrum) {
+        var date = new Date();
+        //console.log(date.toString());
+        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "voluntarySimulacrum/deletelistVoluntary", {
             method: "POST",
             body: JSON.stringify({
                 idSimulacro: idSimulacrum,
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -128,12 +168,20 @@ function SismoGroupViewModel(items) {
     };
 
     viewModel.updateStatusSimulacrumGroup = function (idSimulacrum) {
+        var date = new Date();
+        //console.log(date.toString());
+        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "simulacrumGroup/updateSimulacrumGroup", {
             method: "POST",
             body: JSON.stringify({
                 id: idSimulacrum,
                 estatus: 'Completada',
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
