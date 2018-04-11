@@ -360,7 +360,6 @@ function updateStatusSimulacrum() {
     sismoGroupList.updateStatusSimulacrumGroup(idSimulacrumGroup).then(function (data) {
         console.dir(data);
         viewToast("Ha empezado el simulacro.");
-        navigateTopmost("view/home/home-page", false, true);
     });
 }
 

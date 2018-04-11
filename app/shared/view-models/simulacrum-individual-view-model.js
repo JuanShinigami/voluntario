@@ -8,7 +8,18 @@ var url = "";
 
 function SimulacrumIndividualViewModel(items) {
     var viewModel = new ObservableArray(items);
-    url = appSettings.getString("url");
+    var date = new Date();
+    //console.log(date.toString());
+    var monthModified = "";
+    if ((date.getMonth() + 1) < 10) {
+        monthModified = "0" + (date.getMonth() + 1);
+    } else {
+        monthModified = (date.getMonth() + 1);
+    }
+    var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
+    console.log(fecha);
+    var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    console.log(tiempo);
     viewModel.addSimulacrumIndividual = function (datos) {
         //console.dir(datos);
         return fetch(config.apiUrl + "voluntarySimulacrumIndividual/addVoluntarySimulacrumIndividual", {
@@ -19,7 +30,9 @@ function SimulacrumIndividualViewModel(items) {
                 tiempo_estoy_listo: datos["tiempo_estoy_listo"],
                 fecha: datos['fecha'],
                 hora: datos['hora'],
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -36,11 +49,25 @@ function SimulacrumIndividualViewModel(items) {
     };
 
     viewModel.load = function (idCreator) {
+        var date = new Date();
+        //console.log(date.toString());
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "voluntarySimulacrumIndividual/getAllSimulacrumByCreator", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntaryCreator: idCreator,
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -57,11 +84,25 @@ function SimulacrumIndividualViewModel(items) {
     };
 
     viewModel.delete = function (id) {
+        var date = new Date();
+        //console.log(date.toString());
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "voluntarySimulacrumIndividual/deteleVoluntaryOfSimulacrumIndividual", {
             method: "POST",
             body: JSON.stringify({
                 id: id,
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"

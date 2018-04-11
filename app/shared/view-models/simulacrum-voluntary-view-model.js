@@ -8,6 +8,18 @@ function SimulacrumVoluntaryViewModel(items) {
     var viewModel = new ObservableArray(items);
     url = appSettings.getString("url");
     viewModel.addVoluntarySimulacrum = function (datos) {
+        var date = new Date();
+        //console.log(date.toString());
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         console.log("Entre a la peticion");
         return fetch(config.apiUrl + "voluntarySimulacrum/addVoluntarySimulacrum", {
             method: "POST",
@@ -20,7 +32,9 @@ function SimulacrumVoluntaryViewModel(items) {
                 tipoSimulacro: datos["tipoSimulacro"],
                 altitud: datos["altitud"],
                 tagVoluntario: datos["tagVoluntario"],
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -36,12 +50,26 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.deleteVoluntary = function (datos) {
+        var date = new Date();
+        //console.log(date.toString());
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "voluntarySimulacrum/deteleVoluntaryOfSimulacrum", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: datos["idVoluntario"],
                 idSimulacro: datos["idSimulacro"],
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -57,11 +85,25 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.loadSimulacrum = function (idClient) {
+        var date = new Date();
+        //console.log(date.toString());
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "voluntarySimulacrum/searchDetailVoluntaryOfVoluntaryCreator", {
             method: "POST",
             body: JSON.stringify({
                 idVoluntario: idClient,
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -77,11 +119,25 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.searchDateAndHour = function (idSimulacrumGroup) {
+        var date = new Date();
+        //console.log(date.toString());
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "voluntarySimulacrum/searchDateAndHourSimulacrum", {
             method: "POST",
             body: JSON.stringify({
                 idSimulacrumGroup: idSimulacrumGroup,
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -97,6 +153,18 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.updateVoluntarySimulacrum = function (datos) {
+        var date = new Date();
+        //console.log(date.toString());
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "voluntarySimulacrum/updateVoluntarySimulacrum", {
             method: "POST",
             body: JSON.stringify({
@@ -104,7 +172,9 @@ function SimulacrumVoluntaryViewModel(items) {
                 tiempo_estoy_listo: datos["tiempoEstoyListo"],
                 tiempo_inicio: datos["tiempoInicio"],
                 tagVoluntario: datos["tagVoluntario"],
-                token: appSettings.getString("tokenUser")
+                token: appSettings.getString("tokenUser"),
+                fecha: fecha,
+                hora: tiempo,
             }),
             headers: {
                 "Content-Type": "application/json"

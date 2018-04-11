@@ -12,6 +12,12 @@ function MessageViewModel(items) {
     url = appSettings.getString("url");
     // Peticiones
     viewModel.addMessage = function (datos) {
+        var date = new Date();
+        //console.log(date.toString());
+        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(fecha);
+        var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(tiempo);
         return fetch(config.apiUrl + "message/addMessage", {
             method: "POST",
             body: JSON.stringify({

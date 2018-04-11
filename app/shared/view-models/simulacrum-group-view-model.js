@@ -13,7 +13,13 @@ function SismoGroupViewModel(items) {
         //console.dir(datos);
         var date = new Date();
         //console.log(date.toString());
-        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
         console.log(fecha);
         var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(tiempo);
@@ -53,7 +59,13 @@ function SismoGroupViewModel(items) {
         console.log(appSettings.getString("tokenUser"));
         var date = new Date();
         //console.log(date.toString());
-        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
         console.log(fecha);
         var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(tiempo);
@@ -82,7 +94,13 @@ function SismoGroupViewModel(items) {
     viewModel.countVoluntary = function (idSimulacrum) {
         var date = new Date();
         //console.log(date.toString());
-        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
         console.log(fecha);
         var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(tiempo);
@@ -112,7 +130,13 @@ function SismoGroupViewModel(items) {
     viewModel.searchByFolio = function (folio) {
         var date = new Date();
         //console.log(date.toString());
-        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
         console.log(fecha);
         var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(tiempo);
@@ -141,7 +165,13 @@ function SismoGroupViewModel(items) {
     viewModel.delete = function (idSimulacrum) {
         var date = new Date();
         //console.log(date.toString());
-        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
         console.log(fecha);
         var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(tiempo);
@@ -170,7 +200,13 @@ function SismoGroupViewModel(items) {
     viewModel.updateStatusSimulacrumGroup = function (idSimulacrum) {
         var date = new Date();
         //console.log(date.toString());
-        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
         console.log(fecha);
         var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(tiempo);

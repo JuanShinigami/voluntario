@@ -10,10 +10,15 @@ function UserViewModel(items) {
     var viewModel = new ObservableArray(items);
 
     viewModel.login = function (datos) {
-        // uri Defined config.apiUrl
         var date = new Date();
         //console.log(date.toString());
-        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
         console.log(fecha);
         var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(tiempo);
@@ -69,7 +74,13 @@ function UserViewModel(items) {
         console.log(folio);
         var date = new Date();
         //console.log(date.toString());
-        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
         console.log(fecha);
         var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(tiempo);
@@ -100,7 +111,13 @@ function UserViewModel(items) {
     viewModel.logout = function () {
         var date = new Date();
         //console.log(date.toString());
-        var fecha = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        var monthModified = "";
+        if ((date.getMonth() + 1) < 10) {
+            monthModified = "0" + (date.getMonth() + 1);
+        } else {
+            monthModified = (date.getMonth() + 1);
+        }
+        var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
         console.log(fecha);
         var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(tiempo);

@@ -93,12 +93,21 @@ function loadListCreator() {
     var listView = page.getViewById("simulacrumGroupList");
     sismoGroupList.load(appSettings.getNumber("idUser")).then(function (data) {
         console.dir(data);
-        pageData.simulacrumGroupList = data.response;
-        pageData.set("isLoading", false);
-        listView.animate({
-            opacity: 1,
-            duration: 1000
-        });
+        //console.log((data.response.token.status === undefined));
+        //var flag = (data.response.token.status == "undefined") ? false : true;
+        //console.log("FLAG ---> " + flag);
+        if (data.response.token.status) {
+            pageData.simulacrumGroupList = data.response;
+            pageData.set("isLoading", false);
+            listView.animate({
+                opacity: 1,
+                duration: 1000
+            });
+            
+        } else {
+            navigateTopmost("view/login/login", false, true, null);
+        }
+        
     }).catch(function (error) {
         pageData.set("isLoading", false);
         console.log(error);
