@@ -119,71 +119,75 @@ exports.onSaveSimulacrumGroup = function () {
                                             datos["idVoluntarioCreador"] = appSettings.getNumber("idUser");
                                             datos["tiempoPreparacion"] = timeWait;
                                             //datos["tipoSimulacro"] = "creado";
-
+                                            console.dir(datos);
                                             sismoGroupList.addSimulacrumGroup(datos).then(function (data) {
                                                 console.dir(data);
-                                                var dateSimulacrum = toDate(datos["hora"], "h:m");
-                                                var res = datos["fecha"].split("-");
-                                                dateSimulacrum.setFullYear(parseInt(res[2]));
-                                                dateSimulacrum.setMonth(parseInt(res[1] - 1));
-                                                dateSimulacrum.setDate(parseInt(res[0]));
-                                                idSimulacrumGroup = parseInt(data.response.idSimulacrum);
-                                                setTimeout(updateStatusSimulacrum, ((dateSimulacrum.getTime()) - (new Date().getTime())));
-                                                if (data.response.agrego.status) {
-
-                                                    dialogsModule.alert({
-                                                        title: "Informaci\u00F3n",
-                                                        message: "Tu simulacro se ha creado satisfactoriamente, con el FOLIO: " + data.response.folio + ".",
-                                                        okButtonText: "Aceptar"
-                                                    }).then(function () {
-                                                        navigateTopmost("view/home/home-page", false, true);
-                                                    });
-
-                                                    /*var dateSimulacrum = toDate(datos["hora"], "h:m");
+                                                if (data.response.StatusToken.status) {
+                                                
+                                                    var dateSimulacrum = toDate(datos["hora"], "h:m");
                                                     var res = datos["fecha"].split("-");
                                                     dateSimulacrum.setFullYear(parseInt(res[2]));
                                                     dateSimulacrum.setMonth(parseInt(res[1] - 1));
                                                     dateSimulacrum.setDate(parseInt(res[0]));
-                                                    myObj = JSON.stringify({
-                                                        dateTime: dateSimulacrum.getTime(),
-                                                        idVoluntarySimulacrum: parseInt(data.response.voluntarioSimulacro.idVoluntarioSimulacro),
-                                                        //idVoluntary: appSettings.getNumber("idUser"),
-                                                        idSimulacrum: data.response.idSimulacrum,
-                                                        typeVoluntary: 'create'
-                                                    });
+                                                    idSimulacrumGroup = parseInt(data.response.idSimulacrum);
+                                                    setTimeout(updateStatusSimulacrum, ((dateSimulacrum.getTime()) - (new Date().getTime())));
+                                                    if (data.response.agrego.status) {
 
-                                                    notificationCreate = setTimeout(programerNotification, ((dateSimulacrum.getTime() - 120000) - new Date().getTime()));
-                                                    playSoundCreate = setTimeout(programerSound, (dateSimulacrum.getTime() - new Date().getTime()));
+                                                        dialogsModule.alert({
+                                                            title: "Informaci\u00F3n",
+                                                            message: "Tu simulacro se ha creado satisfactoriamente, con el FOLIO: " + data.response.folio + ".",
+                                                            okButtonText: "Aceptar"
+                                                        }).then(function () {
+                                                            navigateTopmost("view/home/home-page", false, true);
+                                                        });
 
-                                                    dialogsModule.alert({
-                                                        title: "Informaci\u00F3n",
-                                                        message: "Tu simulacro se ha creado satisfactoriamente.",
-                                                        okButtonText: "Aceptar"
-                                                    }).then(function () {
-                                                        //definirSimulacroVoluntario(JSON.parse(myObj));
-                                                        var navigationEntryArt = {
-                                                            moduleName: "view/simulacrum-join/simulacrum-join",
-                                                            backstackVisible: false,
-                                                            animated: true,
-                                                            context: {
-                                                                data: JSON.parse(myObj)
-                                                            },
-                                                            transition: {
-                                                                name: "slideLeft",
-                                                                duration: 380,
-                                                                curve: "easeIn"
-                                                            }
-                                                        };
-                                                        frameModule.topmost().navigate(navigationEntryArt);
-                                                    });
-                                                    */
-                                                } else {
-                                                    dialogsModule.alert({
-                                                        message: "!No se creo tu simulacro!. Inténtalo más tarde.",
-                                                        okButtonText: "Aceptar"
-                                                    });
+                                                        /*var dateSimulacrum = toDate(datos["hora"], "h:m");
+                                                        var res = datos["fecha"].split("-");
+                                                        dateSimulacrum.setFullYear(parseInt(res[2]));
+                                                        dateSimulacrum.setMonth(parseInt(res[1] - 1));
+                                                        dateSimulacrum.setDate(parseInt(res[0]));
+                                                        myObj = JSON.stringify({
+                                                            dateTime: dateSimulacrum.getTime(),
+                                                            idVoluntarySimulacrum: parseInt(data.response.voluntarioSimulacro.idVoluntarioSimulacro),
+                                                            //idVoluntary: appSettings.getNumber("idUser"),
+                                                            idSimulacrum: data.response.idSimulacrum,
+                                                            typeVoluntary: 'create'
+                                                        });
+
+                                                        notificationCreate = setTimeout(programerNotification, ((dateSimulacrum.getTime() - 120000) - new Date().getTime()));
+                                                        playSoundCreate = setTimeout(programerSound, (dateSimulacrum.getTime() - new Date().getTime()));
+
+                                                        dialogsModule.alert({
+                                                            title: "Informaci\u00F3n",
+                                                            message: "Tu simulacro se ha creado satisfactoriamente.",
+                                                            okButtonText: "Aceptar"
+                                                        }).then(function () {
+                                                            //definirSimulacroVoluntario(JSON.parse(myObj));
+                                                            var navigationEntryArt = {
+                                                                moduleName: "view/simulacrum-join/simulacrum-join",
+                                                                backstackVisible: false,
+                                                                animated: true,
+                                                                context: {
+                                                                    data: JSON.parse(myObj)
+                                                                },
+                                                                transition: {
+                                                                    name: "slideLeft",
+                                                                    duration: 380,
+                                                                    curve: "easeIn"
+                                                                }
+                                                            };
+                                                            frameModule.topmost().navigate(navigationEntryArt);
+                                                        });
+                                                        */
+                                                    } else {
+                                                        dialogsModule.alert({
+                                                            message: "!No se creo tu simulacro!. Inténtalo más tarde.",
+                                                            okButtonText: "Aceptar"
+                                                        });
+                                                    }
+                                                }else{
+                                                    expireToken();
                                                 }
-
                                             }).catch(function (error) {
                                                 pageData.set("isLoading", false);
                                                 console.log(error);
@@ -401,4 +405,16 @@ function programerSound() {
 
 function playMusic() {
     alarm.play();
+}
+
+function expireToken() {
+    viewToast("Sesión expirada.");
+    appSettings.remove("login");
+    //appSettings.remove("folioUser");
+    appSettings.remove("emailUser");
+    //appSettings.remove("phoneUser");
+    appSettings.remove("nameUser");
+    appSettings.remove("idUser");
+    appSettings.remove("tokenUser");
+    navigateTopmost("view/login/login", false, true);
 }

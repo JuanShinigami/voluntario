@@ -1,5 +1,5 @@
 <Page class="page" xmlns:nsDrawer="nativescript-pro-ui/sidedrawer" xmlns:lv="nativescript-pro-ui/listview"
-    xmlns:myDrawer="./shared/my-drawer" navigatingTo="onNavigatingTo" xmlns="http://www.nativescript.org/tns.xsd">
+    xmlns:myDrawer="./shared/my-drawer" navigatingTo="onNavigatingTo" loaded="loaded" xmlns="http://www.nativescript.org/tns.xsd">
   <ActionBar title="Simulacros" class="action-bar">
     <NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
     <ActionItem icon="res://navigation/menu"

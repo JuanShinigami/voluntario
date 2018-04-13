@@ -37,9 +37,10 @@ function onNavigationItemTap(args) {
 
 exports.onLogout = function () {
 
-
+    console.log("TAP logout");
     userViewModel.logout().then(function (dataResponse) {
-        if (dataResponse.response.status) {
+        console.dir(dataResponse);
+        if (dataResponse.response.update.status) {
             appSettings.remove("login");
             //appSettings.remove("folioUser");
             appSettings.remove("emailUser");

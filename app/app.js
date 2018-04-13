@@ -1,4 +1,4 @@
-require("./bundle-config");
+//require("./bundle-config");
 const application = require("application");
 var config = require("./shared/config");
 var ObservableArray = require("data/observable-array").ObservableArray;
@@ -12,13 +12,7 @@ var toast;
 
 if (appSettings.hasKey("login")) {
     console.log("Existo");
-    if (appSettings.getBoolean("login")) {
-        console.log("Soy true");
-        nameModuleStr = "view/home/home-page";
-    } else {
-        console.log("soy false");
-        nameModuleStr = "view/login/login";
-    }
+    nameModuleStr = "view/home/home-page";
 } else {
     console.log("No existo");
     nameModuleStr = "view/login/login";

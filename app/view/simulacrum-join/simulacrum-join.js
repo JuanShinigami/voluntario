@@ -38,9 +38,9 @@ var time;
 var pageData = new observableModule.fromObject({
     cronometro1: "00:00:00",
     cronometro: "00:00:00",
-    evacuate: false,
+    evacuate: true,
     end: false,
-    classButtonSuccess: "button-success-disabled",
+    classButtonSuccess: "button-success",
     classButtonInfo: "button-info-disabled",
     countVoluntary: 1,
     isLoading: true,
@@ -50,6 +50,8 @@ var pageData = new observableModule.fromObject({
 exports.loaded = function (args) {
     //alarm = sound.create("~/sounds/alarm2.mp3");
     topmost = frameModule.topmost();
+    pageData.classButtonSuccess = "button-success";
+    pageData.evacuate = true;
     page = args.object;
     page.bindingContext = pageData;
     var requestData = page.navigationContext;
@@ -57,23 +59,27 @@ exports.loaded = function (args) {
     //console.dir(requestData);
     idVoluntarySimulacrum = requestData.idSG;
     idSimulacrum = 0;
-    simulacrumVoluntrayList.searchDateAndHour(requestData.idSG).then(function (data) {
+    /*simulacrumVoluntrayList.searchDateAndHour(requestData.idSG).then(function (data) {
         console.dir(data);
-        var b = toDate(data.response[0].hora, "h:m");
-        var res = data.response[0].fecha.split("-");
-        b.setFullYear(parseInt(res[2]));
-        b.setMonth(parseInt(res[1] - 1));
-        b.setDate(parseInt(res[0]));
-       // if (b.getTime() < new Date().getTime()) {
-       //     console.log("YA PASO");
-       // } else {
+        if (data.response.StatusToken.status) {
+            var b = toDate(data.response[0].hora, "h:m");
+            var res = data.response[0].fecha.split("-");
+            b.setFullYear(parseInt(res[2]));
+            b.setMonth(parseInt(res[1] - 1));
+            b.setDate(parseInt(res[0]));
+            // if (b.getTime() < new Date().getTime()) {
+            //     console.log("YA PASO");
+            // } else {
             var timeMS = ((b.getTime()) - (new Date().getTime()));
             setTimeout(enabledButton, timeMS);
-       // }
+            // }
+        } else {
+            expireToken();
+        }
 
     }).catch(function (error) {
         console.log("No es posible realizar la petición. " + error);
-    });
+    });*/
     //validate(requestData);
     //load(requestData);
 }
@@ -247,7 +253,7 @@ exports.stop = function () {
     clearInterval(elcrono1);
     clearInterval(loopSound);
     clearInterval(playSoundCreate);
-    clearInterval(notificationCreate);
+    //clearInterval(notificationCreate);
     clearInterval(changeActivity);
     pageData.classButtonInfo = "button-info-disabled";
 
@@ -287,7 +293,7 @@ exports.stop = function () {
             });
         }
     });*/
-
+    var tagVoluntario = "";
     var datos = new Array();
     datos['idVoluntarioSimulacro'] = idVoluntarySimulacrum;
     datos['tiempoEstoyListo'] = timeOne;
@@ -295,8 +301,12 @@ exports.stop = function () {
     datos['tagVoluntario'] = tagVoluntario;
 
     simulacrumVoluntrayList.updateVoluntarySimulacrum(datos).then(function (data) {
-        viewToast("Gracias por participar.");
-        navigateTopmost("view/home/home-page", false, true);
+        if (data.response.StatusToken.status) {
+            viewToast("Gracias por participar.");
+            navigateTopmost("view/home/home-page", false, true);
+        } else {
+            expireToken();
+        }
     });
 
 }
@@ -346,4 +356,16 @@ function toDate(dStr, format) {
         return now;
     } else
         return "Invalid Format";
+}
+
+function expireToken() {
+    viewToast("Sesión expirada.");
+    appSettings.remove("login");
+    //appSettings.remove("folioUser");
+    appSettings.remove("emailUser");
+    //appSettings.remove("phoneUser");
+    appSettings.remove("nameUser");
+    appSettings.remove("idUser");
+    appSettings.remove("tokenUser");
+    navigateTopmost("view/login/login", false, true, null);
 }

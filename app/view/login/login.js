@@ -68,6 +68,12 @@ exports.signIn = function () {
                     okButtonText: "Aceptar"
                 });
                 user.set("isLoading", false);
+            } if (data.response.mensaje === "Usuario y Contrasena incorrectos"){
+                dialogsModule.alert({
+                    message: "Verifica tus datos. Intentalo una vez más.",
+                    okButtonText: "Aceptar"
+                });
+                user.set("isLoading", false);
             } else {
                 if (data.response.registro.status) {
                     //appSettings.setString("folioUser", data.response.registro.datos[0].folio);
