@@ -30,7 +30,7 @@ function SismoGroupViewModel(items) {
                 ubicacion: datos["ubicacion"],
                 latitud: datos["latitud"],
                 longitud: datos["longitud"],
-                fecha: datos["fecha"],
+                fechaS: datos["fecha"],
                 horaS: datos["hora"],
                 idVoluntarioCreador: datos["idVoluntarioCreador"],
                 tiempoPreparacion: datos['tiempoPreparacion'],

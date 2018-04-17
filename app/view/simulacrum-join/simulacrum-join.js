@@ -359,13 +359,49 @@ function toDate(dStr, format) {
 }
 
 function expireToken() {
-    viewToast("Sesión expirada.");
-    appSettings.remove("login");
+    console.log("1");
+    //viewToast("Sesión expirada.");
+    if (appSettings.hasKey("login")) {
+        appSettings.remove("login");
+        console.log("2");
+    }
+    console.log("3");
+    if (appSettings.hasKey("emailUser")) {
+        appSettings.remove("emailUser");
+        console.log("4");
+    }
     //appSettings.remove("folioUser");
-    appSettings.remove("emailUser");
+
+    console.log("5");
+    if (appSettings.hasKey("nameUser")) {
+        appSettings.remove("nameUser");
+        console.log("6");
+    }
+
+    console.log("7");
+    if (appSettings.hasKey("idUser")) {
+        console.log("8");
+        appSettings.remove("idUser");
+    }
+    console.log("9");
+    if (appSettings.hasKey("tokenUser")) {
+        console.log("10");
+        appSettings.remove("tokenUser");
+    }
+    console.log("11");
     //appSettings.remove("phoneUser");
-    appSettings.remove("nameUser");
-    appSettings.remove("idUser");
-    appSettings.remove("tokenUser");
-    navigateTopmost("view/login/login", false, true, null);
+    //alert("Cerrar Sesion");
+    var navigationEntryArtView = {
+        moduleName: "view/login/login",
+        backstackVisible: false,
+        clearHistory: true,
+        animated: true,
+        transition: {
+            name: "slideLeft",
+            duration: 380,
+            curve: "easeIn"
+        }
+    };
+    frameModule.topmost().navigate(navigationEntryArtView);
+    //navigateTopmost("view/login/login", false, true, null);
 }

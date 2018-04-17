@@ -119,6 +119,7 @@ function SimulacrumVoluntaryViewModel(items) {
     };
 
     viewModel.searchDateAndHour = function (idSimulacrumGroup) {
+        console.log("Entre a la peticion de buscar Voluntario simulacro ---> " + idSimulacrumGroup);
         var date = new Date();
         //console.log(date.toString());
         var monthModified = "";

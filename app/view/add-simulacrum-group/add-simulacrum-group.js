@@ -75,9 +75,9 @@ exports.onSaveSimulacrumGroup = function () {
 
             var dateInput = toDate(pageData.selectTime, "h:m");
             var resInput = pageData.selectDate.split("-");
-            dateInput.setFullYear(parseInt(resInput[2]));
+            dateInput.setFullYear(parseInt(resInput[0]));
             dateInput.setMonth(parseInt(resInput[1] - 1));
-            dateInput.setDate(parseInt(resInput[0]));
+            dateInput.setDate(parseInt(resInput[2]));
 
             var dateCurrentValidate = new Date();
             //console.log("Hora ingresada: " + dateInput);
@@ -110,6 +110,7 @@ exports.onSaveSimulacrumGroup = function () {
                                             var timeWait = Math.floor(Math.random() * 10) + 1;
                                             var completeDirection = JSON.stringify(data.results[0].formatted_address);
                                             var datos = new Array();
+                                            console.log(pageData.selectDate);
                                             datos["tagGrupal"] = pageData.tagSimulacrumGroup;
                                             datos["ubicacion"] = completeDirection.slice(1, -1);
                                             datos["latitud"] = loc.latitude;
@@ -126,9 +127,9 @@ exports.onSaveSimulacrumGroup = function () {
                                                 
                                                     var dateSimulacrum = toDate(datos["hora"], "h:m");
                                                     var res = datos["fecha"].split("-");
-                                                    dateSimulacrum.setFullYear(parseInt(res[2]));
+                                                    dateSimulacrum.setFullYear(parseInt(res[0]));
                                                     dateSimulacrum.setMonth(parseInt(res[1] - 1));
-                                                    dateSimulacrum.setDate(parseInt(res[0]));
+                                                    dateSimulacrum.setDate(parseInt(res[2]));
                                                     idSimulacrumGroup = parseInt(data.response.idSimulacrum);
                                                     setTimeout(updateStatusSimulacrum, ((dateSimulacrum.getTime()) - (new Date().getTime())));
                                                     if (data.response.agrego.status) {
@@ -302,7 +303,8 @@ exports.selectDate = function () {
         if (result.month < 10) {
             monthFormatt = ("0" + result.month);
         }
-        pageData.selectDate = result.day + "-" + monthFormatt + "-" + result.year;
+        console.dir(result);
+        pageData.selectDate = result.year + "-" + monthFormatt + "-" + result.day;
         flagDate = true;
     }).catch((error) => {
         console.log("Error: " + error);
@@ -408,13 +410,49 @@ function playMusic() {
 }
 
 function expireToken() {
-    viewToast("Sesión expirada.");
-    appSettings.remove("login");
+    console.log("1");
+    //viewToast("Sesión expirada.");
+    if (appSettings.hasKey("login")) {
+        appSettings.remove("login");
+        console.log("2");
+    }
+    console.log("3");
+    if (appSettings.hasKey("emailUser")) {
+        appSettings.remove("emailUser");
+        console.log("4");
+    }
     //appSettings.remove("folioUser");
-    appSettings.remove("emailUser");
+
+    console.log("5");
+    if (appSettings.hasKey("nameUser")) {
+        appSettings.remove("nameUser");
+        console.log("6");
+    }
+
+    console.log("7");
+    if (appSettings.hasKey("idUser")) {
+        console.log("8");
+        appSettings.remove("idUser");
+    }
+    console.log("9");
+    if (appSettings.hasKey("tokenUser")) {
+        console.log("10");
+        appSettings.remove("tokenUser");
+    }
+    console.log("11");
     //appSettings.remove("phoneUser");
-    appSettings.remove("nameUser");
-    appSettings.remove("idUser");
-    appSettings.remove("tokenUser");
-    navigateTopmost("view/login/login", false, true);
+    //alert("Cerrar Sesion");
+    var navigationEntryArtView = {
+        moduleName: "view/login/login",
+        backstackVisible: false,
+        clearHistory: true,
+        animated: true,
+        transition: {
+            name: "slideLeft",
+            duration: 380,
+            curve: "easeIn"
+        }
+    };
+    frameModule.topmost().navigate(navigationEntryArtView);
+    //navigateTopmost("view/login/login", false, true, null);
 }

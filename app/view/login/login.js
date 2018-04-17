@@ -70,7 +70,7 @@ exports.signIn = function () {
                 user.set("isLoading", false);
             } if (data.response.mensaje === "Usuario y Contrasena incorrectos"){
                 dialogsModule.alert({
-                    message: "Verifica tus datos. Intentalo una vez más.",
+                    message: "Verifica tus datos. Int\u00E9ntalo una vez m\u00E1s.",
                     okButtonText: "Aceptar"
                 });
                 user.set("isLoading", false);

@@ -11,7 +11,7 @@
         </StackLayout>
       </ActionBar.titleView>
     </ActionBar>-->
-    <ActionBar title="¡Atento!" class="action-bar">
+    <ActionBar title="¡Es momento de salir!" class="action-bar">
       <NavigationButton text="Atrás" android.systemIcon="ic_menu_back" tap="back"></NavigationButton>
     </ActionBar>
   </Page.actionBar>
