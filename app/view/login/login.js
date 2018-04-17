@@ -83,6 +83,7 @@ exports.signIn = function () {
                     appSettings.setNumber("idUser", parseInt(data.response.registro.datos[0].id));
                     appSettings.setString("tokenUser", data.response.token);
                     appSettings.setBoolean("login", true);
+                    config.login = true;
                     user.set("isLoading", false);
                     navigateTopmost("view/home/home-page", false, true);
                 } else {

@@ -9,20 +9,21 @@ var geolocation = require("nativescript-geolocation");
 var Toast = require("nativescript-toast");
 var nameModuleStr = "";
 var toast;
-
-if (appSettings.hasKey("login")) {
-    console.log("Existo");
-    nameModuleStr = "view/home/home-page";
+var existLogin = appSettings.hasKey("login");
+console.log("EXIST LOGIN -------------------> ------------> " + existLogin);
+if (config.login == "undefined") {
+    if (existLogin) {
+        console.log("Existo");
+        application.start({ moduleName: "view/home/home-page" });
+        //nameModuleStr = "view/home/home-page";
+    } else {
+        console.log("No existo");
+        application.start({ moduleName: "view/login/login" });
+        //nameModuleStr = "view/login/login";
+    }
 } else {
-    console.log("No existo");
-    nameModuleStr = "view/login/login";
+    application.start({ moduleName: "view/home/home-page" });
 }
 
-application.start({ moduleName: nameModuleStr });
 
-
-
-function viewToast(message) {
-    toast = Toast.makeText(message, "long");
-    toast.show();
-}
+//application.start({ moduleName: nameModuleStr });

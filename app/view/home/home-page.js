@@ -41,7 +41,7 @@ exports.onNavigatingTo = function(args) {
     topmost = frameModule.topmost();
     alarm = sound.create("~/sounds/alarm2.mp3");
     localNotifications.addOnMessageReceivedCallback(function (notification) {
-
+        idVoluntarySimulacrum = notification.id;
         //alert("Que trae notificacion en LOG ----> " + notification.id);
         //consolePlay = setTimeout(UnitTestNotification, 1000);
         //alert("Que traes ---> " + (typeof playSoundCreate));
@@ -50,24 +50,25 @@ exports.onNavigatingTo = function(args) {
             //viewToast("Voy a realizar la peticion");
             simulacrumVoluntrayList.searchDateAndHour(notification.id).then(function (data) {
                 console.dir(data);
+                
                 //alert(" Ya la hice ----> " + JSON.stringify(data));
                 if (data.response.StatusToken.status) {
-                    console.log("ENTO PORQUE AOY TRUE")
+                    //console.log("ENTO PORQUE AOY TRUE")
                     var b = toDate(data.response.fechaHoraSimulacro[0].hora, "h:m");
                     var res = data.response.fechaHoraSimulacro[0].fecha.split("-");
-                    console.log("FECHA ANTES DE AGREGAR LA FECHA -----> " + b.toString());
+                    //console.log("FECHA ANTES DE AGREGAR LA FECHA -----> " + b.toString());
                     b.setFullYear(parseInt(res[0]));
                     b.setMonth(parseInt(res[1]) -1);
                     b.setDate(parseInt(res[2]));
-                    console.log("FECHA AND HORA ----------> " + b.toString());
+                    //console.log("FECHA AND HORA ----------> " + b.toString());
                     var msR = (b.getTime()) - (new Date().getTime());
-                    console.log("LO QUE FALTA    ----- > " + msR);
+                    //console.log("LO QUE FALTA    ----- > " + msR);
                     if (msR >= 1000) {
                         
                         //viewToast("TIEMPO EN EL QUE LA PROGRAME ----> " + (msR/ 1000) + " segundos iniciara.");
                         var seg = (msR / 1000);
                         //viewToast("En " + seg + "segundos iniciará el simulacro.");
-                        console.log("Entre a programarla");
+                        //console.log("Entre a programarla");
                         playSoundCreate = setTimeout(programerSound, (b.getTime()) - (new Date().getTime()));
                         changeActivity = setTimeout(navigateActivitySimulacrumJoin, ((b.getTime() + 1000) - (new Date().getTime())));
                         //alert("Hoola --->" + seg);
@@ -93,7 +94,7 @@ exports.onNavigatingTo = function(args) {
             //viewToast("Voy hacer la peticion");
             simulacrumVoluntrayList.searchDateAndHour(notification.id).then(function (data) {
                 if (data.response.StatusToken.status) {
-                    console.log("ENTO PORQUE AOY TRUE")
+                    //console.log("ENTO PORQUE AOY TRUE")
                     var b = toDate(data.response.fechaHoraSimulacro[0].hora, "h:m");
                     var res = data.response.fechaHoraSimulacro[0].fecha.split("-");
                     //console.log("FECHA ANTES DE AGREGAR LA FECHA -----> " + b.toString());
@@ -102,20 +103,28 @@ exports.onNavigatingTo = function(args) {
                     b.setDate(parseInt(res[2]));
                     
                     var msR = (b.getTime()) - (new Date().getTime());
-                    console.log("LO QUE FALTA    ----- > " + msR);
+                    //console.log("LO QUE FALTA    ----- > " + msR);
                     //if (msR >= 1000) {
 
                     //viewToast("TIEMPO EN EL QUE LA PROGRAME ----> " + (msR/ 1000) + " segundos iniciara.");
                     var seg = (msR / 1000);
                     //viewToast("En " + seg + "segundos iniciará el simulacro.");
-                    console.log("Entre a programarla");
+                   // console.log("Entre a programarla");
                     //playSoundCreate = setTimeout(programerSound, (b.getTime()) - (new Date().getTime()));
                     //changeActivity = setTimeout(navigateActivitySimulacrumJoin, ((b.getTime() + 1000) - (new Date().getTime())));
                     //alert("Hoola --->" + seg);
-                    dialogsModule.alert({
-                        message: "El simulacro iniciará en " + parseInt(seg) + " segundos.",
-                        okButtonText: "Aceptar"
-                    });
+                    if (seg > 0) {
+                        dialogsModule.alert({
+                            message: "El simulacro iniciará en " + parseInt(seg) + " segundos.",
+                            okButtonText: "Aceptar"
+                        });
+                    } else {
+                        dialogsModule.alert({
+                            message: "Lo sentimos ya no puedes participar en el simulacro.",
+                            okButtonText: "Aceptar"
+                        });
+                    }
+                    
                 } 
                 
             }).catch(function (error) {
@@ -173,18 +182,23 @@ function testGPS() {
 }
 
 function loadListCreator() {
-    console.log("ENTRE A CARGAR LA LISTA CREATE");
+    //console.log("ENTRE A CARGAR LA LISTA CREATE");
     pageData.set("isLoading", true);
     var listView = page.getViewById("simulacrumGroupList");
     sismoGroupList.load(appSettings.getNumber("idUser")).then(function (dataResponse) {
         //console.log("ERROR ROROROROROROROOR");
-        console.dir(dataResponse);
-        console.log("ESTATUS TRAE -----> " + dataResponse.response.StatusToken.status);
+        //console.dir(dataResponse);
+        //console.log("ESTATUS TRAE -----> " + dataResponse.response.StatusToken.status);
         //console.log((data.response.token.status === undefined));
         //var flag = (data.response.token.status == "undefined") ? false : true;
         //console.log("FLAG ---> " + flag);
         if (dataResponse.response.StatusToken.status != false) {
-            pageData.simulacrumGroupList = dataResponse.response.detalle;
+            
+            if (dataResponse.response.detalle.length <= 0) {
+                pageData.listCreate = true;
+            } else {
+                pageData.simulacrumGroupList = dataResponse.response.detalle;
+            }
             pageData.set("isLoading", false);
             listView.animate({
                 opacity: 1,
@@ -206,14 +220,19 @@ function loadListCreator() {
     });
 }
 function loadListJoin(){
-    console.log("ENTRE A CARGAR LA LISTA JOIN");
+    //console.log("ENTRE A CARGAR LA LISTA JOIN");
     pageData.set("isLoading", true);
     var listViewJoin = page.getViewById("simulacrumGroupListJoin");
     simulacrumVoluntrayList.loadSimulacrum(appSettings.getNumber("idUser")).then(function (data) {
-        console.log("IntegrateModel");
+        //console.log("IntegrateModel");
         console.dir(data);
         if (data.response.StatusToken.status) {
-            pageData.simulacrumGroupListJoin = data.response.detalleVoluntarioPorCreador;
+            
+            if (data.response.detalleVoluntarioPorCreador.length <= 0) {
+                pageData.listJoin = true;
+            } else {
+                pageData.simulacrumGroupListJoin = data.response.detalleVoluntarioPorCreador;
+            }
             pageData.set("isLoading", false);
             listViewJoin.animate({
                 opacity: 1,
@@ -378,7 +397,7 @@ exports.join = function () {
                                                             //appSettings.setNumber("idSimulacrumGroup", parseInt(data.response.detalleSimulacroFolio[0].id);
                                                             dialogsModule.alert({
                                                                 title: "Informaci\u00F3n",
-                                                                message: "Te has unido al simulacro " + data.response.detalleSimulacroFolio[0].folioSimulacro,
+                                                                message: "Te has unido al simulacro " + data.response.detalleSimulacroFolio[0].folioSimulacro + ".",
                                                                 okButtonText: "Aceptar"
                                                             }).then(function () {
                                                                 /*var navigationEntryArt = {
@@ -571,10 +590,16 @@ exports.listViewItemTap = function (args) {
     console.log("CREADO");
     dialogsModule.action({
         cancelButtonText: "Cancelar",
-        actions: [" * Compartir folio", " * Cantidad de voluntarios"]
+        actions: [" * Ver folio"," * Compartir folio", " * Cantidad de voluntarios"]
     }).then(function (result) {
         //console.log("Dialog result: " + result);
         switch (result) {
+            case " * Ver folio":
+                dialogsModule.alert({
+                    message: "Folio: " + item.folioSimulacro + ".",
+                    okButtonText: "Aceptar"
+                });
+                break;
             case " * Compartir folio":
                 console.log("compartir");
                 SocialShare.shareText("Los invito a mí simulacro con la aplicación Voluntario.\nÚnete con el folio: " + item.folioSimulacro + ".", "¿Con quién deseas compartir el folio del simulacro? ");
@@ -777,10 +802,31 @@ function programerNotificacionTest(time) {
 }
 
 function programerSound() {
+    localNotifications.cancel(idVoluntarySimulacrum).then(
+        function (foundAndCanceled) {
+            if (foundAndCanceled) {
+                console.log("Notificacion cancelada...");
+            } else {
+                console.log("No ID 5 was scheduled");
+            }
+        }
+    )
     console.log("AQUI PROGRAMO EL SOUND");
-    var installed = openApp("org.nativescript.voluntario");
-    if (installed) {
-        
+    console.log("CONFIG LOGIN --------------------> ----------------> " + config.login);
+    if (config.login != "undefined") {
+        var installed = openApp("org.nativescript.voluntario");
+        if (installed) {
+            if (application.ios) {
+                // iOS Volume goes from 0 to 1. With its increments being 1/16.
+                volume.setVolume(7);
+            } else if (application.android) {
+                // Android Volume I'm unsure of the range, but believe it to be 0 to 15 at least for the music stream.
+                volume.setVolume(7);
+            }
+            vibrator.vibrate(2000);
+            loopSound = setInterval(playMusic, 500);
+        }
+    }else{
         if (application.ios) {
             // iOS Volume goes from 0 to 1. With its increments being 1/16.
             volume.setVolume(7);
@@ -790,11 +836,6 @@ function programerSound() {
         }
         vibrator.vibrate(2000);
         loopSound = setInterval(playMusic, 500);
-        //navigateTopmost("view/simulacrum-join/simulacrum-join", false, true, appSettings.getNumber("idSimulacrumGroup"));
-        //console.log("NAVEGACION");
-        //navegacionApp(idSimulacrumGroup);
-    } else {
-        viewToast("No tegno instalado la app.");
     }
 }
 

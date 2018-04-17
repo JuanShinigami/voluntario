@@ -48,10 +48,11 @@ var pageData = new observableModule.fromObject({
 });
 
 exports.loaded = function (args) {
-    //alarm = sound.create("~/sounds/alarm2.mp3");
-    topmost = frameModule.topmost();
     pageData.classButtonSuccess = "button-success";
     pageData.evacuate = true;
+    //alarm = sound.create("~/sounds/alarm2.mp3");
+    topmost = frameModule.topmost();
+    
     page = args.object;
     page.bindingContext = pageData;
     var requestData = page.navigationContext;
