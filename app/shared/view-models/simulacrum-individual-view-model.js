@@ -28,8 +28,8 @@ function SimulacrumIndividualViewModel(items) {
                 idVoluntario: datos["idVoluntario"],
                 tiempo_inicio: datos["tiempo_inicio"],
                 tiempo_estoy_listo: datos["tiempo_estoy_listo"],
-                fecha: datos['fecha'],
-                hora: datos['hora'],
+                fechaS: datos['fecha'],
+                horaS: datos['hora'],
                 token: appSettings.getString("tokenUser"),
                 fecha: fecha,
                 hora: tiempo
@@ -57,6 +57,8 @@ function SimulacrumIndividualViewModel(items) {
         } else {
             monthModified = (date.getMonth() + 1);
         }
+        console.log(appSettings.getString("tokenUser"));
+        
         var fecha = date.getFullYear() + "-" + monthModified + "-" + date.getDate();
         console.log(fecha);
         var tiempo = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -64,7 +66,7 @@ function SimulacrumIndividualViewModel(items) {
         return fetch(config.apiUrl + "voluntarySimulacrumIndividual/getAllSimulacrumByCreator", {
             method: "POST",
             body: JSON.stringify({
-                idVoluntaryCreator: idCreator,
+                idVoluntario: idCreator,
                 token: appSettings.getString("tokenUser"),
                 fecha: fecha,
                 hora: tiempo

@@ -21,7 +21,7 @@
     </nsDrawer:RadSideDrawer.drawerContent>
     <nsDrawer:RadSideDrawer.mainContent>
       <ActivityIndicator busy="{{ isLoading }}" height="60" width="60"/>
-      <TabView tabBackgroundColor="rgb(232,76,61)"  selectedIndexChanged="onSelectedIndexChanged">
+      <TabView tabBackgroundColor="#F70025"  selectedIndexChanged="onSelectedIndexChanged">
         <TabView.items class="tab-view">
           <TabViewItem  title="Creados">
             <TabViewItem.view>

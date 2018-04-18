@@ -769,7 +769,7 @@ function programerNotification() {
     localNotifications.schedule([{
         id: idSimulacrumGroup,
         title: "\u00BFEst\u00e1s listo para el simulacro?",
-        body: "Iniciar\u00e1 dentro de 2 minuto.",
+        body: "Pronto iniciar\u00E1 el simlacro.",
         ticker: "Aviso de sumulacro.",
         sound: require("application").ios ? "customsound-ios.wav" : "customsound-android",
         ongoing: true,
@@ -787,11 +787,12 @@ function programerNotificacionTest(time) {
     localNotifications.schedule([{
         id: idVoluntarySimulacrum,
         title: "\u00BFEst\u00e1s listo para el simulacro?",
-        body: "Iniciar\u00e1 dentro de 2 minuto.",
+        body: "Pronto iniciar\u00E1 el simlacro. Da clic para confirmar que pariticipar\u00E1s",
         ticker: "Aviso de sumulacro.",
         sound: require("application").ios ? "customsound-ios.wav" : "customsound-android",
         ongoing: true,
         badge: 1,
+        interval: 'second',
         at: new Date(time)
     }]).then(function () {
         console.log("Notificacion programada");

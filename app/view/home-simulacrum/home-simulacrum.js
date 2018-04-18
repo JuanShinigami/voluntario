@@ -58,15 +58,23 @@ exports.onNavigatingTo = function (args) {
 
 function loadDefault() {
     var listView = page.getViewById("simulacrumList");
+    console.log("ID USER LOGIN ------------------> ----------------------------> " + appSettings.getNumber("idUser"));
     simulacrumIndividualList.load(appSettings.getNumber("idUser")).then(function (data) {
         console.dir(data);
-        if (data.response.status) {
-            pageData.simulacrumList = data.response.list;
-            listView.animate({
-                opacity: 1,
-                duration: 1000
-            });
+        if (data.response.StatusToken.status) {
+            if (data.response.status) {
+                pageData.simulacrumList = data.response.list;
+                listView.animate({
+                    opacity: 1,
+                    duration: 1000
+                });
+            } else {
+                viewToast("Error interno.");
+            }
+        } else {
+            expireToken();
         }
+        
         
     }).catch(function (error) {
         console.log(error);
@@ -102,7 +110,7 @@ function myFunction() {
     var dateInit = new Date();
     console.log(diasSemana[dateInit.getDay()] + ", " + dateInit.getDate() + " de " + meses[dateInit.getMonth()] + " de " + dateInit.getFullYear());
 
-    dateIni = dateInit.getDate() + "-" + (dateInit.getMonth() + 1) + "-" + dateInit.getFullYear();
+    dateIni = dateInit.getFullYear() + "-" + (dateInit.getMonth() + 1) + "-" + dateInit.getDate();
     hourIni = dateInit.getHours() + ":" + dateInit.getMinutes();
     empezar();
     
@@ -208,10 +216,17 @@ function parar() {
 
         clearInterval(refreshIntervalId);
         simulacrumIndividualList.addSimulacrumIndividual(datos).then(function (data) {
-            console.log(data);
-            if (data.response.voluntarioSimulacro.status) {
-                loadDefault();
+            console.dir(data);
+            if (data.response.StatusToken.status) {
+                if (data.response.voluntarioSimulacro.status) {
+                    loadDefault();
+                } else {
+                    viewToast("Error interno.");
+                }
+            } else {
+                expireToken();
             }
+            
             //
         }).catch(function (error) {
             console.log(error);
@@ -262,10 +277,17 @@ exports.delete = function (args) {
     }).then(function (result) {
         if (result) {
             simulacrumIndividualList.delete(item.id).then(function (data) {
-                //console.dir(data);
-                if (data.response.status) {
-                    loadDefault();
+                console.dir(data);
+                if (data.response.StatusToken.status) {
+                    if (data.response.EliminaVoluntario.status) {
+                        loadDefault();
+                    } else {
+                        viewToast("Error interno.");
+                    }
+                } else {
+                    expireToken();
                 }
+                
             }).catch(function (error) {
                 console.log(error);
                 viewToast("No es posible eliminar el simulacro.");
@@ -301,4 +323,52 @@ exports.listViewItemTap = function (args) {
 exports.onDrawerButtonTap = function (args) {
     const sideDrawer = frameModule.topmost().getViewById("sideDrawer");
     sideDrawer.showDrawer();
+}
+
+function expireToken() {
+    console.log("1");
+    //viewToast("Sesión expirada.");
+    if (appSettings.hasKey("login")) {
+        appSettings.remove("login");
+        console.log("2");
+    }
+    console.log("3");
+    if (appSettings.hasKey("emailUser")) {
+        appSettings.remove("emailUser");
+        console.log("4");
+    }
+    //appSettings.remove("folioUser");
+
+    console.log("5");
+    if (appSettings.hasKey("nameUser")) {
+        appSettings.remove("nameUser");
+        console.log("6");
+    }
+
+    console.log("7");
+    if (appSettings.hasKey("idUser")) {
+        console.log("8");
+        appSettings.remove("idUser");
+    }
+    console.log("9");
+    if (appSettings.hasKey("tokenUser")) {
+        console.log("10");
+        appSettings.remove("tokenUser");
+    }
+    console.log("11");
+    //appSettings.remove("phoneUser");
+    //alert("Cerrar Sesion");
+    var navigationEntryArtView = {
+        moduleName: "view/login/login",
+        backstackVisible: false,
+        clearHistory: true,
+        animated: true,
+        transition: {
+            name: "slideLeft",
+            duration: 380,
+            curve: "easeIn"
+        }
+    };
+    frameModule.topmost().navigate(navigationEntryArtView);
+    //navigateTopmost("view/login/login", false, true, null);
 }
