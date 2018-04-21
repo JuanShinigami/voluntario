@@ -1,14 +1,22 @@
-<Page class="page" xmlns:nsDrawer="nativescript-pro-ui/sidedrawer" xmlns:lv="nativescript-pro-ui/listview"
+<Page xmlns:nsDrawer="nativescript-pro-ui/sidedrawer" xmlns:lv="nativescript-pro-ui/listview"
     xmlns:myDrawer="./shared/my-drawer" navigatingTo="onNavigatingTo" loaded="loaded" xmlns="http://www.nativescript.org/tns.xsd">
-  <ActionBar title="Simulacros" class="action-bar">
+  <ActionBar title="Simulacros" color="#F7EFE2">
     <NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
-    <ActionItem icon="res://navigation/menu"
+    <ActionItem icon="res://navigation/menu" color="#F7EFE2"
         android:visibility="collapsed"
         tap="onDrawerButtonTap"
         ios.position="left">
     </ActionItem>
-    <ActionItem tap="onCreateSimulacrumGroup" ios.systemIcon="4" android.systemIcon="ic_menu_add" ios.position="right" visibility="{{ enabledCreate ? 'visible' : 'collapse' }}"></ActionItem>
-    <ActionItem text="Unirse" tap="join" ios.position="right" visibility="{{ enabledCreate ? 'collapse' : 'visible' }}"/>
+    <ActionItem tap="onCreateSimulacrumGroup" text="Agregar" ios.position="right" android.systemIcon="ic_menu_add" visibility="{{ enabledCreate ? 'visible' : 'collapse' }}">
+      <!--<StackLayout>
+          <Image src="~/images/icons/add.png" stretch="none" class="icons" />
+      </StackLayout>-->
+    </ActionItem>
+    <ActionItem text="Unirse" tap="join" ios.position="right" visibility="{{ enabledCreate ? 'collapse' : 'visible' }}">
+      <!--<StackLayout>
+          <Image src="~/images/icons/add-3.png" stretch="none" class="icons" />
+      </StackLayout>-->
+    </ActionItem>
   </ActionBar>
   <nsDrawer:RadSideDrawer id="sideDrawer" showOverNavigation="true">
     <nsDrawer:RadSideDrawer.drawerTransition>
@@ -33,11 +41,11 @@
                       <Label text="&#xf00c;" rowSpan="2" col="0" class="fa icon-list" horizontalAlignment="center" verticalAlignment="center" visibility="{{ estatus.length == 6 ? 'collapsed' : 'visible' }}" />
                       <Label text="&#xf073;" class="fa" row="0" col="1" verticalAlignment="center" horizontalAlignment="center" />
                       <Label text="&#xf017;" class="fa" row="1" col="1" verticalAlignment="center" horizontalAlignment="center" />
-                      <Label text="{{ fecha }}" row="0" col="2" class="label-date" horizontalAlignment="left" verticalAlignment="center" />
-                      <Label text="{{ hora + ' hrs.' }}" row="1" col="2" class="label-hour" horizontalAlignment="left" verticalAlignment="center" />
+                      <Label text="{{ fecha }}" color="#F25C00" row="0" col="2" class="label-date" horizontalAlignment="left" verticalAlignment="center" />
+                      <Label text="{{ hora + ' hrs.' }}" color="#F9A603" row="1" col="2" class="label-hour" horizontalAlignment="left" verticalAlignment="center" />
                       <Label text="&#xf02b;" class="fa"  rowSpan="2" col="3" verticalAlignment="center" horizontalAlignment="center" />
-                      <Label text="{{ tagGrupal }}" color="black" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
-                      <Label text="&#xf014;" color="#e84c3d" class="fa image-icon" rowSpan="2" col="5" visibility="{{ estatus.length == 6 ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
+                      <Label text="{{ tagGrupal }}" color="#F9A603" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
+                      <Label text="&#xf014;" color="#F25C00" class="fa image-icon" rowSpan="2" col="5" visibility="{{ estatus.length == 6 ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
                       <!--<Label text="&#xf142;" class="fa" style="font-size:25" rowSpan="2" col="5" visibility="{{ estatus.length == 6 ? 'collapsed' : 'visible' }}" horizontalAlignment="center" verticalAlignment="center" tap="menuCreate" />-->
                     </GridLayout>
                   </ListView.itemTemplate>

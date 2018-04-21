@@ -1,8 +1,14 @@
-<Page loaded="loaded" xmlns:df="nativescript-pro-ui/dataform">
+<Page loaded="loaded" xmlns:svg="nativescript-svg" xmlns:df="nativescript-pro-ui/dataform">
   <Page.actionBar>
-    <ActionBar title="Crear simulacro grupal" class="action-bar">
+    <ActionBar color="#fff" title="Crear simulacro grupal">
       <NavigationButton text="Atrás" android.systemIcon="ic_menu_back" tap="back"></NavigationButton>
-      <ActionItem tap="onSaveSimulacrumGroup" text="Guardar" android.systemIcon="ic_menu_save" ios.position="right"></ActionItem>
+      <ActionItem tap="onSaveSimulacrumGroup" text="Guardar" android.systemIcon="ic_menu_save" ios.position="right">
+        <!--<ActionItem.actionView>
+            <StackLayout>
+                <Label text="&#xf0c7;" class="fa size"/>
+            </StackLayout>
+        </ActionItem.actionView>-->
+      </ActionItem>
     </ActionBar>
   </Page.actionBar>
   

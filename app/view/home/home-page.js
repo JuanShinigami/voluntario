@@ -16,6 +16,7 @@ var Vibrate = require("nativescript-vibrate").Vibrate;
 var sound = require("nativescript-sound");
 var Volume = require("nativescript-volume").Volume;
 var SocialShare = require("nativescript-social-share");
+var LoadingIndicator = require("nativescript-loading-indicator").LoadingIndicator;
 
 var topmost;
 var navigationOptions;
@@ -27,6 +28,8 @@ var userViewModel = new UserViewModel([]);
 var idVoluntarySimulacrum = 0;
 var vibrator = new Vibrate();
 var volume = new Volume();
+var loader = new LoadingIndicator();
+var optionsDialogModal = null;
 
 var pageData = new observableModule.fromObject({
     enabledCreate: null,
@@ -149,7 +152,8 @@ exports.onNavigatingTo = function(args) {
     }).then(function () {
         //console.log("Listener added");
     });
-    
+    //cargarOptions("Cargando...");
+    //loader.show(optionsDialogModal);
     page = args.object;
     page.bindingContext = pageData;
     testGPS();
@@ -950,4 +954,11 @@ function expireToken() {
     };
     frameModule.topmost().navigate(navigationEntryArtView);
     //navigateTopmost("view/login/login", false, true, null);
+}
+
+function cargarOptions(textEncabezado) {
+    optionsDialogModal = {
+        message: textEncabezado,
+        progress: 0.65,
+    };
 }
