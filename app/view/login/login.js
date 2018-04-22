@@ -8,7 +8,7 @@ var config = require("../../shared/config");
 var UserViewModel = require("../../shared/view-models/user-view-model");
 var Toast = require("nativescript-toast");
 var toast;
-
+ 
 var userViewModel = new UserViewModel([]);
 var topmost;
 var navigationOptions;
@@ -55,7 +55,7 @@ exports.signIn = function () {
     if (user.email == "" || user.password == "") {
         //alert("El correo electr\363nico y el folio son requeridos.");
         dialogsModule.alert({
-            message: "El correo electr\363nico y la constraseña son requeridos.",
+            message: "El correo electr\363nico y la constraseï¿½a son requeridos.",
             okButtonText: "Aceptar"
         });
         user.set("isLoading", false);

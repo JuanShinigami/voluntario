@@ -146,8 +146,10 @@ function UserViewModel(items) {
 }
 
 function handleErrors(response) {
+    
     if (!response.ok) {
-        viewToast(response.statusText);
+        console.log("Hola hay un error.");
+        //viewToast(response.statusText);
         throw Error(response.statusText);
 
     }

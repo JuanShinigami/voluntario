@@ -11,7 +11,7 @@ var nameModuleStr = "";
 var toast;
 var existLogin = appSettings.hasKey("login");
 console.log("EXIST LOGIN -------------------> ------------> " + existLogin);
-if (config.login == "undefined") {
+if(application.ios){
     if (existLogin) {
         console.log("Existo");
         application.start({ moduleName: "view/home/home-page" });
@@ -21,9 +21,22 @@ if (config.login == "undefined") {
         application.start({ moduleName: "view/login/login" });
         //nameModuleStr = "view/login/login";
     }
-} else {
-    application.start({ moduleName: "view/home/home-page" });
+}else{
+    if (config.login == "undefined") {
+        if (existLogin) {
+            console.log("Existo");
+            application.start({ moduleName: "view/home/home-page" });
+            //nameModuleStr = "view/home/home-page";
+        } else {
+            console.log("No existo");
+            application.start({ moduleName: "view/login/login" });
+            //nameModuleStr = "view/login/login";
+        }
+    } else {
+        application.start({ moduleName: "view/home/home-page" });
+    }
 }
+
 
 
 //application.start({ moduleName: nameModuleStr });
