@@ -20,8 +20,8 @@
         <TextField class="input-login" id="email" text="{{ email }}" hint="Correo electrónico" keyboardType="email" returnKeyType="next" />
         <TextField class="input-login" text="{{ password }}" secure="true" hint="Contraseña" returnKeyType="done"  />
         <Button class="buttom-login" text="Entrar" tap="signIn" />
-        <Label class="buttom-link" text="Registrate" tap="register" horizontalAlignment="center"/>
-        <!--<Label class="buttom-link" text="Agregar servidor" tap="add" horizontalAlignment="center"/>-->
+        <Label class="buttom-link" text="Regístrate" tap="register" horizontalAlignment="center"/>
+        <Label class="buttom-link" text="WEB VIEW" tap="webview" horizontalAlignment="center"/>
 
       </StackLayout>
     

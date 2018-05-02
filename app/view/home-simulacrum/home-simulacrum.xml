@@ -4,15 +4,16 @@
     xmlns:myDrawer="shared/my-drawer"
     xmlns="http://www.nativescript.org/tns.xsd">
 
-  <ActionBar title="Simulacro" class="action-bar">
-    <NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
+  <ActionBar title="Simulacro Individual">
+    <NavigationButton text="Atrás" android.systemIcon="ic_menu_back" tap="back"></NavigationButton>
+    <!--<NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
     <ActionItem icon="res://navigation/menu"
         android:visibility="collapsed"
         tap="onDrawerButtonTap"
         ios.position="left">
-    </ActionItem>
+    </ActionItem>-->
   </ActionBar>
-  <nsDrawer:RadSideDrawer id="sideDrawer" showOverNavigation="true">
+  <!--<nsDrawer:RadSideDrawer id="sideDrawer" showOverNavigation="true">
     <nsDrawer:RadSideDrawer.drawerTransition>
       <nsDrawer:SlideInOnTopTransition/>
     </nsDrawer:RadSideDrawer.drawerTransition>
@@ -21,13 +22,17 @@
         <myDrawer:MyDrawer selectedPage="Simulacro Individual"/>
       </StackLayout>
     </nsDrawer:RadSideDrawer.drawerContent>
-    <nsDrawer:RadSideDrawer.mainContent>
+    <nsDrawer:RadSideDrawer.mainContent>-->
       <StackLayout orientation="vertical">
         <Label text="{{ cronometro1 }}" horizontalAlignment="center" verticalAlignment="center" class="text-crono"/>
-        <Button text="Preparar simulacro" tap="start" isEnabled="{{ initial }}" class="{{classButtonPrimary}}" />
+        <!--<Button text="Preparar simulacro" tap="start" isEnabled="{{ initial }}" class="{{classButtonPrimary}}" />
         <Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
-        <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />
-
+        <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />-->
+        <GridLayout rows="auto" columns="*,*,*">
+          <Button text="{{ textPrepare }}" tap="start" row="0" col="0" isEnabled="{{ initial }}" class="{{classButtonPrimary}}" />
+          <Button text="{{ textActive }}" row="0" col="1" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
+          <Button text="{{ textFinish }}" row="0" col="2" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />
+        </GridLayout>
         <GridLayout>
           <ListView items="{{ simulacrumList }}" id="simulacrumList" itemTap="listViewItemTap">
             <ListView.itemTemplate>
@@ -51,6 +56,6 @@
           </ListView>
         </GridLayout>
       </StackLayout>
-    </nsDrawer:RadSideDrawer.mainContent>
-  </nsDrawer:RadSideDrawer>
+    <!--</nsDrawer:RadSideDrawer.mainContent>
+  </nsDrawer:RadSideDrawer>-->
 </Page>

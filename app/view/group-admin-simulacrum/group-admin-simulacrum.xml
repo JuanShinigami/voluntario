@@ -1,0 +1,41 @@
+<Page xmlns:nsDrawer="nativescript-pro-ui/sidedrawer" xmlns:lv="nativescript-pro-ui/listview"
+    xmlns:myDrawer="./shared/my-drawer" navigatingTo="onNavigatingTo" loaded="loaded" xmlns="http://www.nativescript.org/tns.xsd">
+  <ActionBar title="Mis Simulacros">
+    <NavigationButton text="Atrás" android.systemIcon="ic_menu_back" tap="back"></NavigationButton>
+    <!--<NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
+    <ActionItem icon="res://navigation/menu" color="#F7EFE2"
+        android:visibility="collapsed"
+        tap="onDrawerButtonTap"
+        ios.position="left">
+    </ActionItem>-->
+    <ActionItem tap="onCreateSimulacrumGroup" text="Agregar" ios.position="right" android.systemIcon="ic_menu_add">
+      <!--<StackLayout>
+          <Image src="~/images/icons/add.png" stretch="none" class="icons" />
+      </StackLayout>-->
+    </ActionItem>
+    
+  </ActionBar>
+  
+    <GridLayout>
+      <ListView items="{{ simulacrumGroupList }}" id="simulacrumGroupList" itemTap="listViewItemTap" pullToRefresh="true" pullToRefreshInitiated="pullToRefreshInitiated">
+        <ListView.itemTemplate>
+          <GridLayout rows="auto,auto" columns="60,20,140,20,*,40">
+            <ActivityIndicator busy="true" height="30" width="30" rowSpan="2" col="0" visibility="{{ estatus.length == 6 ? 'visible' : 'collapsed' }}"/>
+            <Label text="&#xf00c;" rowSpan="2" col="0" class="fa icon-list" horizontalAlignment="center" verticalAlignment="center" visibility="{{ estatus.length == 6 ? 'collapsed' : 'visible' }}" />
+            <Label text="&#xf073;" class="fa" row="0" col="1" verticalAlignment="center" horizontalAlignment="center" />
+            <Label text="&#xf017;" class="fa" row="1" col="1" verticalAlignment="center" horizontalAlignment="center" />
+            <Label text="{{ fecha }}" color="#F25C00" row="0" col="2" class="label-date" horizontalAlignment="left" verticalAlignment="center" />
+            <Label text="{{ hora + ' hrs.' }}" color="#848484" row="1" col="2" class="label-hour" horizontalAlignment="left" verticalAlignment="center" />
+            <Label text="&#xf02b;" class="fa"  rowSpan="2" col="3" verticalAlignment="center" horizontalAlignment="center" />
+            <Label text="{{ tagGrupal }}" color="#848484" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
+            <Label text="&#xf014;" color="#F25C00" class="fa image-icon" rowSpan="2" col="5" visibility="{{ estatus.length == 6 ? 'visible' : 'collapsed' }}" horizontalAlignment="center" verticalAlignment="center" tap="delete" />
+            <!--<Label text="&#xf142;" class="fa" style="font-size:25" rowSpan="2" col="5" visibility="{{ estatus.length == 6 ? 'collapsed' : 'visible' }}" horizontalAlignment="center" verticalAlignment="center" tap="menuCreate" />-->
+          </GridLayout>
+        </ListView.itemTemplate>
+      </ListView>
+      <Label text="&#xf02a; No hay simulacros" class="fa" horizontalAlignment="center" verticalAlignment="center" visibility="{{ listCreate ? 'visible' : 'collapsed' }}" />
+      <ActivityIndicator busy="{{ isLoading }}" height="60" width="60"/>
+    </GridLayout>
+            
+
+</Page>

@@ -66,7 +66,7 @@ exports.onSaveUser = function () {
                                 appSettings.setString("tokenUser", data.response.token);
                                 appSettings.setBoolean("login", true);
                                 pageData.set("isLoading", false);
-                                navigateTopmost("view/home/home-page", false, true);
+                                navigateTopmost("view/principal-primary/principal-primary", false, true);
                             } else {
                                 console.log("Traje flase");
                                 pageData.set("isLoading", false);

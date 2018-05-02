@@ -10,7 +10,7 @@
         </StackLayout>
       </ActionBar.titleView>
     </ActionBar>-->
-    <ActionBar title="Detalle del simulacro" class="action-bar">
+    <ActionBar title="Detalle del simulacro">
       <NavigationButton text="Atrás" android.systemIcon="ic_menu_back" tap="back"></NavigationButton>
     </ActionBar>
   </Page.actionBar>

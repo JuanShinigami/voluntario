@@ -65,7 +65,7 @@ function loadDefaultValues() {
 }
 
 exports.back = function () {
-    navigateTopmost("view/home/home-page", false, false);
+    navigateTopmost("view/group-admin-simulacrum/group-admin-simulacrum", false, false);
 }
 
 exports.onSaveSimulacrumGroup = function () {
@@ -139,7 +139,7 @@ exports.onSaveSimulacrumGroup = function () {
                                                             message: "Tu simulacro se ha creado satisfactoriamente, con el FOLIO: " + data.response.folio + ".",
                                                             okButtonText: "Aceptar"
                                                         }).then(function () {
-                                                            navigateTopmost("view/home/home-page", false, true);
+                                                            navigateTopmost("view/group-admin-simulacrum/group-admin-simulacrum", false, true);
                                                         });
 
                                                         /*var dateSimulacrum = toDate(datos["hora"], "h:m");

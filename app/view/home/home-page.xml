@@ -1,6 +1,6 @@
 <Page xmlns:nsDrawer="nativescript-pro-ui/sidedrawer" xmlns:lv="nativescript-pro-ui/listview"
     xmlns:myDrawer="./shared/my-drawer" navigatingTo="onNavigatingTo" loaded="loaded" xmlns="http://www.nativescript.org/tns.xsd">
-  <ActionBar title="Simulacros" color="#F7EFE2">
+  <ActionBar title="Mis Simulacros" color="#F7EFE2">
     <NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
     <ActionItem icon="res://navigation/menu" color="#F7EFE2"
         android:visibility="collapsed"
@@ -29,7 +29,7 @@
     </nsDrawer:RadSideDrawer.drawerContent>
     <nsDrawer:RadSideDrawer.mainContent>
       <ActivityIndicator busy="{{ isLoading }}" height="60" width="60"/>
-      <TabView tabBackgroundColor="#F70025"  selectedIndexChanged="onSelectedIndexChanged">
+      <TabView tabBackgroundColor="#f7efe2"  selectedIndexChanged="onSelectedIndexChanged">
         <TabView.items class="tab-view">
           <TabViewItem  title="Creados">
             <TabViewItem.view>

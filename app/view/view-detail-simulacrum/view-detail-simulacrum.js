@@ -65,5 +65,5 @@ function viewToast(message) {
 }
 
 exports.back = function () {
-    navigateTopmost("view/home/home-page", false, false);
+    navigateTopmost("view/group-join-simulacrum/group-join-simulacrum", false, false);
 }

@@ -1,0 +1,56 @@
+<Page
+    navigatingTo="onNavigatingTo"
+    xmlns:nsDrawer="nativescript-pro-ui/sidedrawer"
+    xmlns:myDrawer="shared/my-drawer"
+    xmlns="http://www.nativescript.org/tns.xsd">
+
+  <ActionBar title="Simulacro" class="action-bar">
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
+    <ActionItem icon="res://navigation/menu"
+        android:visibility="collapsed"
+        tap="onDrawerButtonTap"
+        ios.position="left">
+    </ActionItem>
+  </ActionBar>
+  <nsDrawer:RadSideDrawer id="sideDrawer" showOverNavigation="true">
+    <nsDrawer:RadSideDrawer.drawerTransition>
+      <nsDrawer:SlideInOnTopTransition/>
+    </nsDrawer:RadSideDrawer.drawerTransition>
+    <nsDrawer:RadSideDrawer.drawerContent>
+      <StackLayout>
+        <myDrawer:MyDrawer selectedPage="Simulacro Individual"/>
+      </StackLayout>
+    </nsDrawer:RadSideDrawer.drawerContent>
+    <nsDrawer:RadSideDrawer.mainContent>
+      <StackLayout orientation="vertical">
+        <Label text="{{ cronometro1 }}" horizontalAlignment="center" verticalAlignment="center" class="text-crono"/>
+        <Button text="Preparar simulacro" tap="start" isEnabled="{{ initial }}" class="{{classButtonPrimary}}" />
+        <Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
+        <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />
+
+        <GridLayout>
+          <ListView items="{{ simulacrumList }}" id="simulacrumList" itemTap="listViewItemTap">
+            <ListView.itemTemplate>
+              <GridLayout rows="auto,auto" columns="60,20,130,20,*,40">
+                <Label text="&#xf0a1;" rowSpan="2" col="0" class="fa icon-list" horizontalAlignment="center" verticalAlignment="center" />
+                <Label text="&#xf073;" class="fa" row="0" col="1" verticalAlignment="center" horizontalAlignment="center" />
+                <Label text="&#xf017;" class="fa" row="1" col="1" verticalAlignment="center" horizontalAlignment="center" />
+                <Label text="{{ fecha }}" row="0" col="2" class="label-date" horizontalAlignment="left" verticalAlignment="center" />
+                <Label text="{{ hora + ' hrs.' }}" row="1" col="2" class="label-hour" horizontalAlignment="left" verticalAlignment="center" />
+                <Image src="~/images/crono.jpg" stretch="none" rowSpan="2" col="3" width="20" height="20" ios.style="margin-top:5" android.style="margin-top:8"/>
+                <Label text="{{ tiempo_estoy_listo }}" class="label-status" verticalAlignment="center" horizontalAlignment="left" rowSpan="2" col="4" />
+                <Label text="&#xf014;" color="#e84c3d" style="font-size:30" class="fa" rowSpan="2" col="5"  horizontalAlignment="center" verticalAlignment="center" tap="delete" />
+                <!---->
+                <!--
+                <Label text="{{ 'Simulacro ' + id }}" row="0" colSpan="3" class="text-list-title" horizontalAlignment="center" />
+                <Label text="{{ fecha }}" row="1" col="0" class="text-list" horizontalAlignment="center" />
+                <Label text="{{ hora }}" row="1" col="1" class="text-list" horizontalAlignment="center" />
+                <Label text="{{ tiempo_estoy_listo }}" row="1" col="2" class="text-list" horizontalAlignment="center" />-->
+              </GridLayout>
+            </ListView.itemTemplate>
+          </ListView>
+        </GridLayout>
+      </StackLayout>
+    </nsDrawer:RadSideDrawer.mainContent>
+  </nsDrawer:RadSideDrawer>
+</Page>

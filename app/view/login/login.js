@@ -85,7 +85,7 @@ exports.signIn = function () {
                     appSettings.setBoolean("login", true);
                     config.login = true;
                     user.set("isLoading", false);
-                    navigateTopmost("view/home/home-page", false, true);
+                    navigateTopmost("view/principal-primary/principal-primary", false, true);
                 } else {
                     user.set("isLoading", false);
                     dialogsModule.alert({
@@ -151,4 +151,25 @@ exports.add = function () {
         }
         //console.log("Dialog result: " + r.result + ", text: " + r.text);
     });
+}
+
+exports.webview = function () {
+    console.log("HOLA ------> TAP PARA WEB VIEW");
+    navigationOptions = {
+        moduleName: "view/view-detail-charts/view-detail-charts",
+        backstackVisible: true,
+        clearHistory: false,
+        context: {
+            idSG: 1,
+        },
+        animated: true,
+        transition: {
+            name: "slideLeft",
+            duration: 380,
+            curve: "easeIn"
+        }
+    };
+
+    topmost.navigate(navigationOptions);
+    //navigateTopmost("view/view-detail-charts/view-detail-charts", false, false);
 }

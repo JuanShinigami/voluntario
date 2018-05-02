@@ -1,0 +1,18 @@
+<Page
+    loaded="loaded"
+    xmlns:nsDrawer="nativescript-pro-ui/sidedrawer"
+    xmlns:myDrawer="shared/my-drawer"
+    xmlns="http://www.nativescript.org/tns.xsd">
+
+  <ActionBar title="Voluntario">
+    
+    <ActionItem color="#fff" text="Cerrar Sesión" tap="logout" ios.position="right"/>
+  </ActionBar>
+  <GridLayout rows="70,*">
+    <StackLayout row="1" orientation="vertical">
+      <Button text="Simulacro Individual" tap="individual" class="button-primary" />
+      <Button text="Simulacro Grupal" tap="group" class="button-secound" />
+    </StackLayout>
+  </GridLayout>
+  
+</Page>

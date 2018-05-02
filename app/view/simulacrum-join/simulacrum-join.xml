@@ -11,7 +11,7 @@
         </StackLayout>
       </ActionBar.titleView>
     </ActionBar>-->
-    <ActionBar title="¡Es momento de salir!" class="action-bar">
+    <ActionBar title="¡Es momento de salir!">
       <NavigationButton text="Atrás" android.systemIcon="ic_menu_back" tap="back"></NavigationButton>
     </ActionBar>
   </Page.actionBar>
@@ -23,7 +23,12 @@
       <ActivityIndicator col="2" row="0" busy="{{ isLoading }}" height="60" width="60"/>
     </GridLayout>-->
     <Label text="{{ cronometro1 }}" horizontalAlignment="center" verticalAlignment="center" class="text-crono"/>
-    <Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
-    <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />
+    <GridLayout rows="auto" columns="*,*">
+      <Button text="{{ textActive }}" row="0" col="0" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
+      <Button text="{{ textFinish }}" row="0" col="1" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />
+    </GridLayout>
+    <!--<Button text="Estoy listo para salir" tap="evacuate" isEnabled="{{ evacuate }}" class="{{classButtonSuccess}}" />
+    <Button text="Estoy a salvo" tap="stop" isEnabled="{{ end }}" class="{{classButtonInfo}}" />-->
+    
   </StackLayout>
 </Page>

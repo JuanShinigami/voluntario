@@ -29,6 +29,7 @@ var hourIni;
 var cont;
 var alarm;
 var toast;
+var text = "";
 
 var refreshIntervalId;
 
@@ -41,8 +42,11 @@ var pageData = new observableModule.fromObject({
     evacuate: false,
     end: false,
     classButtonPrimary: "button-primary",
-    classButtonSuccess: "button-success-disabled",
-    classButtonInfo: "button-info-disabled"
+    classButtonSuccess: "button-disabled",
+    classButtonInfo: "button-disabled",
+    textPrepare: "1\nPrepara",
+    textActive: "2\nActiva",
+    textFinish: "3\nFinaliza",
 });
 
 exports.onNavigatingTo = function (args) {
@@ -92,7 +96,7 @@ exports.start = function () {
     
     viewToast("En unos momentos se iniciará el simulacro. ¡Debe estar atento!.");
     pageData.initial = false;
-    pageData.classButtonPrimary = "button-primary-disabled";
+    pageData.classButtonPrimary = "button-disabled";
     
     var x = Math.floor((Math.random() * 60) + 1);
     setTimeout(myFunction, (1000 * x));
@@ -166,12 +170,13 @@ function tiempo1() {
     if (sg1 < 10) { sg1 = "0" + sg1; }
     if (mn1 < 10) { mn1 = "0" + mn1; }
     textCro1 = mn1 + ":" + sg1 + ":" + cs1;
+    text = "00:" + mn1 + ":" + sg1;
     pageData.set("cronometro1", textCro1);
 }
 
 exports.evacuate = function () {
     pageData.evacuate = false;
-    pageData.classButtonSuccess = "button-success-disabled";
+    pageData.classButtonSuccess = "button-disabled";
     pageData.end = true;
     pageData.classButtonInfo = "button-info";
     empezar1();
@@ -185,10 +190,9 @@ function parar() {
     pageData.initial = true;
     pageData.classButtonPrimary = "button-primary";
     pageData.end = false;
-    pageData.classButtonInfo = "button-info-disabled";
+    pageData.classButtonInfo = "button-disabled";
     if (marcha == 1 && marcha1 == 1) {
-        clearInterval(elcrono);
-        clearInterval(elcrono1);
+        
         marcha = 0;
         marcha1 = 0;
         //var dateEnd = new Date();
@@ -204,19 +208,16 @@ function parar() {
         
         pageData.cronometro1 = "00:00:00";
         
-        alarm.stop();
-        var time = '00:' + mn + ':' + sg;
+        var time = '00:' + mn1 + ':' + sg1
         var datos = new Array();
         datos['idVoluntario'] = appSettings.getNumber("idUser");
-        datos['tiempo_inicio'] = time;
-        datos['tiempo_estoy_listo'] = time;
+        datos['tiempo_inicio'] = text;
+        datos['tiempo_estoy_listo'] = text;
         datos['fecha'] = dateIni;
         datos['hora'] = hourIni;
-        //console.log(" HORA -----> " + mn + ":" + sg + ":" + cs);
-
-        clearInterval(refreshIntervalId);
+        clearInterval(elcrono1);
         simulacrumIndividualList.addSimulacrumIndividual(datos).then(function (data) {
-            console.dir(data);
+            console.log("GOLA");
             if (data.response.StatusToken.status) {
                 if (data.response.voluntarioSimulacro.status) {
                     loadDefault();
@@ -224,20 +225,22 @@ function parar() {
                     viewToast("Error interno.");
                 }
             } else {
-                expireToken();
+                //expireToken();
             }
-            
+            alarm.stop();
+            clearInterval(refreshIntervalId);
             //
+            
         }).catch(function (error) {
             console.log(error);
             dialogsModule.alert({
                 message: "No es posible guardar tu simulacro.",
                 okButtonText: "OK"
             });
-            return Promise.reject();
+            
         });
     } else {
-        clearInterval(elcrono);
+        clearInterval(elcrono1);
         marcha = 0;
         
     }
@@ -248,9 +251,9 @@ exports.back = function () {
     var topmost = frameModule.topmost();
 
     var navigationOptions = {
-        moduleName: "view/home/home-page",
+        moduleName: "view/principal-primary/principal-primary",
         backstackVisible: false,
-        clearHistory: true,
+        clearHistory: false,
         animated: true,
         transition: {
             name: "slideLeft",

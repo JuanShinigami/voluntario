@@ -40,9 +40,12 @@ var pageData = new observableModule.fromObject({
     cronometro: "00:00:00",
     evacuate: true,
     end: false,
-    classButtonSuccess: "button-success",
-    classButtonInfo: "button-info-disabled",
-    countVoluntary: 1,
+    classButtonPrimary: "button-primary",
+    classButtonSuccess: "button-disabled",
+    classButtonInfo: "button-disabled",
+    textPrepare: "1\nPrepara",
+    textActive: "2\nActiva",
+    textFinish: "3\n Finaliza",
     isLoading: true,
     countVoluntaryVisible: false
 });
@@ -225,8 +228,8 @@ function tiempoStart() {
     if (cs1 < 10) { cs1 = "0" + cs1; }
     if (sg1 < 10) { sg1 = "0" + sg1; }
     if (mn1 < 10) { mn1 = "0" + mn1; }
-    textCro = mn1 + ":" + sg1 + ":" + cs1;
-    pageData.set("cronometro1", textCro);
+    textCro1 = mn1 + ":" + sg1 + ":" + cs1;
+    pageData.set("cronometro1", textCro1);
 }
 
 
@@ -304,7 +307,7 @@ exports.stop = function () {
     simulacrumVoluntrayList.updateVoluntarySimulacrum(datos).then(function (data) {
         if (data.response.StatusToken.status) {
             viewToast("Gracias por participar.");
-            navigateTopmost("view/home/home-page", false, true);
+            navigateTopmost("view/group-join-simulacrum/group-join-simulacrum", false, true);
         } else {
             expireToken();
         }
@@ -335,7 +338,7 @@ function viewToast(message) {
 exports.back = function () {
     var topmost = frameModule.topmost();
     var navigationOptions = {
-        moduleName: "view/home/home-page",
+        moduleName: "view/group-join-simulacrum/group-join-simulacrum",
         backstackVisible: false,
         clearHistory: true,
         animated: true,
